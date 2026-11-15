@@ -5,7 +5,7 @@ h2{letter-spacing:-.03em}
 .band{padding:112px 0}
 
 /* nav */
-.top{background:rgba(6,16,42,.78);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid rgba(191,217,255,.08)}
+.top{background:rgba(6,16,42,.94);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid rgba(191,217,255,.08)}
 .nav{height:72px}
 .nav ul a:not(.btn){font-weight:500;color:var(--mute-dark);transition:color .15s,background .15s}
 .nav ul a:not(.btn):hover,.nav ul a[aria-current="page"]{color:#fff}
