@@ -36,10 +36,11 @@ function needTrading(acc) {
 async function me(did) {
   const acc = await loadAccount(did);
   const addr = acc.embedded.address;
-  const [eth, zyro, positions] = await Promise.all([
+  const [eth, zyro, positions, usd] = await Promise.all([
     T.ethBalance(addr).then(T.fromWei).catch(() => null),
     holderBalance([addr, ...acc.external]),
     T.userPositions(did),
+    T.ethUsd(),
   ]);
   const open = positions.filter(p => p.status === 'open');
   const prices = open.length ? await T.pricesEth(open.map(p => p.token)).catch(() => ({})) : {};
@@ -47,7 +48,7 @@ async function me(did) {
     const pr = prices[p.token.toLowerCase()];
     if (pr) { p.priceEth = pr.eth; p.priceUsd = pr.usd; p.pnlPct = p.entry ? (pr.eth / p.entry - 1) * 100 : null; }
   }
-  return { wallet: addr, delegated: !!acc.embedded.delegated, external: acc.external, eth, zyro,
+  return { ethUsd: usd, wallet: addr, delegated: !!acc.embedded.delegated, external: acc.external, eth, zyro,
     holder: zyro >= T.HOLDER_MIN, holderMin: T.HOLDER_MIN, maxEth: T.MAX_ETH, positions };
 }
 

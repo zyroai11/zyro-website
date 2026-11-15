@@ -207,6 +207,11 @@ export async function pricesEth(tokens) {
   return out;
 }
 
+export async function ethUsd() {
+  try { const { data } = await fetchJson('https://api.coinbase.com/v2/prices/ETH-USD/spot', {}, 5000); const v = Number(data?.data?.amount); if (v > 0) return v; } catch {}
+  return null;
+}
+
 // ---------------------------------------------------------------- Redis (Upstash REST)
 export async function redis(...cmd) {
   const { ok, data } = await fetchJson(REDIS_URL, { method: 'POST', headers: { authorization: `Bearer ${REDIS_TOKEN}` }, body: JSON.stringify(cmd) });
