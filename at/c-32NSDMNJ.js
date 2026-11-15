@@ -1,0 +1,1 @@
+import{t as o,u as t}from"./c-GNYXBCVE.js";import"./c-OSTUQBEK.js";import"./c-NNYV43OY.js";import"./c-H5RUSPC2.js";import"./c-DBE6YW6D.js";import"./c-XIUU7A2J.js";import"./c-4ERX45K7.js";import"./c-CJFUG6WT.js";export{o as tempo,t as tempoModerato};

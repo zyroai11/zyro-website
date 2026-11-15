@@ -1,0 +1,1 @@
+import{c as o}from"./c-CJFUG6WT.js";var r=o((s,n)=>{var u=function(){return t},t=new Proxy(u,{get:(c,e)=>e==="__esModule"?!0:e==="default"?t:e==="then"?void 0:t,apply:()=>t,construct:()=>t});n.exports=t});export{r as a};

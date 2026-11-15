@@ -72,6 +72,7 @@ def header(home):
     </a>
     <ul id="menu">
       <li><a href="/app" data-nav="app">Web app</a></li>
+      <li><a href="/autotrade" data-nav="autotrade">Auto-trade</a></li>
       <li><a href="/agent" data-nav="agent">Agent</a></li>
       <li><a href="/trade" data-nav="trade">Trade</a></li>
       <li><a href="{h}#install">Install</a></li>
@@ -305,3 +306,4 @@ exec(open('build_app.py').read())
 exec(open('build_chart.py').read())
 exec(open('build_legal.py').read())
 exec(open('build_home.py').read())
+exec(open('build_autotrade.py').read())
