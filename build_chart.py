@@ -22,7 +22,8 @@ chart_body = f'''
       <div><dt>Trades</dt><dd id="zTrades">—</dd></div>
     </dl>
     <div class="zc-actions">
-      <a class="btn btn-volt" href="https://ponsfamily.com/launchpad/{CA}" target="_blank" rel="noopener">Buy on Pons</a>
+      <a class="btn btn-volt" href="/autotrade?token={CA}">Buy / sell $ZYRO</a>
+      <a class="btn btn-line" href="https://ponsfamily.com/launchpad/{CA}" target="_blank" rel="noopener">Pons</a>
       <button class="btn btn-line" type="button" id="zCopy" data-ca="{CA}">Copy contract</button>
       <a class="btn btn-line" href="https://robinhoodchain.blockscout.com/token/{CA}" target="_blank" rel="noopener">Explorer</a>
     </div>

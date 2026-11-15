@@ -62,3 +62,7 @@
 .at-pos-g b{font-size:15px}
 @media (max-width:900px){.at-grid{grid-template-columns:1fr}.at-col:last-child{order:-1}}
 @media (max-width:560px){.at-card{padding:20px;border-radius:18px}.at-3{grid-template-columns:1fr 1fr}.at-3 label:first-child{grid-column:span 2}.at-pos-g{grid-template-columns:1fr 1fr}.at-stats{grid-template-columns:1fr 1fr}}
+.at-zyro{background:var(--ink);color:#fff;border-color:var(--ink)}
+.at-zyro:hover{color:#fff;background:var(--blue-deep);border-color:var(--blue-deep)}
+.at-scan.zyro{background:#EAF2FF}
+.at-scan.zyro b{color:var(--blue-deep)}

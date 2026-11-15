@@ -181,7 +181,18 @@ export async function swapTx(q, signature) {
 // ---------------------------------------------------------------- market price (ETH per token)
 export async function pricesEth(tokens) {
   const out = {};
-  const list = [...new Set(tokens.map(t => t.toLowerCase()))];
+  let list = [...new Set(tokens.map(t => t.toLowerCase()))];
+  // tokens still on the Pons curve: price from a simulated 0.001 ETH buy (same basis as the entry price)
+  for (const t of list.filter(x => PONS_CURVES[x])) {
+    const curve = await ponsActive(t);
+    if (!curve) continue;
+    try {
+      const probe = 10n ** 15n;
+      const got = await simulateUint(WETH, curve, ponsBuyData(probe, 0n, WETH), probe);
+      if (got > 0n) out[t] = { eth: 0.001 / (Number(got) / 1e18), usd: 0, liq: 0, symbol: t === ZYRO ? 'ZYRO' : '' };
+    } catch {}
+  }
+  list = list.filter(x => !out[x]);
   for (let i = 0; i < list.length; i += 30) {
     const { ok, data } = await fetchJson(`https://api.dexscreener.com/tokens/v1/robinhood/${list.slice(i, i + 30).join(',')}`);
     if (!ok || !Array.isArray(data)) continue;
@@ -216,3 +227,34 @@ export async function userPositions(did) {
 }
 export const lock = async (key, sec = 90) => (await redis('SET', `lock:${key}`, '1', 'NX', 'EX', String(sec))) === 'OK';
 export const unlock = key => redis('DEL', `lock:${key}`);
+
+// ---------------------------------------------------------------- Pons bonding curve (read from the curve bytecode)
+//   buy(uint256 amountIn, uint256 minTokensOut, address to)  payable, msg.value must equal amountIn   0x59a87bc1
+//   sell(uint256 tokensIn, uint256 minEthOut, address to)    needs token approval to the curve        0xd04c6983
+//   graduated() -> bool                                                                                0xe7c2b772
+export const PONS_CURVES = { [ZYRO]: '0xd64a7a779883b2d955f0d925d859aff4914ff453' };
+const MAX_UINT = (1n << 256n) - 1n;
+const w = v => BigInt(v).toString(16).padStart(64, '0');
+const wa = a => a.toLowerCase().replace('0x', '').padStart(64, '0');
+export const ponsBuyData = (amountIn, minOut, to) => '0x59a87bc1' + w(amountIn) + w(minOut) + wa(to);
+export const ponsSellData = (tokensIn, minOut, to) => '0xd04c6983' + w(tokensIn) + w(minOut) + wa(to);
+export const approveData = (spender, amount = MAX_UINT) => '0x095ea7b3' + wa(spender) + w(amount);
+
+export function ponsCurve(token) { return PONS_CURVES[(token || '').toLowerCase()] || null; }
+export async function ponsActive(token) {
+  const curve = ponsCurve(token);
+  if (!curve) return null;
+  try {
+    const g = await rpc('eth_call', [{ to: curve, data: '0xe7c2b772' }, 'latest']);
+    return BigInt(g || '0x0') === 0n ? curve : null;   // still on the curve
+  } catch { return curve; }
+}
+export async function allowance(token, owner, spender) {
+  const r = await rpc('eth_call', [{ to: token, data: '0xdd62ed3e' + wa(owner) + wa(spender) }, 'latest']);
+  return BigInt(r && r !== '0x' ? r : '0x0');
+}
+// simulate a call from the user's wallet and read the uint it returns
+export async function simulateUint(from, to, data, value = 0n) {
+  const r = await rpc('eth_call', [{ from, to, data, value: hex(value) }, 'latest']);
+  return BigInt(r && r !== '0x' ? r.slice(0, 66) : '0x0');
+}

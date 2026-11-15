@@ -62,7 +62,8 @@ async function buy(did, body) {
   const acc = await loadAccount(did);
   needTrading(acc);
   const addr = acc.embedded.address, wid = acc.embedded.id;
-  const zyro = await holderBalance([addr, ...acc.external]);
+  const isZyro = token.toLowerCase() === T.ZYRO;
+  const zyro = isZyro ? Infinity : await holderBalance([addr, ...acc.external]);
   if (zyro < T.HOLDER_MIN) throw new T.HttpError(403, `Auto-trade is for holders of ${T.HOLDER_MIN.toLocaleString('en-US')}+ $ZYRO during the beta.`);
 
   const bal = T.fromWei(await T.ethBalance(addr));
@@ -71,26 +72,36 @@ async function buy(did, body) {
   if (!(await T.lock(`user:${did}`, 90))) throw new T.HttpError(429, 'Another trade is still running. Wait a few seconds.');
   try {
     const wei = T.toWei(eth);
-    let q;
-    try { q = await T.quote(T.NATIVE, token, wei, addr); }
-    catch (e) {
-      if (e instanceof T.NoRoute) throw new T.HttpError(400, 'Uniswap has no route for this token. If it is still on the Pons bonding curve, it can be traded here after it graduates.');
-      throw e;
+    const [decimals, before, curve] = await Promise.all([T.tokenDecimals(token), T.tokenBalance(token, addr), T.ponsActive(token)]);
+    let tx, q = null, route;
+    if (curve) {
+      // still on the Pons bonding curve: buy straight from the curve
+      route = 'pons';
+      const expect = await T.simulateUint(addr, curve, T.ponsBuyData(wei, 0n, addr), wei)
+        .catch(e => { throw new T.HttpError(400, 'The Pons curve refused this buy: ' + e.message.replace(/^rpc eth_call: /, '')); });
+      const minOut = expect * BigInt(Math.round((100 - T.SLIPPAGE) * 100)) / 10000n;
+      tx = { to: curve, data: T.ponsBuyData(wei, minOut, addr), value: wei };
+    } else {
+      route = 'uniswap';
+      try { q = await T.quote(T.NATIVE, token, wei, addr); }
+      catch (e) {
+        if (e instanceof T.NoRoute) throw new T.HttpError(400, 'Uniswap has no route for this token.');
+        throw e;
+      }
+      tx = await T.swapTx(q);
     }
-    const [decimals, before] = await Promise.all([T.tokenDecimals(token), T.tokenBalance(token, addr)]);
-    const tx = await T.swapTx(q);
     const hash = await T.sendTx(wid, tx);
     const rc = await T.waitReceipt(hash);
     if (!rc) throw new T.HttpError(504, `The buy was sent but is not confirmed yet. Check it on the explorer: ${hash}`);
     if (rc.status !== '0x1') throw new T.HttpError(400, `The buy failed on-chain (price moved or not enough gas). Tx: ${hash}`);
     const after = await T.tokenBalance(token, addr);
     let got = after - before;
-    if (got <= 0n) got = BigInt(q.quote?.output?.amount || 0);
+    if (got <= 0n) got = BigInt(q?.quote?.output?.amount || 0);
     const tokens = Number(got) / 10 ** decimals;
     const prices = await T.pricesEth([token]).catch(() => ({}));
     const pos = {
       id: crypto.randomBytes(6).toString('hex'), user: did, wallet: addr, walletId: wid, token, decimals,
-      symbol: prices[token.toLowerCase()]?.symbol || q.quote?.output?.token?.symbol || '',
+      symbol: isZyro ? 'ZYRO' : (prices[token.toLowerCase()]?.symbol || q?.quote?.output?.token?.symbol || ''), route,
       ethIn: eth, tokens: got.toString(), tokensHuman: tokens, entry: tokens > 0 ? eth / tokens : 0,
       tp, sl, status: 'open', buyTx: hash, createdAt: Date.now(), sells: [], ethOut: 0,
     };
@@ -109,6 +120,8 @@ export async function sellPosition(pos, percent, reason) {
     pos.status = 'closed'; pos.closeReason = 'No tokens left in the wallet'; pos.closedAt = Date.now();
     await T.savePos(pos); return pos;
   }
+  const curve = await T.ponsActive(pos.token);
+  if (curve) return sellOnCurve(pos, curve, amount, pct, reason);
   const appr = await T.approvalTx(pos.token, amount, addr);
   if (appr) {
     const h = await T.sendTx(wid, appr);
@@ -125,6 +138,33 @@ export async function sellPosition(pos, percent, reason) {
   if (!rc) throw new T.HttpError(504, `The sell was sent but is not confirmed yet: ${hash}`);
   if (rc.status !== '0x1') throw new T.HttpError(400, `The sell failed on-chain. Tx: ${hash}`);
   const ethOut = T.fromWei(q.quote?.output?.amount || 0);
+  const left = BigInt(pos.tokens) - amount;
+  pos.tokens = (left > 0n ? left : 0n).toString();
+  pos.tokensHuman = Number(pos.tokens) / 10 ** pos.decimals;
+  pos.ethOut = (pos.ethOut || 0) + ethOut;
+  pos.sells.push({ t: Date.now(), pct, ethOut, tx: hash, reason });
+  if (pct >= 100 || left <= 0n) { pos.status = 'closed'; pos.closeReason = reason; pos.closedAt = Date.now(); }
+  await T.savePos(pos);
+  return pos;
+}
+
+async function sellOnCurve(pos, curve, amount, pct, reason) {
+  const addr = pos.wallet, wid = pos.walletId;
+  if ((await T.allowance(pos.token, addr, curve)) < amount) {
+    const h = await T.sendTx(wid, { to: pos.token, data: T.approveData(curve), value: 0n });
+    const rc = await T.waitReceipt(h);
+    if (!rc || rc.status !== '0x1') throw new T.HttpError(400, `Token approval did not go through. Tx: ${h}`);
+  }
+  const before = await T.ethBalance(addr);
+  const expect = await T.simulateUint(addr, curve, T.ponsSellData(amount, 0n, addr))
+    .catch(e => { throw new T.HttpError(400, 'The Pons curve refused this sell: ' + e.message.replace(/^rpc eth_call: /, '')); });
+  const minOut = expect * BigInt(Math.round((100 - T.SLIPPAGE) * 100)) / 10000n;
+  const hash = await T.sendTx(wid, { to: curve, data: T.ponsSellData(amount, minOut, addr), value: 0n });
+  const rc = await T.waitReceipt(hash);
+  if (!rc) throw new T.HttpError(504, `The sell was sent but is not confirmed yet: ${hash}`);
+  if (rc.status !== '0x1') throw new T.HttpError(400, `The sell failed on-chain. Tx: ${hash}`);
+  const after = await T.ethBalance(addr);
+  const ethOut = after > before ? T.fromWei(after - before) : T.fromWei(expect);
   const left = BigInt(pos.tokens) - amount;
   pos.tokens = (left > 0n ? left : 0n).toString();
   pos.tokensHuman = Number(pos.tokens) / 10 ** pos.decimals;
@@ -193,13 +233,6 @@ export default async function handler(req, res) {
     const missing = T.missingConfig();
     if (missing.length) return json(res, 503, { error: 'Auto-trade is not set up yet.', missing });
     if (action === 'tick') return json(res, 200, await tick(req));
-    if (action === 'abi') {
-      if (String(req.query.key || '') !== (process.env.TICK_SECRET || '').trim()) return json(res, 401, { error: 'Bad key.' });
-      const k = (process.env.BLOCKSCOUT_API_KEY || '').trim();
-      const r = await fetch(`https://api.blockscout.com/4663/api/v2/smart-contracts/${req.query.addr}?apikey=${encodeURIComponent(k)}`);
-      const d = await r.json().catch(() => ({}));
-      return json(res, r.status, { name: d.name, proxy: d.proxy_type, impl: d.implementations, abi: (d.abi || []).filter(x => x.type === 'function' || x.type === 'event').map(x => `${x.type} ${x.name}(${(x.inputs || []).map(i => i.type + ' ' + i.name).join(', ')})${x.outputs?.length ? ' -> (' + x.outputs.map(o => o.type + ' ' + o.name).join(', ') + ')' : ''} ${x.stateMutability || ''}`) });
-    }
     const did = await T.verifyUser(req);
     if (action === 'me' && req.method === 'GET') return json(res, 200, await me(did));
     if (req.method !== 'POST') return json(res, 405, { error: 'Use POST.' });
