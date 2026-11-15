@@ -7,7 +7,6 @@ const CURVE = '0xd64a7a779883b2d955f0d925d859aff4914ff453';
 const START = 0x6db6f46; // block the curve was created
 const BUY = '0xec36bf571f136799e8dc0b0b8bea4b04d8bd3d43de838aab0d5fc21d4cbfc455';
 const SELL = '0x8113d738abdcb6b38357e9d53a54a7157861a09031b453651f0fe7fe151f59df';
-const SPAN = 9_000_000;
 
 const hex = n => '0x' + n.toString(16);
 const word = (d, i) => BigInt('0x' + d.slice(2 + i * 64, 2 + (i + 1) * 64));
@@ -21,6 +20,25 @@ async function rpc(calls) {
   const res = [];
   for (const x of arr) res[x.id] = x.error ? null : x.result;
   return res;
+}
+
+async function call(method, params) {
+  const r = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) });
+  const out = await r.json();
+  if (out.error || out.result === undefined) throw new Error((out.error && out.error.message) || 'rpc error');
+  return out.result;
+}
+
+// getLogs with retry; splits the range in half when the RPC refuses it
+async function getLogs(a, b, depth = 0) {
+  const q = [{ address: CURVE, fromBlock: hex(a), toBlock: hex(b), topics: [[BUY, SELL]] }];
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try { return await call('eth_getLogs', q); } catch (e) { if (attempt === 0) await new Promise(r => setTimeout(r, 250)); }
+  }
+  if (depth > 6 || b - a < 1000) throw new Error('logs unavailable');
+  const m = Math.floor((a + b) / 2);
+  const [x, y] = await Promise.all([getLogs(a, m, depth + 1), getLogs(m + 1, b, depth + 1)]);
+  return x.concat(y);
 }
 
 async function ethUsd() {
@@ -48,10 +66,9 @@ export default async function handler() {
     const nowTs = parseInt(head[2]?.timestamp || '0x0', 16);
 
     // logs, in chunks the RPC accepts
-    const ranges = [];
-    for (let a = START; a <= latest; a += SPAN) ranges.push([a, Math.min(latest, a + SPAN - 1)]);
-    const logRes = await rpc(ranges.map(([a, b]) => ['eth_getLogs', [{ address: CURVE, fromBlock: hex(a), toBlock: hex(b), topics: [[BUY, SELL]] }]]));
-    const logs = logRes.flatMap(x => x || []);
+    if (!latest) throw new Error('no head');
+    const logs = await getLogs(START, latest);
+    if (!logs.length) throw new Error('no logs');
 
     // block times: exact for up to 150 blocks, interpolated between them beyond that
     const blocks = [...new Set(logs.map(l => parseInt(l.blockNumber, 16)))].sort((a, b) => a - b);

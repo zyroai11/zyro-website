@@ -95,9 +95,8 @@ def footer(home):
     return f'''<footer>
   <div class="wrap">
     <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home">{LOGO}ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built on Robinhood Chain</span></div>
-    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="{h}#tiers">Holders</a><a href="{h}#roadmap">Roadmap</a><a href="{h}#token">Token</a><a href="/docs">Docs</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener">{XSVG}@ZyroxRH</a></nav>
+    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="{h}#tiers">Holders</a><a href="{h}#roadmap">Roadmap</a><a href="{h}#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener">{XSVG}@ZyroxRH</a></nav>
   </div>
-  <div class="wrap foot2"><p>Zyro gives information, not financial advice. A score is not a guarantee. Trade at your own risk.</p><nav aria-label="Legal and code"><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal#terms">Terms</a><a href="/legal#privacy">Privacy</a></nav></div>
 </footer>
 {bnav}
 <script src="/app.js"></script>

@@ -21,8 +21,7 @@ document.querySelectorAll('a[href^="https://dexscreener.com/robinhood/0x50e05d1e
 document.querySelectorAll('#menu a').forEach(a => { if (a.textContent.trim() === 'Token') { a.href = '/chart'; a.textContent = 'Chart'; a.dataset.nav = 'token'; if (document.body.dataset.page === 'token') a.setAttribute('aria-current', 'page'); } });
 const tb = document.querySelector('.bnav a[data-nav="token"]');
 if (tb) { tb.href = '/chart'; tb.querySelector('span').textContent = 'Chart'; }
-const ft = document.querySelector('footer');
-if (ft && !ft.querySelector('.foot2')) ft.insertAdjacentHTML('beforeend', '<div class="wrap foot2"><p>Zyro gives information, not financial advice. A score is not a guarantee. Trade at your own risk.</p><nav aria-label="Legal and code"><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal#terms">Terms</a><a href="/legal#privacy">Privacy</a></nav></div>');
+document.querySelectorAll('footer .foot2').forEach(n => n.remove());
 document.querySelectorAll('p.note-dark').forEach(p => { if (p.textContent.trim() === 'Planned for phase 4.') p.textContent = 'Building next: phase 4.'; });
 
 /* ---- Live $ZYRO price on the home page ---- */
