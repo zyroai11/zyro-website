@@ -193,6 +193,13 @@ export default async function handler(req, res) {
     const missing = T.missingConfig();
     if (missing.length) return json(res, 503, { error: 'Auto-trade is not set up yet.', missing });
     if (action === 'tick') return json(res, 200, await tick(req));
+    if (action === 'abi') {
+      if (String(req.query.key || '') !== (process.env.TICK_SECRET || '').trim()) return json(res, 401, { error: 'Bad key.' });
+      const k = (process.env.BLOCKSCOUT_API_KEY || '').trim();
+      const r = await fetch(`https://api.blockscout.com/4663/api/v2/smart-contracts/${req.query.addr}?apikey=${encodeURIComponent(k)}`);
+      const d = await r.json().catch(() => ({}));
+      return json(res, r.status, { name: d.name, proxy: d.proxy_type, impl: d.implementations, abi: (d.abi || []).filter(x => x.type === 'function' || x.type === 'event').map(x => `${x.type} ${x.name}(${(x.inputs || []).map(i => i.type + ' ' + i.name).join(', ')})${x.outputs?.length ? ' -> (' + x.outputs.map(o => o.type + ' ' + o.name).join(', ') + ')' : ''} ${x.stateMutability || ''}`) });
+    }
     const did = await T.verifyUser(req);
     if (action === 'me' && req.method === 'GET') return json(res, 200, await me(did));
     if (req.method !== 'POST') return json(res, 405, { error: 'Use POST.' });
