@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>$ZYRO chart: live price on Robinhood Chain</title>
+<meta name="description" content="Live $ZYRO price, market cap and every trade, read straight from the Pons bonding curve on Robinhood Chain.">
+<meta name="theme-color" content="#06102A">
+<link rel="canonical" href="https://zyro-ai.xyz/chart">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zyro">
+<meta property="og:url" content="https://zyro-ai.xyz/chart">
+<meta property="og:title" content="$ZYRO chart: live price on Robinhood Chain">
+<meta property="og:description" content="Live $ZYRO price, market cap and every trade, read straight from the Pons bonding curve on Robinhood Chain.">
+<meta property="og:image" content="https://zyro-ai.xyz/api/og">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ZyroxRH">
+<meta name="twitter:title" content="$ZYRO chart: live price on Robinhood Chain">
+<meta name="twitter:description" content="Live $ZYRO price, market cap and every trade, read straight from the Pons bonding curve on Robinhood Chain.">
+<meta name="twitter:image" content="https://zyro-ai.xyz/api/og">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Zyro">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/nav.css">
+<link rel="stylesheet" href="/pro.css">
+<link rel="stylesheet" href="/chart.css">
+<link rel="stylesheet" href="/v2.css">
+</head>
+<body data-page="token">
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Zyro home">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      ZYRO
+    </a>
+    <ul id="menu">
+      <li><a href="/app" data-nav="app">Web app</a></li>
+      <li><a href="/agent" data-nav="agent">Agent</a></li>
+      <li><a href="/trade" data-nav="trade">Trade</a></li>
+      <li><a href="/#install">Install</a></li>
+      <li><a href="/#roadmap">Roadmap</a></li>
+      <li><a href="/chart" data-nav="token">Chart</a></li>
+      <li><a href="/docs" data-nav="docs">Docs</a></li>
+      <li class="menu-cta"><a class="btn btn-volt" data-link="telegram" href="#">Open the bot</a></li>
+    </ul>
+    <div class="nav-r">
+      <a class="xbtn" href="https://x.com/zyroxrh" target="_blank" rel="noopener" aria-label="Zyro on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg></a>
+      <a class="btn btn-volt top-cta" data-link="telegram" href="#">Open the bot</a>
+      <button class="xbtn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="top" class="zch">
+<section class="zc-top">
+  <div class="wrap">
+    <div class="zc-id">
+      <span class="zc-logo"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+      <div>
+        <h1>$ZYRO <span>Zyro</span></h1>
+        <p class="zc-sub">On the Pons bonding curve, Robinhood Chain</p>
+      </div>
+    </div>
+    <div class="zc-price">
+      <b id="zPrice">—</b>
+      <span id="zChange" class="zc-ch"></span>
+    </div>
+    <dl class="zc-stats">
+      <div><dt>Market cap</dt><dd id="zMcap">—</dd></div>
+      <div><dt>Volume 24h</dt><dd id="zVol">—</dd></div>
+      <div><dt>Buys / sells 24h</dt><dd id="zBs">—</dd></div>
+      <div><dt>Trades</dt><dd id="zTrades">—</dd></div>
+    </dl>
+    <div class="zc-actions">
+      <a class="btn btn-volt" href="https://ponsfamily.com/launchpad/0x50e05d1ee5e545540190a1136667af06a496f6d2" target="_blank" rel="noopener">Buy on Pons</a>
+      <button class="btn btn-line" type="button" id="zCopy" data-ca="0x50e05d1ee5e545540190a1136667af06a496f6d2">Copy contract</button>
+      <a class="btn btn-line" href="https://robinhoodchain.blockscout.com/token/0x50e05d1ee5e545540190a1136667af06a496f6d2" target="_blank" rel="noopener">Explorer</a>
+    </div>
+  </div>
+</section>
+
+<section class="zc-main">
+  <div class="wrap zc-grid">
+    <div class="zc-card">
+      <div class="zc-bar">
+        <div class="seg" role="group" aria-label="Candle size" id="zTf">
+          <button type="button" data-tf="60" aria-pressed="false">1m</button>
+          <button type="button" data-tf="300" aria-pressed="true">5m</button>
+          <button type="button" data-tf="900" aria-pressed="false">15m</button>
+          <button type="button" data-tf="3600" aria-pressed="false">1h</button>
+        </div>
+        <div class="seg" role="group" aria-label="Chart value" id="zMode">
+          <button type="button" data-mode="price" aria-pressed="true">Price</button>
+          <button type="button" data-mode="mcap" aria-pressed="false">Market cap</button>
+        </div>
+      </div>
+      <div class="zc-chart" id="zChart"><p class="zc-msg" id="zMsg">Loading trades from the chain…</p></div>
+      <p class="zc-note">Every candle is built from buys and sells on the $ZYRO curve contract, read straight from Robinhood Chain. Updates every 15 seconds. Times are UTC.</p>
+    </div>
+
+    <aside class="zc-card zc-tape" aria-labelledby="tapeH">
+      <h2 id="tapeH">Latest trades</h2>
+      <div class="tape-head" aria-hidden="true"><span>Time</span><span>Side</span><span>ETH</span><span>$ZYRO</span></div>
+      <ol id="zTape"><li class="ph">Loading…</li></ol>
+    </aside>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap">
+    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built on Robinhood Chain</span></div>
+    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="/#tiers">Holders</a><a href="/#roadmap">Roadmap</a><a href="/#token">Token</a><a href="/docs">Docs</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg>@ZyroxRH</a></nav>
+  </div>
+  <div class="wrap foot2"><p>Zyro gives information, not financial advice. A score is not a guarantee. Trade at your own risk.</p><nav aria-label="Legal and code"><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal#terms">Terms</a><a href="/legal#privacy">Privacy</a></nav></div>
+</footer>
+<nav class="bnav" aria-label="Pages"><a href="/" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a href="/agent" data-nav="agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/></svg><span>Agent</span></a><a href="/trade" data-nav="trade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Trade</span></a><a href="/app" data-nav="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Scan</span></a><a href="/chart" data-nav="token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/></svg><span>Chart</span></a></nav>
+<script src="/app.js"></script>
+<script src="/nav.js"></script>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="/zchart.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zyro Docs: bot, web app, chart and terminal agent</title>
+<meta name="description" content="How to use the Zyro bot, web app, $ZYRO chart and terminal agent, how the 0 to 100 safety score is calculated, and how holder access works.">
+<meta name="theme-color" content="#06102A">
+<link rel="canonical" href="https://zyro-ai.xyz/docs">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zyro">
+<meta property="og:url" content="https://zyro-ai.xyz/docs">
+<meta property="og:title" content="Zyro Docs: bot, web app, chart and terminal agent">
+<meta property="og:description" content="How to use the Zyro bot, web app, $ZYRO chart and terminal agent, how the 0 to 100 safety score is calculated, and how holder access works.">
+<meta property="og:image" content="https://zyro-ai.xyz/api/og">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ZyroxRH">
+<meta name="twitter:title" content="Zyro Docs: bot, web app, chart and terminal agent">
+<meta name="twitter:description" content="How to use the Zyro bot, web app, $ZYRO chart and terminal agent, how the 0 to 100 safety score is calculated, and how holder access works.">
+<meta name="twitter:image" content="https://zyro-ai.xyz/api/og">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Zyro">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/nav.css">
+<link rel="stylesheet" href="/pro.css">
+<link rel="stylesheet" href="/v2.css">
+</head>
+<body data-page="docs">
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Zyro home">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      ZYRO
+    </a>
+    <ul id="menu">
+      <li><a href="/app" data-nav="app">Web app</a></li>
+      <li><a href="/agent" data-nav="agent">Agent</a></li>
+      <li><a href="/trade" data-nav="trade">Trade</a></li>
+      <li><a href="/#install">Install</a></li>
+      <li><a href="/#roadmap">Roadmap</a></li>
+      <li><a href="/chart" data-nav="token">Chart</a></li>
+      <li><a href="/docs" data-nav="docs">Docs</a></li>
+      <li class="menu-cta"><a class="btn btn-volt" data-link="telegram" href="#">Open the bot</a></li>
+    </ul>
+    <div class="nav-r">
+      <a class="xbtn" href="https://x.com/zyroxrh" target="_blank" rel="noopener" aria-label="Zyro on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg></a>
+      <a class="btn btn-volt top-cta" data-link="telegram" href="#">Open the bot</a>
+      <button class="xbtn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="page-hero">
+  <div class="wrap">
+    <a class="crumb" href="/">← Back to home</a>
+    <h1>Zyro docs</h1>
+    <p class="lead">How to use the bot, the web app and the terminal agent, and exactly how the safety score is calculated.</p>
+  </div>
+</section>
+
+<section class="band" style="padding-top:64px">
+  <div class="wrap docs">
+    <nav class="toc" id="toc" aria-label="On this page"><a href="#start">Getting started</a><a href="#commands">Bot commands</a><a href="#webapp">Web app</a><a href="#chart">$ZYRO chart</a><a href="#terminal">Terminal agent</a><a href="#score">How the score works</a><a href="#access">Free and holder access</a><a href="#safety">Staying safe</a><a href="#data">Where the data comes from</a><a href="#links">Official links</a></nav>
+    <div class="doc">
+      <section id="start">
+        <h2>Getting started</h2>
+        <ol>
+          <li>Open <a href="https://t.me/ZyroAiAgent_bot" target="_blank" rel="noopener"><strong>@ZyroAiAgent_bot</strong></a> on Telegram and press <strong>Start</strong>.</li>
+          <li>Copy the contract address of a token on Robinhood Chain. It starts with <code>0x</code> and has 42 characters.</li>
+          <li>Send <code>/scan</code> followed by the address, for example <code>/scan 0x7a3f…c21e</code>.</li>
+          <li>Read the report: the safety score, the market numbers and every warning that lowered the score.</li>
+        </ol>
+        <p style="margin-top:16px">There is nothing to install, and you do not need a wallet for a free scan. Prefer a browser? The <a href="/app">web app</a> runs the same scan.</p>
+      </section>
+
+      <section id="commands">
+        <h2>Bot commands</h2>
+        <div class="cmds">
+          <div><code>/scan</code><p>Safety score and full report for a token. Add the contract address after the command.</p></div>
+          <div><code>/trending</code><p>Tokens getting attention on Robinhood Chain right now.</p></div>
+          <div><code>/link</code><p>Link your wallet so Zyro can read your $ZYRO balance. Add your public wallet address after the command.</p></div>
+          <div><code>/me</code><p>Your linked wallet, $ZYRO balance, tier and scans left today.</p></div>
+          <div><code>/start</code><p>The welcome message and the list of commands.</p></div>
+        </div>
+      </section>
+
+      <section id="webapp">
+        <h2>Web app</h2>
+        <p>The web app at <a href="/app">zyro-ai.xyz/app</a> runs the full scan in your browser. There is no account and nothing to install.</p>
+        <ul>
+          <li><strong>Scan</strong>: paste a contract address. You get the score, the market numbers and all eight checks with the points each one took off.</li>
+          <li><strong>Trending</strong>: tap any token in the trending list to scan it.</li>
+          <li><strong>Agent</strong>: ask in plain words, for example "what's trending" or "how is the score made", or paste a contract.</li>
+          <li><strong>Share</strong>: every report has a share link, such as <code>zyro-ai.xyz/scan/0x…</code>, that shows the score as a preview card.</li>
+          <li><strong>Holder access</strong>: link a wallet that holds 100,000 $ZYRO to unlock AI analysis on every report.</li>
+        </ul>
+        <p style="margin-top:16px">A token that is still on a launchpad bonding curve has no DEX pool yet, so it cannot be scored until it graduates.</p>
+      </section>
+
+      <section id="chart">
+        <h2>$ZYRO chart</h2>
+        <p>The chart at <a href="/chart">zyro-ai.xyz/chart</a> is built by Zyro from the chain itself. Every candle comes from buy and sell events on the $ZYRO curve contract on Pons.</p>
+        <ul>
+          <li>Candle sizes: 1 minute, 5 minutes, 15 minutes and 1 hour. Times are UTC.</li>
+          <li>Switch between price and market cap.</li>
+          <li>The latest trades are listed next to the chart, each linked to its transaction.</li>
+          <li>It refreshes every 15 seconds.</li>
+        </ul>
+        <p style="margin-top:16px">Prices are shown in US dollars using the current ETH price, so older candles can differ slightly from their dollar value at the time.</p>
+      </section>
+
+      <section id="terminal">
+        <h2>Terminal agent</h2>
+        <p>The terminal agent trades on Robinhood Chain with rules you set. It runs on your own machine, so your keys stay with you.</p>
+        <ol>
+          <li>Install it: <code>npm install -g zyro-agent</code></li>
+          <li>Create your settings: <code>zyro init</code></li>
+          <li>Check a token: <code>zyro scan 0x…</code></li>
+          <li>Try a buy in simulation: <code>zyro buy 0x… 0.01</code></li>
+        </ol>
+        <div class="cmds" style="margin-top:20px">
+          <div><code>zyro buy</code><p>Scans the token, checks it against your rules, then buys. Simulated unless you add <code>--live</code>.</p></div>
+          <div><code>zyro sell</code><p>Sells a position you hold.</p></div>
+          <div><code>zyro positions</code><p>Open positions with cost, value and profit or loss.</p></div>
+          <div><code>zyro watch</code><p>Watches positions and sells when the stop loss or take profit is hit.</p></div>
+          <div><code>zyro chat</code><p>Give instructions in plain words.</p></div>
+          <div><code>zyro rules</code><p>Shows your current limits.</p></div>
+        </div>
+        <p style="margin-top:16px">The default rules are a minimum score of 60, at most 0.05 ETH per trade, a 15% stop loss and a 50% take profit. Change them in <code>~/.zyro/.env</code>.</p>
+        <div class="callout"><p><strong>Use a new wallet with a small balance.</strong> Live trading needs a private key in your settings file. Never share that file, and never use your main wallet.</p></div>
+      </section>
+
+      <section id="score">
+        <h2>How the score works</h2>
+        <p>Every token starts at <strong>100</strong>. Each check below that fails takes points off. The report lists every check that failed, so you always see why the score is what it is.</p>
+        <table class="dtable">
+          <thead><tr><th>Check that failed</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td>Liquidity under $5K</td><td class="pts bad">−30</td></tr>
+            <tr><td>Liquidity between $5K and $25K</td><td class="pts warn">−15</td></tr>
+            <tr><td>More than 20 buys and zero sells in 24 hours (possible honeypot)</td><td class="pts bad">−30</td></tr>
+            <tr><td>Sells more than three times buys in 24 hours</td><td class="pts warn">−10</td></tr>
+            <tr><td>Pair is younger than 24 hours</td><td class="pts warn">−15</td></tr>
+            <tr><td>Contract source is not verified on the explorer</td><td class="pts warn">−15</td></tr>
+            <tr><td>FDV is more than 50 times the liquidity</td><td class="pts warn">−10</td></tr>
+            <tr><td>24-hour volume is more than 20 times the liquidity</td><td class="pts warn">−10</td></tr>
+            <tr><td>Fewer than 50 holders</td><td class="pts warn">−10</td></tr>
+            <tr><td>No website or social links listed</td><td class="pts warn">−10</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:16px">If the explorer cannot return the holder count or the verification status, the score is capped at <strong>90</strong> and the report says so.</p>
+        <h3>What the score means</h3>
+        <div class="bands">
+          <div style="--c:#1FA971"><b>75 to 100</b><span>Low risk</span></div>
+          <div style="--c:#E0A100"><b>50 to 74</b><span>Medium risk</span></div>
+          <div style="--c:#F07A2A"><b>25 to 49</b><span>High risk</span></div>
+          <div style="--c:#E5484D"><b>0 to 24</b><span>Very high risk</span></div>
+        </div>
+        <div class="callout"><p><strong>A high score is not a guarantee.</strong> It means the public data shows no obvious warning signs at the moment of the scan. Liquidity can be pulled and contracts can change later, so scan again before a large buy.</p></div>
+      </section>
+
+      <section id="access">
+        <h2>Free and holder access</h2>
+        <table class="dtable">
+          <thead><tr><th>What you get</th><th>Free / Holder</th></tr></thead>
+          <tbody>
+            <tr><td>Scans per day</td><td>3 / Unlimited</td></tr>
+            <tr><td>Full safety score and warnings</td><td>Yes / Yes</td></tr>
+            <tr><td>Trending list</td><td>Yes / Yes</td></tr>
+            <tr><td>AI analysis on every report</td><td>No / Yes</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:16px">Free scans reset every day at 00:00 UTC.</p>
+        <h3>Becoming a holder</h3>
+        <ol>
+          <li>Hold <strong>100,000 $ZYRO</strong> or more in a wallet on Robinhood Chain.</li>
+          <li>Send <code>/link</code> followed by that wallet's public address.</li>
+          <li>Zyro reads your balance from the chain. Send <code>/me</code> to check your tier.</li>
+        </ol>
+        <p style="margin-top:16px">On the web, open the <a href="/app">web app</a> and paste the same public address under Holder access.</p>
+        <p style="margin-top:16px">The AI analysis adds three short points to each report: the overall read, the biggest risk, and what to watch next.</p>
+      </section>
+
+      <section id="safety">
+        <h2>Staying safe</h2>
+        <ul>
+          <li>Zyro will <strong>never</strong> ask for your seed phrase or private key. Linking a wallet only needs the public address.</li>
+          <li>Zyro never messages you first. Anyone who does in Zyro's name is a scammer.</li>
+          <li>Only trust the links on this page. The official $ZYRO contract is published on <a href="/#token">zyro-ai.xyz</a> first.</li>
+          <li>Treat the score as one input. Read the warnings, check the chart, and decide for yourself.</li>
+        </ul>
+      </section>
+
+      <section id="data">
+        <h2>Where the data comes from</h2>
+        <ul>
+          <li><strong>DexScreener</strong>: price, liquidity, FDV, volume, buys and sells, pair age, website and socials.</li>
+          <li><strong>Blockscout</strong>, the Robinhood Chain explorer: holder count and contract verification.</li>
+          <li><strong>Robinhood Chain RPC</strong>: your $ZYRO balance and every trade on the $ZYRO chart, read directly from the chain.</li>
+          <li><strong>AI model</strong>: writes the holder analysis using only the facts in the report.</li>
+        </ul>
+      </section>
+
+      <section id="links">
+        <h2>Official links</h2>
+        <div class="links">
+          <a href="https://t.me/ZyroAiAgent_bot" target="_blank" rel="noopener">Telegram bot <span>@ZyroAiAgent_bot</span></a>
+          <a href="https://x.com/zyroxrh" target="_blank" rel="noopener">X <span>@ZyroxRH</span></a>
+          <a href="/">Website <span>zyro-ai.xyz</span></a>
+          <a href="/app">Web app <span>zyro-ai.xyz/app</span></a>
+          <a href="/chart">$ZYRO chart <span>zyro-ai.xyz/chart</span></a>
+          <a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub <span>zyroai11/Zyro-Agent</span></a>
+          <a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm <span>zyro-agent</span></a>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built on Robinhood Chain</span></div>
+    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="/#tiers">Holders</a><a href="/#roadmap">Roadmap</a><a href="/#token">Token</a><a href="/docs">Docs</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg>@ZyroxRH</a></nav>
+  </div>
+  <div class="wrap foot2"><p>Zyro gives information, not financial advice. A score is not a guarantee. Trade at your own risk.</p><nav aria-label="Legal and code"><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal#terms">Terms</a><a href="/legal#privacy">Privacy</a></nav></div>
+</footer>
+<nav class="bnav" aria-label="Pages"><a href="/" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a href="/agent" data-nav="agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/></svg><span>Agent</span></a><a href="/trade" data-nav="trade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Trade</span></a><a href="/app" data-nav="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Scan</span></a><a href="/chart" data-nav="token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/></svg><span>Chart</span></a></nav>
+<script src="/app.js"></script>
+<script src="/nav.js"></script>
+</body>
+</html>

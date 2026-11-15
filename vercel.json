@@ -1,0 +1,29 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/apple-touch-icon.png",
+      "destination": "/api/icon?s=180"
+    },
+    {
+      "source": "/apple-touch-icon-precomposed.png",
+      "destination": "/api/icon?s=180"
+    },
+    {
+      "source": "/icon-192.png",
+      "destination": "/api/icon?s=192"
+    },
+    {
+      "source": "/icon-512.png",
+      "destination": "/api/icon?s=512"
+    },
+    {
+      "source": "/favicon-32.png",
+      "destination": "/api/icon?s=32&r=1"
+    },
+    {
+      "source": "/scan/:address",
+      "destination": "/api/share?address=:address"
+    }
+  ]
+}
