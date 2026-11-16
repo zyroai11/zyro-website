@@ -239,15 +239,18 @@ async function tick(req) {
 }
 
 // Public, anonymous numbers for the "Trading on Zyro" card. Wallets are shortened; no user ids leave the server.
+// Team test wallets are left out of the public numbers (matched by start and end of the address).
+const TEAM_WALLETS = [['0xe9b2', '87bc']];
+const isTeam = w => { const a = (w || '').toLowerCase(); return TEAM_WALLETS.some(([h, t]) => a.startsWith(h) && a.endsWith(t)); };
 async function stats() {
-  const cached = await T.redis('GET', 'stats:web').catch(() => null);
+  const cached = await T.redis('GET', 'stats:web2').catch(() => null);
   if (cached) return JSON.parse(cached);
   const all = await T.allPositions();
   const short = a => a ? a.slice(0, 6) + '…' + a.slice(-4) : '';
   const traders = new Set(), byToken = new Map(), events = [];
   let buys = 0, sells = 0, volEth = 0, open = 0, tpHits = 0, slHits = 0, won = 0, closed = 0;
   for (const p of all) {
-    if (!p.buyTx) continue;
+    if (!p.buyTx || isTeam(p.wallet)) continue;
     traders.add((p.wallet || p.user || '').toLowerCase());
     buys++; volEth += p.ethIn || 0;
     const key = (p.token || '').toLowerCase();
@@ -274,7 +277,7 @@ async function stats() {
     top: [...byToken.values()].sort((a, b) => b.volEth - a.volEth).slice(0, 5),
     recent: events.sort((a, b) => b.t - a.t).slice(0, 10),
   };
-  await T.redis('SET', 'stats:web', JSON.stringify(out), 'EX', '60').catch(() => {});
+  await T.redis('SET', 'stats:web2', JSON.stringify(out), 'EX', '60').catch(() => {});
   return out;
 }
 
