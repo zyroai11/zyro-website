@@ -268,6 +268,7 @@ export async function getPos(id) { const v = await redis('GET', `pos:${id}`); re
 export async function savePos(p) {
   await redis('SET', `pos:${p.id}`, JSON.stringify(p));
   await redis('SADD', `user:${p.user}:pos`, p.id);
+  await redis('SADD', 'allpos', p.id);
   if (p.status === 'open') await redis('SADD', 'open', p.id); else await redis('SREM', 'open', p.id);
 }
 export async function userPositions(did) {
@@ -275,6 +276,25 @@ export async function userPositions(did) {
   if (!ids.length) return [];
   const vals = await redis('MGET', ...ids.map(i => `pos:${i}`));
   return vals.filter(Boolean).map(v => JSON.parse(v)).sort((a, b) => b.createdAt - a.createdAt);
+}
+// Every position id ever saved. Builds the index once from a key scan if it is missing.
+export async function allPositions() {
+  let ids = await redis('SMEMBERS', 'allpos') || [];
+  if (!ids.length) {
+    let cur = '0';
+    do {
+      const [next, keys] = await redis('SCAN', cur, 'MATCH', 'pos:*', 'COUNT', '500');
+      cur = String(next);
+      for (const k of keys || []) ids.push(k.slice(4));
+    } while (cur !== '0');
+    if (ids.length) await redis('SADD', 'allpos', ...ids);
+  }
+  const out = [];
+  for (let i = 0; i < ids.length; i += 200) {
+    const vals = await redis('MGET', ...ids.slice(i, i + 200).map(x => `pos:${x}`));
+    for (const v of vals || []) if (v) { try { out.push(JSON.parse(v)); } catch (_) {} }
+  }
+  return out;
 }
 export const lock = async (key, sec = 90) => (await redis('SET', `lock:${key}`, '1', 'NX', 'EX', String(sec))) === 'OK';
 export const unlock = key => redis('DEL', `lock:${key}`);

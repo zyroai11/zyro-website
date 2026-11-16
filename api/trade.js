@@ -238,10 +238,51 @@ async function tick(req) {
   return { checked: open.length, sold, errors };
 }
 
+// Public, anonymous numbers for the "Trading on Zyro" card. Wallets are shortened; no user ids leave the server.
+async function stats() {
+  const cached = await T.redis('GET', 'stats:web').catch(() => null);
+  if (cached) return JSON.parse(cached);
+  const all = await T.allPositions();
+  const short = a => a ? a.slice(0, 6) + '…' + a.slice(-4) : '';
+  const traders = new Set(), byToken = new Map(), events = [];
+  let buys = 0, sells = 0, volEth = 0, open = 0, tpHits = 0, slHits = 0, won = 0, closed = 0;
+  for (const p of all) {
+    if (!p.buyTx) continue;
+    traders.add((p.wallet || p.user || '').toLowerCase());
+    buys++; volEth += p.ethIn || 0;
+    const key = (p.token || '').toLowerCase();
+    const t = byToken.get(key) || { token: key, symbol: p.symbol || '', kind: p.kind || (key === T.ZYRO ? 'zyro' : 'token'), trades: 0, volEth: 0 };
+    t.trades++; t.volEth += p.ethIn || 0; byToken.set(key, t);
+    events.push({ t: p.createdAt, side: 'buy', wallet: short(p.wallet), symbol: p.symbol || '', token: key, kind: t.kind, eth: p.ethIn || 0, tx: p.buyTx });
+    for (const x of p.sells || []) {
+      sells++; volEth += x.ethOut || 0; t.trades++; t.volEth += x.ethOut || 0;
+      events.push({ t: x.t, side: 'sell', wallet: short(p.wallet), symbol: p.symbol || '', token: key, kind: t.kind, eth: x.ethOut || 0, tx: x.tx, reason: x.reason || 'manual', pct: x.pct });
+    }
+    if (p.status === 'open') open++;
+    else if (p.sells?.length) {
+      closed++;
+      if ((p.ethOut || 0) > (p.ethIn || 0)) won++;
+      if (p.closeReason === 'take profit') tpHits++;
+      if (p.closeReason === 'stop loss') slHits++;
+    }
+  }
+  const ethUsd = await T.ethUsd().catch(() => 0);
+  const out = {
+    updatedAt: Date.now(), ethUsd,
+    traders: traders.size, trades: buys + sells, buys, sells, volEth, volUsd: volEth * ethUsd,
+    open, closed, won, tpHits, slHits,
+    top: [...byToken.values()].sort((a, b) => b.volEth - a.volEth).slice(0, 5),
+    recent: events.sort((a, b) => b.t - a.t).slice(0, 10),
+  };
+  await T.redis('SET', 'stats:web', JSON.stringify(out), 'EX', '60').catch(() => {});
+  return out;
+}
+
 export default async function handler(req, res) {
   const action = String(req.query.action || '');
   try {
     if (action === 'config') return json(res, 200, { ...T.publicConfig(), ready: T.missingConfig().length === 0, country: T.countryOf(req), stocksBlocked: T.isBlocked(req) });
+    if (action === 'stats') { res.setHeader('cache-control', 'public, s-maxage=30, stale-while-revalidate=60'); return json(res, 200, await stats()); }
     if (action === 'stocks') { res.setHeader('cache-control', 'no-store'); return json(res, 200, await stocks(req)); }
     const missing = T.missingConfig();
     if (missing.length) return json(res, 503, { error: 'Auto-trade is not set up yet.', missing });
