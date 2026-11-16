@@ -22,7 +22,8 @@ tools=grab(r'(<div class="tools">.*?</article>\n    </div>)')
 LOGO='<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>'
 XSVG='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg>'
 I='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-ICON={'app':'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>','home':'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/>','agent':'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/>','trade':'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>','holders':'<path d="M12 3 4 7v5c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V7l-8-4Z"/>','token':'<circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/>'}
+ICON0={'app':'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>','home':'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/>','agent':'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/>','trade':'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>','holders':'<path d="M12 3 4 7v5c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V7l-8-4Z"/>','token':'<circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/>'}
+ICON=dict(ICON0, autotrade=ICON0['trade'])
 CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>'
 
 def head(title,desc,path="/"):
@@ -91,7 +92,7 @@ def header(home):
 
 def footer(home):
     h = '' if home else '/'
-    items=[('home','/' if not home else '#top','Home'),('agent','/agent','Agent'),('trade','/trade','Trade'),('app','/app','Scan'),('token','/chart','Chart')]
+    items=[('home','/' if not home else '#top','Home'),('agent','/agent','Agent'),('autotrade','/autotrade','Trade'),('app','/app','Scan'),('token','/chart','Chart')]
     bnav='<nav class="bnav" aria-label="Pages">'+''.join(f'<a href="{href}" data-nav="{k}">{I}{ICON[k]}</svg><span>{t}</span></a>' for k,href,t in items)+'</nav>'
     return f'''<footer>
   <div class="wrap">

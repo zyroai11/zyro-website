@@ -1,11 +1,11 @@
 # ---------- auto-trade page (run from build.py; uses head, header, footer)
 at_body = '''
 <main id="top" class="zapp">
-<section class="app-hero">
+<section class="app-hero at-hero">
   <div class="wrap">
-    <p class="at-kicker">Beta for $ZYRO holders</p>
-    <h1>Auto-trade with take profit and stop loss</h1>
-    <p class="lead">Buy any Robinhood Chain token from a wallet Zyro makes for you. Set a take profit and a stop loss, and Zyro sells for you when either is hit, even while you sleep.</p>
+    <p class="at-kicker">Beta</p>
+    <h1>Trade tokens and stocks on Robinhood Chain</h1>
+    <p class="lead">Buy $ZYRO, any Robinhood Chain token or a Stock Token from a wallet Zyro makes for you. Set a take profit and a stop loss, and Zyro sells for you when either is hit, even while you sleep.</p>
   </div>
 </section>
 <section class="at-main">

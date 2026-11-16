@@ -61,7 +61,8 @@
 .at-pos-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
 .at-pos-g small{display:block;font:500 12px var(--mono);color:var(--mute);margin-top:2px;overflow-wrap:anywhere}
 .at-pos-g b{font-size:15px}
-@media (max-width:900px){.at-grid{grid-template-columns:1fr}.at-col:last-child{order:-1}}
+@media (max-width:900px){.at-grid{display:flex;flex-direction:column;gap:20px}.at-col{display:contents}
+ .at-chart{order:1}.at-buy,.at-welcome{order:2}.at-stocks{order:3}.at-switch{order:4}.at-walletc{order:5}.at-positions{order:6}}
 @media (max-width:560px){.at-card{padding:20px;border-radius:18px}.at-3{grid-template-columns:1fr 1fr}.at-3 label:first-child{grid-column:span 2}.at-pos-g{grid-template-columns:1fr 1fr}.at-pos-g div:last-child{grid-column:span 2}.at-stats{grid-template-columns:1fr 1fr}}
 .at-zyro{background:var(--ink);color:#fff;border-color:var(--ink)}
 .at-zyro:hover{color:#fff;background:var(--blue-deep);border-color:var(--blue-deep)}
@@ -88,3 +89,34 @@
 .at-px b{font:600 15px var(--mono)}
 .at-px small{font:500 12px var(--mono)} .at-px small.ok{color:var(--ok)} .at-px small.bad{color:var(--bad)}
 @media (max-width:560px){.at-sgrid{grid-template-columns:1fr}.at-tabs{display:flex}.at-tabs button{flex:1;justify-content:center;padding:10px 8px}}
+
+/* trading layout */
+.at-main{padding:36px 0 80px}
+.at-grid{grid-template-columns:minmax(0,1.7fr) minmax(340px,1fr)}
+.at-side{position:sticky;top:96px}
+@media (max-width:900px){.at-side{position:static}}
+.at-chart{background:#0A1636;border-color:#16285A;color:#fff;padding:22px}
+.at-chart .at-fine{color:#8EA0C8}
+.at-chart .at-fine a{color:#9CC2FF}
+.at-chart.empty{min-height:220px;display:grid;place-items:center}
+.at-chart.empty .at-empty,.at-chart .at-empty{color:#9FB0D6}
+.at-chart .pad{padding:60px 0;text-align:center}
+.at-chart-h{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.at-chart-t{display:grid;flex:1;min-width:0}
+.at-chart-t b{font:800 26px var(--display)}
+.at-chart-t small{color:#9FB0D6;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.at-chart-p{display:grid;text-align:right}
+.at-chart-p b{font:600 24px var(--mono)}
+.at-chart-p small{font:500 14px var(--mono)} .at-chart-p small.ok{color:#3DDC97} .at-chart-p small.bad{color:#FF6B70}
+.at-chartbox{width:100%;height:440px;border:0;border-radius:14px;display:block;background:#0A1636;overflow:hidden}
+.at-chartbox.skel{background:linear-gradient(90deg,#0E1D45 25%,#14275A 50%,#0E1D45 75%);background-size:200% 100%;animation:atsk 1.4s infinite}
+@keyframes atsk{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.at-chartbox.skel{animation:none}}
+.at-noimg.big{width:40px;height:40px;font-size:18px}
+.at-chart .at-logo{width:40px;height:40px}
+@media (max-width:560px){.at-chartbox{height:320px}.at-chart{padding:16px}.at-chart-t b{font-size:22px}.at-chart-p b{font-size:19px}}
+.app-hero.at-hero{padding-bottom:44px}
+.at-side .at-scan{display:grid;grid-template-columns:auto 1fr;gap:6px 12px}
+.at-side .at-scan span{grid-column:1 / -1}
+.at-side .at-scan a{grid-column:2;grid-row:1;justify-self:end}
+.at-hero h1{font-size:clamp(34px,4.6vw,60px);max-width:16ch}
