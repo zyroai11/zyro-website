@@ -224,17 +224,17 @@ export const countryOf = req => String(req.headers['x-vercel-ip-country'] || '')
 export const isBlocked = req => BLOCKED.has(countryOf(req));
 
 export async function stockList() {
-  const cached = await redis('GET', 'stocks:list').catch(() => null);
+  const cached = await redis('GET', 'stocks:list2').catch(() => null);
   if (cached) return JSON.parse(cached);
   const { ok, data } = await fetchJson('https://api.robinhood.com/rhj/assets', { headers: { accept: 'application/json' } }, 15000);
   if (!ok || !Array.isArray(data?.assets)) throw new HttpError(502, 'Could not load the Stock Token list from Robinhood.');
   const list = data.assets.map(a => {
     const d = (a.deployments || []).find(x => Number(x.chainId) === CHAIN_ID);
     if (!d || !isAddr(d.contractAddress) || (a.status && !/active|live|tradable/i.test(a.status))) return null;
-    return { symbol: a.tokenSymbol, name: a.tokenName, address: d.contractAddress.toLowerCase(), logo: a.logoUrl || null,
+    return { symbol: a.tokenSymbol, name: String(a.tokenName || '').replace(/\s*•\s*Robinhood Token\s*$/i, ''), address: d.contractAddress.toLowerCase(), logo: a.logoUrl || null,
              allDay: a.tradingCapabilities?.allDayTradability ?? null };
   }).filter(Boolean).sort((x, y) => x.symbol.localeCompare(y.symbol));
-  if (list.length) await redis('SET', 'stocks:list', JSON.stringify(list), 'EX', '3600').catch(() => {});
+  if (list.length) await redis('SET', 'stocks:list2', JSON.stringify(list), 'EX', '3600').catch(() => {});
   return list;
 }
 export async function isStock(token) {
