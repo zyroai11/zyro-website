@@ -52,7 +52,14 @@ async function me(did) {
     holder: zyro >= T.HOLDER_MIN, holderMin: T.HOLDER_MIN, maxEth: T.MAX_ETH, positions };
 }
 
-async function buy(did, body) {
+async function stocks(req) {
+  const list = await T.stockList();
+  const prices = await T.stockPrices(list).catch(() => ({}));
+  return { country: T.countryOf(req), blocked: T.isBlocked(req),
+    stocks: list.map(s => ({ ...s, ...(prices[s.address] || {}) })) };
+}
+
+async function buy(did, body, req) {
   const token = String(body.token || '').trim();
   const eth = num(body.eth, 0), tp = Math.max(0, num(body.tp, 0)), sl = Math.min(95, Math.max(0, num(body.sl, 0)));
   if (!T.isAddr(token)) throw new T.HttpError(400, 'Paste a token contract address (0x…).');
@@ -60,6 +67,9 @@ async function buy(did, body) {
   if (!(eth > 0)) throw new T.HttpError(400, 'Enter how much ETH to spend.');
   if (eth > T.MAX_ETH) throw new T.HttpError(400, `The limit during the beta is ${T.MAX_ETH} ETH per trade.`);
 
+  const stockInfo = (await T.stockList().catch(() => [])).find(x => x.address === token.toLowerCase());
+  const stock = !!stockInfo;
+  if (stock && T.isBlocked(req)) throw new T.HttpError(451, 'Stock Tokens are not available in your country (' + T.countryOf(req) + ').');
   const acc = await loadAccount(did);
   needTrading(acc);
   const addr = acc.embedded.address, wid = acc.embedded.id;
@@ -102,7 +112,8 @@ async function buy(did, body) {
     const prices = await T.pricesEth([token]).catch(() => ({}));
     const pos = {
       id: crypto.randomBytes(6).toString('hex'), user: did, wallet: addr, walletId: wid, token, decimals,
-      symbol: isZyro ? 'ZYRO' : (prices[token.toLowerCase()]?.symbol || q?.quote?.output?.token?.symbol || ''), route,
+      kind: stock ? 'stock' : undefined,
+      symbol: stock ? stockInfo.symbol : isZyro ? 'ZYRO' : (prices[token.toLowerCase()]?.symbol || q?.quote?.output?.token?.symbol || ''), route,
       ethIn: eth, tokens: got.toString(), tokensHuman: tokens, entry: tokens > 0 ? eth / tokens : 0,
       tp, sl, status: 'open', buyTx: hash, createdAt: Date.now(), sells: [], ethOut: 0,
     };
@@ -230,7 +241,8 @@ async function tick(req) {
 export default async function handler(req, res) {
   const action = String(req.query.action || '');
   try {
-    if (action === 'config') return json(res, 200, { ...T.publicConfig(), ready: T.missingConfig().length === 0 });
+    if (action === 'config') return json(res, 200, { ...T.publicConfig(), ready: T.missingConfig().length === 0, country: T.countryOf(req), stocksBlocked: T.isBlocked(req) });
+    if (action === 'stocks') { res.setHeader('cache-control', 'no-store'); return json(res, 200, await stocks(req)); }
     const missing = T.missingConfig();
     if (missing.length) return json(res, 503, { error: 'Auto-trade is not set up yet.', missing });
     if (action === 'tick') return json(res, 200, await tick(req));
@@ -238,7 +250,7 @@ export default async function handler(req, res) {
     if (action === 'me' && req.method === 'GET') return json(res, 200, await me(did));
     if (req.method !== 'POST') return json(res, 405, { error: 'Use POST.' });
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    if (action === 'buy') return json(res, 200, await buy(did, body));
+    if (action === 'buy') return json(res, 200, await buy(did, body, req));
     if (action === 'sell') return json(res, 200, await sell(did, body));
     if (action === 'update') return json(res, 200, await update(did, body));
     return json(res, 404, { error: 'Unknown action.' });

@@ -199,17 +199,63 @@ export async function pricesEth(tokens) {
     for (const p of data) {
       const base = (p.baseToken?.address || '').toLowerCase();
       const qa = (p.quoteToken?.address || '').toLowerCase();
-      if (!list.includes(base) || qa !== WETH) continue;
+      if (!list.includes(base)) continue;
       const liq = Number(p.liquidity?.usd || 0);
-      if (!out[base] || liq > out[base].liq) out[base] = { eth: Number(p.priceNative), usd: Number(p.priceUsd || 0), liq, symbol: p.baseToken?.symbol };
+      let eth = qa === WETH ? Number(p.priceNative) : null;
+      if (eth == null) { const u = await ethUsd(); if (u && Number(p.priceUsd) > 0) eth = Number(p.priceUsd) / u; }
+      if (!eth) continue;
+      if (!out[base] || liq > out[base].liq) out[base] = { eth, usd: Number(p.priceUsd || 0), liq, symbol: p.baseToken?.symbol };
     }
   }
   return out;
 }
 
+let _ethUsd = { t: 0, v: null };
 export async function ethUsd() {
-  try { const { data } = await fetchJson('https://api.coinbase.com/v2/prices/ETH-USD/spot', {}, 5000); const v = Number(data?.data?.amount); if (v > 0) return v; } catch {}
+  if (_ethUsd.v && Date.now() - _ethUsd.t < 60000) return _ethUsd.v;
+  try { const { data } = await fetchJson('https://api.coinbase.com/v2/prices/ETH-USD/spot', {}, 5000); const v = Number(data?.data?.amount); if (v > 0) { _ethUsd = { t: Date.now(), v }; return v; } } catch {}
   return null;
+}
+
+// ---------------------------------------------------------------- Stock Tokens (Robinhood RHJ) and country rules
+// Stock Tokens are not offered in these places (Robinhood docs + sanctioned jurisdictions)
+export const BLOCKED = new Set(['US', 'CA', 'GB', 'CH', 'AE', 'CU', 'IR', 'KP', 'SY', 'RU', 'BY']);
+export const countryOf = req => String(req.headers['x-vercel-ip-country'] || '').toUpperCase();
+export const isBlocked = req => BLOCKED.has(countryOf(req));
+
+export async function stockList() {
+  const cached = await redis('GET', 'stocks:list').catch(() => null);
+  if (cached) return JSON.parse(cached);
+  const { ok, data } = await fetchJson('https://api.robinhood.com/rhj/assets', { headers: { accept: 'application/json' } }, 15000);
+  if (!ok || !Array.isArray(data?.assets)) throw new HttpError(502, 'Could not load the Stock Token list from Robinhood.');
+  const list = data.assets.map(a => {
+    const d = (a.deployments || []).find(x => Number(x.chainId) === CHAIN_ID);
+    if (!d || !isAddr(d.contractAddress) || (a.status && !/active|live|tradable/i.test(a.status))) return null;
+    return { symbol: a.tokenSymbol, name: a.tokenName, address: d.contractAddress.toLowerCase(), logo: a.logoUrl || null,
+             allDay: a.tradingCapabilities?.allDayTradability ?? null };
+  }).filter(Boolean).sort((x, y) => x.symbol.localeCompare(y.symbol));
+  if (list.length) await redis('SET', 'stocks:list', JSON.stringify(list), 'EX', '3600').catch(() => {});
+  return list;
+}
+export async function isStock(token) {
+  try { return (await stockList()).some(s => s.address === token.toLowerCase()); } catch { return false; }
+}
+export async function stockPrices(list) {
+  const cached = await redis('GET', 'stocks:prices').catch(() => null);
+  if (cached) return JSON.parse(cached);
+  const out = {};
+  const addrs = list.map(s => s.address);
+  for (let i = 0; i < addrs.length; i += 30) {
+    const { ok, data } = await fetchJson(`https://api.dexscreener.com/tokens/v1/robinhood/${addrs.slice(i, i + 30).join(',')}`, {}, 10000).catch(() => ({}));
+    if (!ok || !Array.isArray(data)) continue;
+    for (const p of data) {
+      const a = (p.baseToken?.address || '').toLowerCase(); const liq = Number(p.liquidity?.usd || 0);
+      if (!addrs.includes(a) || (out[a] && out[a].liq >= liq)) continue;
+      out[a] = { usd: Number(p.priceUsd || 0), ch: p.priceChange?.h24 ?? null, liq, vol: Number(p.volume?.h24 || 0) };
+    }
+  }
+  await redis('SET', 'stocks:prices', JSON.stringify(out), 'EX', '60').catch(() => {});
+  return out;
 }
 
 // ---------------------------------------------------------------- Redis (Upstash REST)
