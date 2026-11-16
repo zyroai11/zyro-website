@@ -75,3 +75,5 @@ body[data-page="trade"] footer{border-top:1px solid var(--line,rgba(140,170,255,
 @media (max-width:560px){body[data-page="trade"] .app-hero.at-hero{padding:28px 0 4px}body[data-page="trade"] .at-chips{display:none}}
 body[data-page="trade"] .btn-ink,body[data-page="trade"] .at-card .btn-line{background:#16244F;color:#fff;border-color:#16244F}
 body[data-page="trade"] .btn-ink:hover{background:#2F7BFF;border-color:#2F7BFF}
+body[data-page="trade"] .btn-volt{color:#06102A}
+body[data-page="trade"] .btn-volt:disabled{color:#06102A;opacity:.6}
