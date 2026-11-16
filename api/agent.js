@@ -11,14 +11,28 @@ fewer than 50 holders (-10); no website or socials (-10). If holder or contract 
 Trade on the web at zyro-ai.xyz/trade: buy $ZYRO, any Robinhood Chain token or Robinhood Stock Tokens (NVDA, TSLA, AAPL and 200+ more, not offered in the US, UK, Canada and some other regions) from a wallet Zyro makes with Privy, with automatic take profit and stop loss checked every minute, and sell 25/50/75% or max. Perps through Lighter are being built next. Terminal agent for trading with your own rules: npm install -g zyro-agent. Website zyro-ai.xyz, X @ZyroxRH. Zyro never asks for seed phrases or private keys.`;
 
 const SYSTEM = `You are Zyro, the agent on the Zyro website. Reply in English only, in one or two short sentences.
-Turn the user's message into JSON with keys: action ("scan", "trending", "help" or "none"), token (a 0x address from the message, else null), reply (your short answer).
-Use "scan" when they want a token checked and gave an address. Use "trending" for what is hot or trending. Use "none" to answer questions from these facts:
+Turn the user's message into JSON with keys: action ("scan", "trending", "trade", "price", "help" or "none"), token (a 0x address from the message, else null), symbol (a ticker the user named such as ZYRO, NVDA or TSLA, uppercase, without $, else null), reply (your short answer).
+Use "scan" when they want a token checked and gave an address. Use "trending" for what is hot or trending.
+Use "trade" when they want to buy, sell or trade a token or stock; set token or symbol. Use "price" when they ask the price of a token or stock; set token or symbol. Use "none" to answer questions from these facts:
 ${FACTS}
 Never invent addresses, prices or scores. Never promise profits or tell people to buy. If they want to trade, point them to zyro-ai.xyz/trade, or the terminal agent for their own rules. Output only the JSON.`;
 
+const NOT_TICKER = new Set(['I','A','AN','THE','TO','OF','ON','IN','IS','IT','MY','ME','FOR','AND','OR','WITH','SOME','HOW','WHAT','CAN','DO','BUY','SELL','TRADE','PRICE','ETH','USD','USDG','NOW','PLEASE','WANT','LIVE','STOCK','STOCKS','TOKEN','TOKENS','CHART']);
+function ticker(msg) {
+  const d = msg.match(/\$([A-Za-z][A-Za-z0-9.]{0,9})/);
+  if (d) return d[1].toUpperCase();
+  const words = msg.match(/\b[A-Za-z][A-Za-z0-9.]{0,9}\b/g) || [];
+  for (const w of words) { const u = w.toUpperCase(); if (w === u && u.length >= 2 && !NOT_TICKER.has(u)) return u; }
+  for (const w of words) { const u = w.toUpperCase(); if (u === 'ZYRO' || u === 'NVDA' || u === 'TSLA' || u === 'AAPL') return u; }
+  return null;
+}
 function local(msg) {
   const low = msg.trim().toLowerCase();
   const addr = (msg.match(/0x[a-fA-F0-9]{40}/) || [])[0] || null;
+  const sym = ticker(msg);
+  const howTo = /\bhow (do|can|to)\b|\bwhere\b/.test(low);
+  if (!howTo && /\b(buy|sell|trade|long|ape)\b/.test(low) && (addr || sym)) return { action: 'trade', token: addr, symbol: addr ? null : sym, reply: 'Here it is. Open it on the trade page to buy or sell, with a take profit and stop loss Zyro runs for you.' };
+  if (/\bprice\b|how much is|worth/.test(low) && (addr || sym)) return { action: 'price', token: addr, symbol: addr ? null : sym, reply: 'Here is the live price.' };
   if (addr) return { action: 'scan', token: addr, reply: 'Scanning that token now.' };
   if (/trend|hot|popular/.test(low)) return { action: 'trending', token: null, reply: 'Here is what is getting attention on Robinhood Chain.' };
   if (/score|calculat|rating/.test(low)) return { action: 'none', token: null, reply: 'Every token starts at 100. Points come off for low liquidity, zero sells, a pair under 24 hours old, an unverified contract, few holders, FDV or volume far above liquidity, and no socials. 75 and up is low risk, under 25 is very high risk.' };
@@ -37,7 +51,7 @@ export default async function handler(req) {
 
   const quick = local(msg);
   const key = (process.env.GEMINI_API_KEY || '').trim();
-  if (quick && (!key || quick.action === 'scan' || quick.action === 'trending')) return json(quick, 200, 'no-store');
+  if (quick && (!key || ['scan', 'trending', 'trade', 'price'].includes(quick.action))) return json(quick, 200, 'no-store');
   if (!key) return json({ action: 'help', token: null, reply: 'I can scan tokens and show what is trending. Paste a 0x contract address to start.' }, 200, 'no-store');
 
   const model = (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim();
@@ -52,9 +66,12 @@ export default async function handler(req) {
     });
     const data = await r.json();
     const out = JSON.parse(data.candidates[0].content.parts[0].text);
-    const action = ['scan', 'trending', 'help', 'none'].includes(out.action) ? out.action : 'none';
+    let action = ['scan', 'trending', 'trade', 'price', 'help', 'none'].includes(out.action) ? out.action : 'none';
     const token = isAddr(out.token) && msg.toLowerCase().includes(out.token.toLowerCase()) ? out.token : null;
-    return json({ action: action === 'scan' && !token ? 'none' : action, token, reply: String(out.reply || '').slice(0, 400) }, 200, 'no-store');
+    const symbol = !token && typeof out.symbol === 'string' && /^[A-Z][A-Z0-9.]{0,9}$/.test(out.symbol.replace('$', '').toUpperCase()) ? out.symbol.replace('$', '').toUpperCase() : null;
+    if (action === 'scan' && !token) action = 'none';
+    if ((action === 'trade' || action === 'price') && !token && !symbol) action = 'none';
+    return json({ action, token, symbol, reply: String(out.reply || '').slice(0, 400) }, 200, 'no-store');
   } catch (e) {
     return json(quick || { action: 'help', token: null, reply: 'I could not reach the AI just now. Paste a contract address to scan it, or type "trending".' }, 200, 'no-store');
   }

@@ -185,6 +185,38 @@
   const say = (cls, html) => { const p = document.createElement(cls === 'rows' ? 'div' : 'p'); p.className = cls; p.innerHTML = html; log.appendChild(p); log.scrollTop = log.scrollHeight; return p; };
   const busy = on => { st.textContent = on ? 'thinking' : 'online'; st.classList.toggle('busy', on); };
 
+  /* live markets for the agent: $ZYRO from its own chart, Stock Tokens from the trade API, anything else from DexScreener */
+  const ZYRO_CA = '0x50e05d1ee5e545540190a1136667af06a496f6d2';
+  let stockList = null;
+  const stocks = async () => stockList || (stockList = await fetch('/api/trade?action=stocks').then(r => r.json()).then(d => d.stocks || []).catch(() => []));
+  const fmtPx = v => {
+    if (!(v > 0)) return '—';
+    if (v >= 1) return '$' + v.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    if (v >= 0.001) return '$' + v.toPrecision(4);
+    const z = -Math.floor(Math.log10(v)) - 1, sub = '₀₁₂₃₄₅₆₇₈₉';
+    return '$0.0' + String(z).split('').map(d => sub[d]).join('') + String(Math.round(v * 10 ** (z + 4))).slice(0, 4).replace(/0+$/, '');
+  };
+  async function resolveMarket(token, symbol) {
+    const sym = (symbol || '').toUpperCase();
+    if ((token || '').toLowerCase() === ZYRO_CA || sym === 'ZYRO') {
+      const d = await fetch('/api/zyro-chart').then(r => r.json()).catch(() => null);
+      return { kind: 'zyro', address: ZYRO_CA, symbol: 'ZYRO', name: 'Zyro, on the Pons curve', logo: '/zyro-token.png', usd: d?.stats?.priceUsd, ch: d?.stats?.change24h };
+    }
+    const list = await stocks();
+    const st = list.find(x => token ? x.address === token.toLowerCase() : x.symbol === sym || (sym === 'GOOG' && x.symbol === 'GOOGL'));
+    if (st) return { kind: 'stock', address: st.address, symbol: st.symbol, name: st.name + ' Stock Token', logo: '/api/logo?s=' + encodeURIComponent(st.symbol), usd: st.usd, ch: st.ch };
+    if (!token) return null;
+    const ps = await fetch('https://api.dexscreener.com/tokens/v1/robinhood/' + token).then(r => r.json()).catch(() => []);
+    const best = (Array.isArray(ps) ? ps : []).filter(p => (p.baseToken?.address || '').toLowerCase() === token.toLowerCase()).sort((x, y) => (y.liquidity?.usd || 0) - (x.liquidity?.usd || 0))[0];
+    return { kind: 'token', address: token.toLowerCase(), symbol: best?.baseToken?.symbol || token.slice(0, 6), name: best?.baseToken?.name || 'Robinhood Chain token', logo: best?.info?.imageUrl || '', usd: best ? Number(best.priceUsd) : null, ch: best?.priceChange?.h24 };
+  }
+  const marketCard = m => {
+    const href = `/trade?${m.kind === 'stock' ? 'market=stocks&' : ''}token=${m.address}`;
+    const logo = m.logo ? `<img src="${esc(m.logo)}" alt="" width="36" height="36" onerror="this.replaceWith(Object.assign(document.createElement('i'),{textContent:'${esc(m.symbol[0])}'}))">` : `<i>${esc(m.symbol[0])}</i>`;
+    return `<div class="mcard"><div class="mc-h">${logo}<div><b>$${esc(m.symbol)}</b><span>${esc(m.name)}</span></div><div class="mc-p"><b>${fmtPx(m.usd)}</b>${m.ch != null ? `<span class="${m.ch >= 0 ? 'sc-low' : 'sc-very-high'}">${pct(m.ch)} 24h</span>` : ''}</div></div>`
+      + `<div class="mc-a"><a class="mc-buy" href="${href}">Buy</a><a class="mc-sell" href="${href}">Sell</a>${m.kind === 'token' ? `<button type="button" data-scan="${esc(m.address)}">Scan</button>` : m.kind === 'zyro' ? '<a href="/chart">Chart</a>' : ''}</div></div>`;
+  };
+
   async function ask(msg) {
     msg = msg.trim(); if (!msg) return;
     say('you', esc(msg)); busy(true);
@@ -199,7 +231,10 @@
     if (a.reply) say('bot', esc(a.reply));
     if (a.action === 'scan' && a.token) {
       const d = await scan(a.token, { scroll: false });
-      if (d && !d.error) say('bot', `<b class="sc-${d.level}">${d.score}/100 ${esc(d.verdict)}</b> for $${esc(d.token.symbol)}. Liquidity ${usd(d.market.liquidity)}, ${d.checks.filter(k => k.points).length} warnings. Full report is above.`);
+      if (d && !d.error) {
+        say('bot', `<b class="sc-${d.level}">${d.score}/100 ${esc(d.verdict)}</b> for $${esc(d.token.symbol)}. Liquidity ${usd(d.market.liquidity)}, ${d.checks.filter(k => k.points).length} warnings. Full report is above.`);
+        say('sys', `<a class="con-go" href="/trade?token=${esc(a.token)}">Trade $${esc(d.token.symbol)} with take profit and stop loss</a>`);
+      }
       else if (d && d.error) say('bot', esc(d.error));
     } else if (a.action === 'trending') {
       const t = trendData.length ? trendData : await loadTrending();
@@ -210,8 +245,12 @@
         box.innerHTML = t.slice(0, 6).map(x => `<button type="button" class="row" data-scan="${esc(x.address)}"><b>$${esc(x.symbol)}</b><s>Liq ${usd(x.liquidity)}</s><span class="${x.change24h > 0 ? 'sc-low' : 'sc-very-high'}">${pct(x.change24h)}</span></button>`).join('');
         say('sys', 'Tap a token to scan it.');
       }
+    } else if (a.action === 'trade' || a.action === 'price') {
+      const m = await resolveMarket(a.token, a.symbol);
+      if (!m) say('bot', a.symbol ? `I could not find $${esc(a.symbol)} on Robinhood Chain. Paste its contract address and I will look it up.` : 'Paste the token contract address and I will look it up.');
+      else say('rows', marketCard(m));
     } else if (a.action === 'help') {
-      say('sys', 'Try: <code>scan 0x…</code>, <code>trending</code>, or ask how the score works.');
+      say('sys', 'Try: <code>scan 0x…</code>, <code>trending</code>, <code>buy NVDA</code>, <code>price ZYRO</code>, or ask how the score works.');
     }
     busy(false);
   }

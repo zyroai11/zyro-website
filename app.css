@@ -132,3 +132,21 @@
   .app-main{padding:28px 0 120px}
 }
 @media(prefers-reduced-motion:reduce){.ring .fg{transition:none}.rep.loading .rep-empty h2::after{animation:none}}
+/* agent: live market card and trade link */
+.con-log .con-go{display:inline-block;color:#06102A;background:var(--volt);font:700 14px var(--body);padding:8px 14px;border-radius:10px;text-decoration:none}
+.con-log .mcard{border:1px solid rgba(191,217,255,.16);border-radius:14px;padding:14px;background:rgba(47,123,255,.07);display:grid;gap:12px;font-family:var(--body)}
+.mc-h{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.mc-h img,.mc-h i{width:36px;height:36px;border-radius:50%;background:#fff;object-fit:cover;display:grid;place-items:center;font:800 16px var(--display);font-style:normal;color:#2F7BFF}
+.mc-h b{display:block;color:#fff;font:800 17px var(--display)}
+.mc-h span{display:block;color:#8FA5D1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-p{text-align:right} .mc-p b{font:600 17px var(--mono)} .mc-p span{font:500 13px var(--mono)}
+.mc-a{display:flex;gap:8px;flex-wrap:wrap}
+.mc-a a,.mc-a button{flex:1;min-width:80px;text-align:center;text-decoration:none;font:700 14px var(--body);padding:9px 12px;border-radius:10px;border:1px solid rgba(191,217,255,.18);background:transparent;color:#DCE8FF;cursor:pointer}
+.mc-a .mc-buy{background:#3DDC97;border-color:#3DDC97;color:#06102A}
+.mc-a .mc-sell{background:rgba(255,107,112,.14);border-color:rgba(255,107,112,.4);color:#FF9FA2}
+.mc-a a:hover,.mc-a button:hover{filter:brightness(1.08)}
+.con-log>*{min-width:0;max-width:100%}
+.con-log .mcard .mc-h{display:grid;grid-template-columns:auto minmax(0,1fr) auto}
+.con-log .mcard .mc-h>div{min-width:0;display:block}
+.con-log .mcard .mc-h b,.con-log .mcard .mc-h span{display:block}
+.con-log .mcard .mc-a{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr))}
