@@ -128,3 +128,7 @@
 .at-fine{overflow-wrap:anywhere}
 .at-grid>*,.at-col>*,.at-card{min-width:0}
 @media (max-width:900px){.at-grid{display:flex;flex-direction:column}.at-grid>.at-col>*{width:100%;max-width:100%}.at-chart .at-chartbox{width:100%}}
+.at-sellrow{display:grid;grid-template-columns:auto repeat(4,minmax(0,1fr));gap:8px;align-items:center;width:100%}
+.at-sellrow>span{font:600 14px var(--body);color:var(--mute);padding-right:4px}
+.at-sellrow .at-mini{justify-content:center;text-align:center}
+.at-sellrow .at-mini.max{background:var(--ink,#06102A);color:#fff;border-color:transparent}
