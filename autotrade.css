@@ -148,3 +148,10 @@
 .at-hold small{display:block;font:500 13px var(--mono);color:var(--mute)}
 .btn.at-sellbtn{background:#FF6B70;color:#fff;border:0}
 .btn.at-sellbtn:disabled{opacity:.55}
+.at-mk{grid-template-columns:repeat(3,minmax(0,1fr))}
+.at-lev{display:grid;gap:8px}
+.at-lev b{font:700 16px var(--mono);color:var(--ink,#06102A)}
+.at-lev input[type=range]{width:100%;accent-color:#2F7BFF;padding:0;border:0;background:none}
+.btn.at-longbtn{background:#3DDC97;color:#06102A;border:0}
+.btn.at-longbtn:disabled,.btn.at-sellbtn:disabled{opacity:.6;cursor:not-allowed}
+.at-soonpill{font:600 13px var(--body);padding:5px 11px;border-radius:99px;background:var(--volt,#FFD23F);color:#06102A}

@@ -228,10 +228,10 @@ if ($('mhead')) {
     if (!perps) {
       $('recvUnit').textContent = m.t;
       $('zc').textContent = `Zyro check: the ${m.t} Stock Token follows the price of ${m.n}. It does not give you shares or voting rights.`;
-      $('go').disabled = false; $('go').textContent = `Trade ${m.t} on Zyro`;
+      $('go').disabled = false; $('go').textContent = `Trade ${m.t} on Zyro`; delete $('go').dataset.side;
       $('go').onclick = () => { location.href = '/autotrade?market=stocks&token=' + m.a; };
     } else {
-      $('go').disabled = true; $('go').textContent = 'Perps open soon'; $('go').onclick = null;
+      $('go').disabled = true; $('go').textContent = `${sideS === 'long' ? 'Long' : 'Short'} ${m.t} · opens soon`; $('go').onclick = null; $('go').dataset.side = sideS;
       const lev = +$('lev').value;
       $('levv').textContent = lev + 'x';
       $('pos').textContent = '$' + (amt * lev).toLocaleString('en-US', { maximumFractionDigits: 2 });

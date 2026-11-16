@@ -309,3 +309,5 @@ footer nav a:hover{color:#fff}
 .soon.live{background:#3DDC97;color:#06102A}
 .go:enabled{opacity:1;cursor:pointer}
 .go:enabled:hover{filter:brightness(1.05)}
+.go[data-side="long"]{background:#3DDC97;color:#06102A}
+.go[data-side="short"]{background:#FF6B70;color:#fff}
