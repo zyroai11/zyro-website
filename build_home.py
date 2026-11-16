@@ -35,7 +35,7 @@ hero2 = f'''<section class="hx" id="hero">
       <div><dt>$ZYRO price</dt><dd id="sPrice">—</dd></div>
       <div><dt>Market cap</dt><dd id="sMcap">—</dd></div>
       <div><dt>Trades on Pons</dt><dd id="sTrades">—</dd></div>
-      <div><dt>Roadmap</dt><dd>3 of 5 phases live</dd></div>
+      <div><dt>Roadmap</dt><dd>4 of 6 phases live</dd></div>
     </dl>
   </div>
 </section>'''

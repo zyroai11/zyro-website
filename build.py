@@ -179,7 +179,7 @@ agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chai
         <li>{CHECK}<div><b>Range alerts</b><span>A message when your position moves out of range.</span></div></li>
         <li>{CHECK}<div><b>Fees at a glance</b><span>What each position has earned so far.</span></div></li>
       </ul>
-      <p class="note note-dark" style="margin-top:22px">Building next: phase 4.</p>
+      <p class="note note-dark" style="margin-top:22px">Planned: phase 6 on the roadmap.</p>
     </div>
     <div class="dark-card">{pool.replace('class="vis pool"','class="pool"')}</div>
   </div>
@@ -290,7 +290,7 @@ trade_page=head("Zyro Trade: stocks and perps on Robinhood Chain","Trade Stock T
       <details open><summary>What is a Stock Token?</summary><p>A token issued by Robinhood Assets (Jersey) Limited that tracks the price of a US stock. It is a debt security, not the share itself, so it carries no voting rights.</p></details>
       <details><summary>What do I use as margin for perps?</summary><p>USDG, the dollar stablecoin used by Lighter on Robinhood Chain.</p></details>
       <details><summary>What is liquidation?</summary><p>If the price moves against a leveraged position far enough, the position is closed and the margin is lost. Higher leverage means a smaller move does it.</p></details>
-      <details><summary>When does trading open?</summary><p>It is planned for phase 5 on the roadmap, after the scanner bot and holder access.</p></details>
+      <details><summary>Can I trade on the website?</summary><p>Yes. Open <a href="/autotrade">Trade</a> to buy $ZYRO, any Robinhood Chain token or a Stock Token with an automatic take profit and stop loss. Perps through Lighter are being built now.</p></details>
     </div>
   </div>
 </section>
