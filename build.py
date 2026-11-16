@@ -73,7 +73,6 @@ def header(home):
     </a>
     <ul id="menu">
       <li><a href="/app" data-nav="app">Web app</a></li>
-      <li><a href="/autotrade" data-nav="autotrade">Auto-trade</a></li>
       <li><a href="/agent" data-nav="agent">Agent</a></li>
       <li><a href="/trade" data-nav="trade">Trade</a></li>
       <li><a href="{h}#install">Install</a></li>
@@ -92,7 +91,7 @@ def header(home):
 
 def footer(home):
     h = '' if home else '/'
-    items=[('home','/' if not home else '#top','Home'),('agent','/agent','Agent'),('autotrade','/autotrade','Trade'),('app','/app','Scan'),('token','/chart','Chart')]
+    items=[('home','/' if not home else '#top','Home'),('agent','/agent','Agent'),('trade','/trade','Trade'),('app','/app','Scan'),('token','/chart','Chart')]
     bnav='<nav class="bnav" aria-label="Pages">'+''.join(f'<a href="{href}" data-nav="{k}">{I}{ICON[k]}</svg><span>{t}</span></a>' for k,href,t in items)+'</nav>'
     return f'''<footer>
   <div class="wrap">
@@ -258,7 +257,7 @@ trade_page=head("Zyro Trade: stocks and perps on Robinhood Chain","Trade Stock T
     <a class="crumb" href="/">← Back to home</a>
     <h1>Trade stocks and perps on Robinhood Chain</h1>
     <p class="lead">Tokenized US stocks through Uniswap and leveraged perps through Lighter, from one screen. Every order gets a Zyro check first.</p>
-    <div class="hero-cta" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px"><a class="btn btn-volt" href="/autotrade?market=stocks">Trade stocks now</a><span class="soon" style="margin:0;align-self:center">Perps coming soon</span></div>
+    <div class="hero-cta" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px"><a class="btn btn-volt" href="/trade?market=stocks">Trade stocks now</a><span class="soon" style="margin:0;align-self:center">Perps coming soon</span></div>
   </div>
 </section>
 
@@ -290,7 +289,7 @@ trade_page=head("Zyro Trade: stocks and perps on Robinhood Chain","Trade Stock T
       <details open><summary>What is a Stock Token?</summary><p>A token issued by Robinhood Assets (Jersey) Limited that tracks the price of a US stock. It is a debt security, not the share itself, so it carries no voting rights.</p></details>
       <details><summary>What do I use as margin for perps?</summary><p>USDG, the dollar stablecoin used by Lighter on Robinhood Chain.</p></details>
       <details><summary>What is liquidation?</summary><p>If the price moves against a leveraged position far enough, the position is closed and the margin is lost. Higher leverage means a smaller move does it.</p></details>
-      <details><summary>Can I trade on the website?</summary><p>Yes. Open <a href="/autotrade">Trade</a> to buy $ZYRO, any Robinhood Chain token or a Stock Token with an automatic take profit and stop loss. Perps through Lighter are being built now.</p></details>
+      <details><summary>Can I trade on the website?</summary><p>Yes. Open <a href="/trade">Trade</a> to buy $ZYRO, any Robinhood Chain token or a Stock Token with an automatic take profit and stop loss. Perps through Lighter are being built now.</p></details>
     </div>
   </div>
 </section>

@@ -3,9 +3,14 @@ at_body = '''
 <main id="top" class="zapp">
 <section class="app-hero at-hero">
   <div class="wrap">
-    <p class="at-kicker">Beta</p>
-    <h1>Trade tokens and stocks on Robinhood Chain</h1>
-    <p class="lead">Buy $ZYRO, any Robinhood Chain token or a Stock Token from a wallet Zyro makes for you. Set a take profit and a stop loss, and Zyro sells for you when either is hit, even while you sleep.</p>
+    <div class="at-hero-row">
+      <div>
+        <p class="at-kicker">Beta</p>
+        <h1>Trade on Robinhood Chain</h1>
+        <p class="lead">Tokens, $ZYRO and Stock Tokens from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you 24/7.</p>
+      </div>
+      <div class="at-chips" aria-label="What is live"><span><i></i>Tokens live</span><span><i></i>Stocks live</span><span>Perps soon</span></div>
+    </div>
   </div>
 </section>
 <section class="at-main">
@@ -16,8 +21,8 @@ at_body = '''
 </section>
 </main>
 '''
-at_page = head("Zyro auto-trade: take profit and stop loss on Robinhood Chain",
-               "Buy Robinhood Chain tokens from your own Zyro wallet and let Zyro sell at your take profit or stop loss, around the clock.",
-               "/autotrade").replace('<link rel="stylesheet" href="/pro.css">', '<link rel="stylesheet" href="/pro.css">\n<link rel="stylesheet" href="/app.css">\n<link rel="stylesheet" href="/autotrade.css">') \
-    + '\n<body data-page="autotrade">\n\n' + header(False) + '\n' + at_body + footer(False).replace('<script src="/nav.js"></script>', '<script src="/nav.js"></script>\n<script type="module" src="/at/autotrade.js"></script>')
-open("autotrade.html", "w").write(at_page)
+at_page = head("Zyro Trade: tokens and stocks on Robinhood Chain",
+               "Trade $ZYRO, Robinhood Chain tokens and Stock Tokens from your own Zyro wallet, with take profit and stop loss that run around the clock.",
+               "/trade").replace('<link rel="stylesheet" href="/pro.css">', '<link rel="stylesheet" href="/pro.css">\n<link rel="stylesheet" href="/app.css">\n<link rel="stylesheet" href="/autotrade.css">\n<link rel="stylesheet" href="/trade-dark.css">') \
+    + '\n<body data-page="trade">\n\n' + header(False) + '\n' + at_body + footer(False).replace('<script src="/nav.js"></script>', '<script src="/nav.js"></script>\n<script type="module" src="/at/autotrade.js"></script>')
+open("trade.html", "w").write(at_page)

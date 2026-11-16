@@ -25,5 +25,12 @@
       "source": "/scan/:address",
       "destination": "/api/share?address=:address"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/autotrade",
+      "destination": "/trade",
+      "permanent": true
+    }
   ]
 }
