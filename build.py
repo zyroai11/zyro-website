@@ -214,7 +214,7 @@ TICKERS='''<div class="tape" aria-label="Live market prices">
 ZL2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 7v5c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V7l-8-4Z"/></svg>'
 TERMINAL=f'''<section class="band term-sec" id="preview">
   <div class="wrap wide">
-    <div class="term-title"><h2>Trade terminal</h2><span class="soon">Preview</span></div>
+    <div class="term-title"><h2>Trade terminal</h2><span class="soon live" id="tsoon">Live now</span></div>
     <div class="tgrid">
       <aside class="mlist">
         <div class="tabs" role="tablist" aria-label="Market type">
@@ -246,7 +246,7 @@ TERMINAL=f'''<section class="band term-sec" id="preview">
         </div>
       </div>
     </div>
-    <p class="note tnote">Charts show the underlying market, powered by TradingView. Orders are not live yet.</p>
+    <p class="note tnote">Charts show the underlying market, powered by TradingView. Stock trading is live on the Zyro trade page. Perps are coming next.</p>
   </div>
 </section>'''
 

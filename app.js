@@ -166,14 +166,14 @@ if ($('arc')) {
 if ($('mhead')) {
   const MKT = {
     stocks: [
-      { t: 'NVDA', n: 'Nvidia', c: '#76B900', tv: 'NASDAQ:NVDA' },
-      { t: 'AAPL', n: 'Apple', c: '#8E8E93', tv: 'NASDAQ:AAPL' },
-      { t: 'TSLA', n: 'Tesla', c: '#E31937', tv: 'NASDAQ:TSLA' },
-      { t: 'GOOGL', n: 'Alphabet', c: '#4285F4', tv: 'NASDAQ:GOOGL' },
-      { t: 'AMZN', n: 'Amazon', c: '#FF9900', tv: 'NASDAQ:AMZN' },
-      { t: 'MSFT', n: 'Microsoft', c: '#00A4EF', tv: 'NASDAQ:MSFT' },
-      { t: 'META', n: 'Meta', c: '#0866FF', tv: 'NASDAQ:META' },
-      { t: 'SPY', n: 'S&P 500 ETF', c: '#3D5A80', tv: 'AMEX:SPY' }
+      { t: 'NVDA', a: '0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec', n: 'Nvidia', c: '#76B900', tv: 'NASDAQ:NVDA' },
+      { t: 'AAPL', a: '0xaf3d76f1834a1d425780943c99ea8a608f8a93f9', n: 'Apple', c: '#8E8E93', tv: 'NASDAQ:AAPL' },
+      { t: 'TSLA', a: '0x322f0929c4625ed5bad873c95208d54e1c003b2d', n: 'Tesla', c: '#E31937', tv: 'NASDAQ:TSLA' },
+      { t: 'GOOGL', a: '0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3', n: 'Alphabet', c: '#4285F4', tv: 'NASDAQ:GOOGL' },
+      { t: 'AMZN', a: '0x12f190a9f9d7d37a250758b26824b97ce941bf54', n: 'Amazon', c: '#FF9900', tv: 'NASDAQ:AMZN' },
+      { t: 'MSFT', a: '0xe93237c50d904957cf27e7b1133b510c669c2e74', n: 'Microsoft', c: '#00A4EF', tv: 'NASDAQ:MSFT' },
+      { t: 'META', a: '0xc0d6457c16cc70d6790dd43521c899c87ce02f35', n: 'Meta', c: '#0866FF', tv: 'NASDAQ:META' },
+      { t: 'SPY', a: '0x117cc2133c37b721f49de2a7a74833232b3b4c0c', n: 'S&P 500 ETF', c: '#3D5A80', tv: 'AMEX:SPY' }
     ],
     perps: [
       { t: 'TSLA-PERP', n: 'Tesla perp', c: '#E31937', tv: 'NASDAQ:TSLA' },
@@ -223,11 +223,15 @@ if ($('mhead')) {
     $('mhead').innerHTML = `${badge(m)}<div><b>${pairName(m)}</b><span>${m.n}</span></div><em class="venue">${venue}</em>`;
     const amt = Math.max(0, parseFloat($('amt').value) || 0);
     const perps = tab === 'perps';
+    const pill = $('tsoon'); if (pill) { pill.textContent = perps ? 'Coming soon' : 'Live now'; pill.classList.toggle('live', !perps); }
     $('side').hidden = !perps; $('levRow').hidden = !perps; $('recvRow').hidden = perps;
     if (!perps) {
       $('recvUnit').textContent = m.t;
       $('zc').textContent = `Zyro check: the ${m.t} Stock Token follows the price of ${m.n}. It does not give you shares or voting rights.`;
+      $('go').disabled = false; $('go').textContent = `Trade ${m.t} on Zyro`;
+      $('go').onclick = () => { location.href = '/autotrade?market=stocks&token=' + m.a; };
     } else {
+      $('go').disabled = true; $('go').textContent = 'Perps open soon'; $('go').onclick = null;
       const lev = +$('lev').value;
       $('levv').textContent = lev + 'x';
       $('pos').textContent = '$' + (amt * lev).toLocaleString('en-US', { maximumFractionDigits: 2 });
