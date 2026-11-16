@@ -114,17 +114,17 @@ home=head("Zyro: the AI agent for Robinhood Chain","Zyro is the AI agent for Rob
 open("index.html","w").write(home)
 
 # ---------- agent ----------
-agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chain","One AI agent for Robinhood Chain: a token scanner on Telegram, a trading agent in your terminal, and LP management on the web.","/agent")+'\n<body data-page="agent">\n\n'+header(False)+f'''
+agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chain","One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.","/agent")+'\n<body data-page="agent">\n\n'+header(False)+f'''
 
 <main id="top">
 <section class="page-hero">
   <div class="wrap">
     <a class="crumb" href="/">← Back to home</a>
     <h1>One agent for Robinhood Chain</h1>
-    <p class="lead">Zyro reads a token before you touch it. Then it can trade that token for you from the terminal, or provide liquidity for it on the web.</p>
+    <p class="lead">Zyro reads a token before you touch it. Then it trades it for you, on the web with an automatic take profit and stop loss, or from your terminal with your own rules.</p>
     <div class="cta">
       <a class="btn btn-volt" data-link="telegram" href="#">Open the bot on Telegram</a>
-      <a class="btn btn-line" href="/trade">See stocks and perps</a>
+      <a class="btn btn-line" href="/trade">Trade on the web</a>
     </div>
   </div>
 </section>
@@ -154,7 +154,7 @@ agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chai
 <section class="band how">
   <div class="wrap pair flip">
     <div>
-      <h2>Trade: an agent in your terminal</h2>
+      <h2>Trade from your terminal</h2>
       <p class="lede">Tell it what to buy and the limits it must respect. It scans first, checks your rules, and only then places the trade.</p>
       <ul class="rules">
         <li>{CHECK}<div><b>Minimum score</b><span>Skip any token that scores below the number you set.</span></div></li>
@@ -165,6 +165,29 @@ agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chai
       <p class="note note-dark" style="margin-top:22px">Live now. Install it with <code style="font:500 .9em var(--mono);color:var(--blue-deep);white-space:nowrap">npm install -g zyro-agent</code>, then run <code style="font:500 .9em var(--mono);color:var(--blue-deep);white-space:nowrap">zyro init</code>.</p>
     </div>
     <div class="dark-card">{term.replace('class="vis term"','class="term big"')}</div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap pair">
+    <div>
+      <h2>Trade on the web, with exits that run themselves</h2>
+      <p class="lede">Buy $ZYRO, any Robinhood Chain token or a Stock Token like NVDA from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you around the clock.</p>
+      <ul class="rules">
+        <li>{CHECK}<div><b>Your own wallet</b><span>Created and secured by Privy. Only you can export the key.</span></div></li>
+        <li>{CHECK}<div><b>Auto take profit and stop loss</b><span>Checked every minute, 24/7, even when your phone is off.</span></div></li>
+        <li>{CHECK}<div><b>Sell 25%, 50%, 75% or max</b><span>Take some off the table in one tap.</span></div></li>
+        <li>{CHECK}<div><b>Stock Tokens</b><span>Over 200 stocks and ETFs through Uniswap, where your country allows them.</span></div></li>
+      </ul>
+      <p class="note note-dark" style="margin-top:22px">Live now. <a href="/trade" style="color:var(--blue-deep);font-weight:600">Open the trade page</a></p>
+    </div>
+    <div class="dark-card"><div class="wt">
+      <div class="wt-bs"><b>Buy</b><span>Sell</span></div>
+      <div class="wt-tk"><i>N</i><div><strong>$NVDA</strong><small>NVIDIA Stock Token</small></div></div>
+      <div class="wt-f"><span>ETH to spend</span><b>0.01</b></div>
+      <div class="wt-2"><div class="wt-f"><span>Take profit</span><b class="up">+50%</b></div><div class="wt-f"><span>Stop loss</span><b class="dn">-20%</b></div></div>
+      <div class="wt-go">Buy now</div>
+    </div></div>
   </div>
 </section>
 

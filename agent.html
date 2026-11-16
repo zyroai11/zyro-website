@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zyro Agent: scan, trade and provide liquidity on Robinhood Chain</title>
-<meta name="description" content="One AI agent for Robinhood Chain: a token scanner on Telegram, a trading agent in your terminal, and LP management on the web.">
+<meta name="description" content="One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.">
 <meta name="theme-color" content="#06102A">
 <link rel="canonical" href="https://zyro-ai.xyz/agent">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zyro">
 <meta property="og:url" content="https://zyro-ai.xyz/agent">
 <meta property="og:title" content="Zyro Agent: scan, trade and provide liquidity on Robinhood Chain">
-<meta property="og:description" content="One AI agent for Robinhood Chain: a token scanner on Telegram, a trading agent in your terminal, and LP management on the web.">
+<meta property="og:description" content="One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.">
 <meta property="og:image" content="https://zyro-ai.xyz/api/og">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ZyroxRH">
 <meta name="twitter:title" content="Zyro Agent: scan, trade and provide liquidity on Robinhood Chain">
-<meta name="twitter:description" content="One AI agent for Robinhood Chain: a token scanner on Telegram, a trading agent in your terminal, and LP management on the web.">
+<meta name="twitter:description" content="One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.">
 <meta name="twitter:image" content="https://zyro-ai.xyz/api/og">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
@@ -64,10 +64,10 @@
   <div class="wrap">
     <a class="crumb" href="/">← Back to home</a>
     <h1>One agent for Robinhood Chain</h1>
-    <p class="lead">Zyro reads a token before you touch it. Then it can trade that token for you from the terminal, or provide liquidity for it on the web.</p>
+    <p class="lead">Zyro reads a token before you touch it. Then it trades it for you, on the web with an automatic take profit and stop loss, or from your terminal with your own rules.</p>
     <div class="cta">
       <a class="btn btn-volt" data-link="telegram" href="#">Open the bot on Telegram</a>
-      <a class="btn btn-line" href="/trade">See stocks and perps</a>
+      <a class="btn btn-line" href="/trade">Trade on the web</a>
     </div>
   </div>
 </section>
@@ -86,7 +86,7 @@
       </article>
       <article class="tool">
         <div class="tool-top"><h3>Trade</h3><span class="tag live">Live</span></div>
-        <p>An agent you run in your terminal. It scans, checks your rules, then places the trade with the limits you set. Install it with <code style="font:500 .9em var(--mono);color:var(--volt);white-space:nowrap">npm install -g zyro-agent</code>.</p>
+        <p>On the web with automatic take profit and stop loss at <a href="/trade" style="color:var(--sky)">zyro-ai.xyz/trade</a>, or from your terminal with your own rules: <code style="font:500 .9em var(--mono);color:var(--volt);white-space:nowrap">npm install -g zyro-agent</code>.</p>
         <div class="vis term" aria-label="Example terminal session">
           <div class="term-bar"><i></i><i></i><i></i><span>zyro-agent</span></div>
 <pre><span class="p">$</span> zyro trade 0x7a3f…c21e --max 0.2eth
@@ -99,7 +99,7 @@ stop loss set at -15% <span class="g">✓</span>
         </div>
       </article>
       <article class="tool">
-        <div class="tool-top"><h3>Provide liquidity</h3><span class="tag">Next</span></div>
+        <div class="tool-top"><h3>Provide liquidity</h3><span class="tag">Planned</span></div>
         <p>Add and manage LP positions on the Zyro website, with the pool's safety score shown before you commit.</p>
         <div class="vis pool" aria-hidden="true">
           <div class="pool-head"><strong>WETH / HOODFROG</strong><b>90</b></div>
@@ -161,7 +161,7 @@ stop loss set at -15% <span class="g">✓</span>
 <section class="band how">
   <div class="wrap pair flip">
     <div>
-      <h2>Trade: an agent in your terminal</h2>
+      <h2>Trade from your terminal</h2>
       <p class="lede">Tell it what to buy and the limits it must respect. It scans first, checks your rules, and only then places the trade.</p>
       <ul class="rules">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><div><b>Minimum score</b><span>Skip any token that scores below the number you set.</span></div></li>
@@ -181,6 +181,29 @@ bought with 0.2 ETH <span class="g">✓</span>
 stop loss set at -15% <span class="g">✓</span>
 <span class="p">$</span> <span class="cur"></span></pre>
         </div></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap pair">
+    <div>
+      <h2>Trade on the web, with exits that run themselves</h2>
+      <p class="lede">Buy $ZYRO, any Robinhood Chain token or a Stock Token like NVDA from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you around the clock.</p>
+      <ul class="rules">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><div><b>Your own wallet</b><span>Created and secured by Privy. Only you can export the key.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><div><b>Auto take profit and stop loss</b><span>Checked every minute, 24/7, even when your phone is off.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><div><b>Sell 25%, 50%, 75% or max</b><span>Take some off the table in one tap.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><div><b>Stock Tokens</b><span>Over 200 stocks and ETFs through Uniswap, where your country allows them.</span></div></li>
+      </ul>
+      <p class="note note-dark" style="margin-top:22px">Live now. <a href="/trade" style="color:var(--blue-deep);font-weight:600">Open the trade page</a></p>
+    </div>
+    <div class="dark-card"><div class="wt">
+      <div class="wt-bs"><b>Buy</b><span>Sell</span></div>
+      <div class="wt-tk"><i>N</i><div><strong>$NVDA</strong><small>NVIDIA Stock Token</small></div></div>
+      <div class="wt-f"><span>ETH to spend</span><b>0.01</b></div>
+      <div class="wt-2"><div class="wt-f"><span>Take profit</span><b class="up">+50%</b></div><div class="wt-f"><span>Stop loss</span><b class="dn">-20%</b></div></div>
+      <div class="wt-go">Buy now</div>
+    </div></div>
   </div>
 </section>
 

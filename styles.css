@@ -311,3 +311,15 @@ footer nav a:hover{color:#fff}
 .go:enabled:hover{filter:brightness(1.05)}
 .go[data-side="long"]{background:#3DDC97;color:#06102A}
 .go[data-side="short"]{background:#FF6B70;color:#fff}
+/* agent page: web trade mock */
+.wt{display:grid;gap:12px;padding:6px}
+.wt-bs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:rgba(255,255,255,.06);border-radius:12px;padding:4px}
+.wt-bs b,.wt-bs span{text-align:center;padding:9px 0;border-radius:9px;font:700 15px var(--body)}
+.wt-bs b{background:#3DDC97;color:#06102A} .wt-bs span{color:#8FA2CC}
+.wt-tk{display:flex;align-items:center;gap:12px;background:rgba(47,123,255,.14);border:1px solid rgba(47,123,255,.3);border-radius:14px;padding:12px}
+.wt-tk i{width:36px;height:36px;border-radius:50%;background:#fff;color:#2F7BFF;display:grid;place-items:center;font:800 17px var(--display);font-style:normal}
+.wt-tk strong{display:block;font:800 18px var(--display)} .wt-tk small{color:#9FB0D6;font-size:13px}
+.wt-f{background:rgba(255,255,255,.05);border:1px solid rgba(140,170,255,.14);border-radius:12px;padding:10px 14px;display:grid;gap:2px}
+.wt-f span{font-size:13px;color:#8FA2CC} .wt-f b{font:600 20px var(--mono)} .wt-f b.up{color:#3DDC97} .wt-f b.dn{color:#FF6B70}
+.wt-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wt-go{background:var(--volt);color:var(--ink);text-align:center;font:700 16px var(--body);padding:13px;border-radius:12px}
