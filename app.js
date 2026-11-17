@@ -2,8 +2,8 @@
 const CONFIG = {
   telegram: "https://t.me/ZyroAiAgent_bot",
   x: "https://x.com/zyroxrh",
-  contract: "0x50e05d1ee5e545540190a1136667af06a496f6d2",   // $ZYRO on Robinhood Chain
-  pons: "https://ponsfamily.com/launchpad/0x50e05d1ee5e545540190a1136667af06a496f6d2"   // $ZYRO on Pons
+  contract: "",   // $ZYRO launches soon on Stonk.fun (Solana): add the mint here at launch
+  pons: ""
 };
 
 const $ = id => document.getElementById(id);

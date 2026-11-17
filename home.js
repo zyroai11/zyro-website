@@ -1,4 +1,4 @@
-/* Home page: copy buttons, install tabs, live $ZYRO strip and sparkline */
+/* Home page: copy buttons and install tabs */
 (() => {
   const $ = id => document.getElementById(id);
 
@@ -41,15 +41,5 @@
     g.fillStyle = gr; g.fill();
   }
 
-  fetch('/api/zyro-chart').then(r => r.json()).then(d => {
-    const s = d && d.stats; if (!s) return;
-    const ch = s.change24h == null ? '' : (s.change24h > 0 ? '+' : '') + s.change24h.toFixed(1) + '%';
-    const cls = s.change24h < 0 ? 'down' : '';
-    if ($('sPrice')) $('sPrice').innerHTML = usd(s.priceUsd) + (ch ? `<em class="${cls}">${ch}</em>` : '');
-    if ($('sMcap')) $('sMcap').textContent = usd(s.mcapUsd);
-    if ($('sTrades')) $('sTrades').textContent = s.trades.toLocaleString('en-US');
-    if ($('spPx')) { $('spPx').textContent = usd(s.priceUsd); $('spCh').textContent = ch; $('spCh').className = cls; }
-    spark(d.trades || [], d.ethUsd || 0);
-    let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => spark(d.trades || [], d.ethUsd || 0), 150); });
-  }).catch(() => {});
+
 })();

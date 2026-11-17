@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Zyro web app: scan any token on Robinhood Chain</title>
-<meta name="description" content="Paste a contract and get a 0 to 100 safety score with every reason shown, see what is trending on Robinhood Chain, and ask the Zyro agent.">
+<title>Zyro web app: scan any Solana token</title>
+<meta name="description" content="Paste a Solana token address and get a 0 to 100 safety score with every reason shown, see what is trending on Solana, and ask the Zyro agent.">
 <meta name="theme-color" content="#06102A">
 <link rel="canonical" href="https://zyro-ai.xyz/app">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zyro">
 <meta property="og:url" content="https://zyro-ai.xyz/app">
-<meta property="og:title" content="Zyro web app: scan any token on Robinhood Chain">
-<meta property="og:description" content="Paste a contract and get a 0 to 100 safety score with every reason shown, see what is trending on Robinhood Chain, and ask the Zyro agent.">
+<meta property="og:title" content="Zyro web app: scan any Solana token">
+<meta property="og:description" content="Paste a Solana token address and get a 0 to 100 safety score with every reason shown, see what is trending on Solana, and ask the Zyro agent.">
 <meta property="og:image" content="https://zyro-ai.xyz/api/og">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ZyroxRH">
-<meta name="twitter:title" content="Zyro web app: scan any token on Robinhood Chain">
-<meta name="twitter:description" content="Paste a contract and get a 0 to 100 safety score with every reason shown, see what is trending on Robinhood Chain, and ask the Zyro agent.">
+<meta name="twitter:title" content="Zyro web app: scan any Solana token">
+<meta name="twitter:description" content="Paste a Solana token address and get a 0 to 100 safety score with every reason shown, see what is trending on Solana, and ask the Zyro agent.">
 <meta name="twitter:image" content="https://zyro-ai.xyz/api/og">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
@@ -48,7 +48,7 @@
       <li><a href="/trade" data-nav="trade">Trade</a></li>
       <li><a href="/#install">Install</a></li>
       <li><a href="/#roadmap">Roadmap</a></li>
-      <li><a href="/chart" data-nav="token">Chart</a></li>
+      <li><a href="/chart" data-nav="token">$ZYRO</a></li>
       <li><a href="/docs" data-nav="docs">Docs</a></li>
       <li class="menu-cta"><a class="btn btn-volt" data-link="telegram" href="#">Open the bot</a></li>
     </ul>
@@ -64,13 +64,13 @@
 <section class="app-hero">
   <div class="wrap">
     <h1>Scan a token before you buy it</h1>
-    <p class="lead">Paste any contract on Robinhood Chain. Zyro reads the pool, the trades and the explorer, then scores it from 0 to 100 with every reason shown.</p>
+    <p class="lead">Paste any Solana token address. Zyro reads the pool, the trades, the mint and freeze authority and the top holders, then scores it from 0 to 100 with every reason shown. Robinhood Chain tokens work too.</p>
     <form class="bigscan" id="appForm" autocomplete="off">
-      <label class="sr" for="appIn">Contract address</label>
-      <input id="appIn" name="token" placeholder="Paste a contract (0x…)" spellcheck="false" inputmode="text">
+      <label class="sr" for="appIn">Token address</label>
+      <input id="appIn" name="token" placeholder="Paste a Solana token address" spellcheck="false" inputmode="text">
       <button type="submit" id="appBtn">Scan token</button>
     </form>
-    <p class="try">Try it with <button type="button" class="tryz" data-addr="0x39dbed3a2bd333467115de45665cc57f813c4571">$PONS</button> or pick a token from the trending list.</p>
+    <p class="try">Try it with <button type="button" class="tryz" data-addr="DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263">$BONK</button> or pick a token from the trending list.</p>
   </div>
 </section>
 
@@ -81,20 +81,20 @@
         <div class="rep-empty">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
           <h2>No token scanned yet</h2>
-          <p>Paste a contract above, tap a trending token, or ask the agent below.</p>
+          <p>Paste a token address above, tap a trending token, or ask the agent below.</p>
         </div>
       </div>
 
       <div class="console" id="console">
         <div class="con-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><b>zyro agent</b><span class="con-st" id="conSt">online</span></div>
         <div class="con-log" id="conLog" aria-live="polite">
-          <p class="sys">Zyro agent on Robinhood Chain. Scan a contract, see what is trending, check a live price or start a trade: try <code>buy NVDA</code> or <code>price ZYRO</code>.</p>
+          <p class="sys">Zyro agent for Solana. Paste a token address to scan it, ask what is trending, or check a live price: try <code>trending</code> or <code>price NVDA</code>.</p>
         </div>
         <div class="con-chips" id="conChips">
-          <button type="button" data-q="What's trending on Robinhood Chain?">What's trending?</button>
-          <button type="button" data-q="Scan 0x39dbed3a2bd333467115de45665cc57f813c4571">Scan $PONS</button>
+          <button type="button" data-q="What's trending on Solana?">What's trending?</button>
+          <button type="button" data-q="Scan DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263">Scan $BONK</button>
           <button type="button" data-q="How is the safety score calculated?">How is the score made?</button>
-          <button type="button" data-q="Buy $ZYRO">Buy $ZYRO</button>
+          <button type="button" data-q="When does $ZYRO launch?">$ZYRO launch</button>
           <button type="button" data-q="Price of NVDA">NVDA price</button>
           <button type="button" data-q="How do I trade with Zyro?">How do I trade?</button>
         </div>
@@ -109,10 +109,11 @@
 
     <aside class="trend" aria-labelledby="trendH">
       <div class="trend-h"><h2 id="trendH">Trending now</h2><button type="button" id="trendRe" aria-label="Refresh trending">Refresh</button></div>
+      <div class="chain-t" role="tablist" aria-label="Chain"><button type="button" role="tab" data-chain="solana" aria-selected="true" class="on">Solana</button><button type="button" role="tab" data-chain="robinhood" aria-selected="false">Robinhood Chain</button></div>
       <ol id="trendList" class="trend-list"><li class="ph">Loading tokens…</li></ol>
       <div class="cli">
         <h3>Trade what you scan</h3>
-        <p>Buy tokens, $ZYRO or Stock Tokens with a take profit and stop loss that Zyro runs 24/7. <a href="/trade">Open the trade page</a>. Prefer your own rules? Run the agent in your terminal.</p>
+        <p>Buy Robinhood Chain tokens or Stock Tokens with a take profit and stop loss that Zyro runs 24/7. <a href="/trade">Open the trade page</a>. Solana trading is coming next.</p>
         <pre><code>npm install -g zyro-agent
 zyro init
 zyro buy 0x… 0.01</code></pre>
@@ -124,11 +125,11 @@ zyro buy 0x… 0.01</code></pre>
 </main>
 <footer>
   <div class="wrap">
-    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built on Robinhood Chain</span></div>
-    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="/#tiers">Holders</a><a href="/#roadmap">Roadmap</a><a href="/#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg>@ZyroxRH</a></nav>
+    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built for Solana</span></div>
+    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="/#roadmap">Roadmap</a><a href="/#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg>@ZyroxRH</a></nav>
   </div>
 </footer>
-<nav class="bnav" aria-label="Pages"><a href="/" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a href="/agent" data-nav="agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/></svg><span>Agent</span></a><a href="/trade" data-nav="trade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Trade</span></a><a href="/app" data-nav="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Scan</span></a><a href="/chart" data-nav="token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/></svg><span>Chart</span></a></nav>
+<nav class="bnav" aria-label="Pages"><a href="/" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a href="/agent" data-nav="agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/></svg><span>Agent</span></a><a href="/trade" data-nav="trade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Trade</span></a><a href="/app" data-nav="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Scan</span></a><a href="/chart" data-nav="token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/></svg><span>$ZYRO</span></a></nav>
 <script src="/app.js"></script>
 <script src="/nav.js"></script>
 <script src="/zapp.js"></script>

@@ -2,9 +2,9 @@
 def row(label, pts, cls="warn"):
     return f'<tr><td>{label}</td><td class="pts {cls}">{pts}</td></tr>'
 
-DOCS_SECTIONS = [("start", "Getting started"), ("commands", "Bot commands"), ("webapp", "Web app"), ("chart", "$ZYRO chart"),
+DOCS_SECTIONS = [("start", "Getting started"), ("commands", "Bot commands"), ("webapp", "Web app"), ("chart", "$ZYRO launch"),
                  ("terminal", "Terminal agent"), ("score", "How the score works"),
-                 ("access", "Free and holder access"), ("safety", "Staying safe"),
+                 ("access", "Access"), ("safety", "Staying safe"),
                  ("data", "Where the data comes from"), ("links", "Official links")]
 toc = '<nav class="toc" id="toc" aria-label="On this page">' + ''.join(f'<a href="#{i}">{t}</a>' for i, t in DOCS_SECTIONS) + '</nav>'
 
@@ -14,11 +14,16 @@ rows = "\n            ".join([
     row("More than 20 buys and zero sells in 24 hours (possible honeypot)", "−30", "bad"),
     row("Sells more than three times buys in 24 hours", "−10"),
     row("Pair is younger than 24 hours", "−15"),
-    row("Contract source is not verified on the explorer", "−15"),
+    row("Robinhood Chain: contract source is not verified on the explorer", "−15"),
     row("FDV is more than 50 times the liquidity", "−10"),
     row("24-hour volume is more than 20 times the liquidity", "−10"),
     row("Fewer than 50 holders", "−10"),
     row("No website or social links listed", "−10"),
+    row("Solana: mint authority still enabled", "−25", "bad"),
+    row("Solana: freeze authority still enabled", "−25", "bad"),
+    row("Solana: top 10 wallets hold over 50% (over 30%: −10)", "−20", "bad"),
+    row("Solana: less than half of the pool locked or burned", "−10"),
+    row("Solana: flagged as rugged by RugCheck", "−60", "bad"),
 ])
 
 body = f'''
@@ -39,7 +44,7 @@ body = f'''
         <h2>Getting started</h2>
         <ol>
           <li>Open <a href="https://t.me/ZyroAiAgent_bot" target="_blank" rel="noopener"><strong>@ZyroAiAgent_bot</strong></a> on Telegram and press <strong>Start</strong>.</li>
-          <li>Copy the contract address of a token on Robinhood Chain. It starts with <code>0x</code> and has 42 characters.</li>
+          <li>Copy the contract address of a token on Robinhood Chain. It starts with <code>0x</code> and has 42 characters. Solana support in the bot is coming; for Solana tokens use the <a href="/app">web app</a>.</li>
           <li>Send <code>/scan</code> followed by the address, for example <code>/scan 0x7a3f…c21e</code>.</li>
           <li>Read the report: the safety score, the market numbers and every warning that lowered the score.</li>
         </ol>
@@ -51,8 +56,7 @@ body = f'''
         <div class="cmds">
           <div><code>/scan</code><p>Safety score and full report for a token. Add the contract address after the command.</p></div>
           <div><code>/trending</code><p>Tokens getting attention on Robinhood Chain right now.</p></div>
-          <div><code>/link</code><p>Link your wallet so Zyro can read your $ZYRO balance. Add your public wallet address after the command.</p></div>
-          <div><code>/me</code><p>Your linked wallet, $ZYRO balance, tier and scans left today.</p></div>
+          <div><code>/me</code><p>Your scans left today.</p></div>
           <div><code>/start</code><p>The welcome message and the list of commands.</p></div>
         </div>
       </section>
@@ -61,25 +65,18 @@ body = f'''
         <h2>Web app</h2>
         <p>The web app at <a href="/app">zyro-ai.xyz/app</a> runs the full scan in your browser. There is no account and nothing to install.</p>
         <ul>
-          <li><strong>Scan</strong>: paste a contract address. You get the score, the market numbers and all eight checks with the points each one took off.</li>
-          <li><strong>Trending</strong>: tap any token in the trending list to scan it.</li>
+          <li><strong>Scan</strong>: paste a Solana token address, or a Robinhood Chain contract. You get the score, the market numbers and every check with the points it took off.</li>
+          <li><strong>Trending</strong>: switch between Solana and Robinhood Chain, then tap any token to scan it.</li>
           <li><strong>Agent</strong>: ask in plain words, for example "what's trending" or "how is the score made", or paste a contract.</li>
           <li><strong>Share</strong>: every report has a share link, such as <code>zyro-ai.xyz/scan/0x…</code>, that shows the score as a preview card.</li>
-          <li><strong>Holder access</strong>: link a wallet that holds 100,000 $ZYRO to unlock AI analysis on every report.</li>
+          <li><strong>AI analysis</strong>: free on every report until $ZYRO launches.</li>
         </ul>
         <p style="margin-top:16px">A token that is still on a launchpad bonding curve has no DEX pool yet, so it cannot be scored until it graduates.</p>
       </section>
 
       <section id="chart">
-        <h2>$ZYRO chart</h2>
-        <p>The chart at <a href="/chart">zyro-ai.xyz/chart</a> is built by Zyro from the chain itself. Every candle comes from buy and sell events on the $ZYRO curve contract on Pons.</p>
-        <ul>
-          <li>Candle sizes: 1 minute, 5 minutes, 15 minutes and 1 hour. Times are UTC.</li>
-          <li>Switch between price and market cap.</li>
-          <li>The latest trades are listed next to the chart, each linked to its transaction.</li>
-          <li>It refreshes every 15 seconds.</li>
-        </ul>
-        <p style="margin-top:16px">Prices are shown in US dollars using the current ETH price, so older candles can differ slightly from their dollar value at the time.</p>
+        <h2>$ZYRO launch</h2>
+        <p>Zyro is moving to Solana. $ZYRO launches soon on Stonk.fun. There is no contract address yet: the official address is posted on X @ZyroxRH and on <a href="/chart">zyro-ai.xyz/chart</a> first. The earlier Robinhood Chain $ZYRO is no longer supported.</p>
       </section>
 
       <section id="terminal">
@@ -112,7 +109,7 @@ body = f'''
             {rows}
           </tbody>
         </table>
-        <p style="margin-top:16px">If the explorer cannot return the holder count or the verification status, the score is capped at <strong>90</strong> and the report says so.</p>
+        <p style="margin-top:16px">If RugCheck (Solana) or the explorer (Robinhood Chain) cannot return every detail, the score is capped at <strong>90</strong> and the report says so.</p>
         <h3>What the score means</h3>
         <div class="bands">
           <div style="--c:#1FA971"><b>75 to 100</b><span>Low risk</span></div>
@@ -124,25 +121,9 @@ body = f'''
       </section>
 
       <section id="access">
-        <h2>Free and holder access</h2>
-        <table class="dtable">
-          <thead><tr><th>What you get</th><th>Free / Holder</th></tr></thead>
-          <tbody>
-            <tr><td>Scans per day</td><td>3 / Unlimited</td></tr>
-            <tr><td>Full safety score and warnings</td><td>Yes / Yes</td></tr>
-            <tr><td>Trending list</td><td>Yes / Yes</td></tr>
-            <tr><td>AI analysis on every report</td><td>No / Yes</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:16px">Free scans reset every day at 00:00 UTC.</p>
-        <h3>Becoming a holder</h3>
-        <ol>
-          <li>Hold <strong>100,000 $ZYRO</strong> or more in a wallet on Robinhood Chain.</li>
-          <li>Send <code>/link</code> followed by that wallet's public address.</li>
-          <li>Zyro reads your balance from the chain. Send <code>/me</code> to check your tier.</li>
-        </ol>
-        <p style="margin-top:16px">On the web, open the <a href="/app">web app</a> and paste the same public address under Holder access.</p>
-        <p style="margin-top:16px">The AI analysis adds three short points to each report: the overall read, the biggest risk, and what to watch next.</p>
+        <h2>Access</h2>
+        <p>The web app is free: unlimited scans and AI analysis on every report. The Telegram bot gives 3 free scans a day, reset at 00:00 UTC.</p>
+        <p style="margin-top:16px">Holder perks for $ZYRO will be announced with the launch on Stonk.fun.</p>
       </section>
 
       <section id="safety">
@@ -150,7 +131,7 @@ body = f'''
         <ul>
           <li>Zyro will <strong>never</strong> ask for your seed phrase or private key. Linking a wallet only needs the public address.</li>
           <li>Zyro never messages you first. Anyone who does in Zyro's name is a scammer.</li>
-          <li>Only trust the links on this page. The official $ZYRO contract is published on <a href="/#token">zyro-ai.xyz</a> first.</li>
+          <li>Only trust the links on this page. $ZYRO has no contract address yet: the official address is posted on X @ZyroxRH and on <a href="/chart">zyro-ai.xyz/chart</a> first.</li>
           <li>Treat the score as one input. Read the warnings, check the chart, and decide for yourself.</li>
         </ul>
       </section>
@@ -159,9 +140,9 @@ body = f'''
         <h2>Where the data comes from</h2>
         <ul>
           <li><strong>DexScreener</strong>: price, liquidity, FDV, volume, buys and sells, pair age, website and socials.</li>
+          <li><strong>RugCheck</strong>, for Solana tokens: mint and freeze authority, top holders, holder count and liquidity lock.</li>
           <li><strong>Blockscout</strong>, the Robinhood Chain explorer: holder count and contract verification.</li>
-          <li><strong>Robinhood Chain RPC</strong>: your $ZYRO balance and every trade on the $ZYRO chart, read directly from the chain.</li>
-          <li><strong>AI model</strong>: writes the holder analysis using only the facts in the report.</li>
+          <li><strong>AI model</strong>: writes the analysis using only the facts in the report.</li>
         </ul>
       </section>
 
@@ -172,7 +153,7 @@ body = f'''
           <a href="https://x.com/zyroxrh" target="_blank" rel="noopener">X <span>@ZyroxRH</span></a>
           <a href="/">Website <span>zyro-ai.xyz</span></a>
           <a href="/app">Web app <span>zyro-ai.xyz/app</span></a>
-          <a href="/chart">$ZYRO chart <span>zyro-ai.xyz/chart</span></a>
+          <a href="/chart">$ZYRO launch <span>zyro-ai.xyz/chart</span></a>
           <a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub <span>zyroai11/Zyro-Agent</span></a>
           <a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm <span>zyro-agent</span></a>
         </div>
@@ -184,7 +165,7 @@ body = f'''
 
 '''
 
-docs_page = head("Zyro Docs: bot, web app, chart and terminal agent",
-                 "How to use the Zyro bot, web app, $ZYRO chart and terminal agent, how the 0 to 100 safety score is calculated, and how holder access works.",
+docs_page = head("Zyro Docs: web app, bot and terminal agent",
+                 "How to use the Zyro web app, bot and terminal agent, how the 0 to 100 safety score is calculated for Solana and Robinhood Chain tokens, and the $ZYRO launch.",
                  "/docs") + '\n<body data-page="docs">\n\n' + header(False) + '\n' + body + footer(False)
 open("docs.html", "w").write(docs_page)

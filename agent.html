@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Zyro Agent: scan, trade and provide liquidity on Robinhood Chain</title>
-<meta name="description" content="One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.">
+<title>Zyro Agent: the AI agent for Solana</title>
+<meta name="description" content="One AI agent for Solana, with Robinhood Chain too: a token scanner on the web and Telegram, trading with auto take profit and stop loss, and a trading agent in your terminal.">
 <meta name="theme-color" content="#06102A">
 <link rel="canonical" href="https://zyro-ai.xyz/agent">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zyro">
 <meta property="og:url" content="https://zyro-ai.xyz/agent">
-<meta property="og:title" content="Zyro Agent: scan, trade and provide liquidity on Robinhood Chain">
-<meta property="og:description" content="One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.">
+<meta property="og:title" content="Zyro Agent: the AI agent for Solana">
+<meta property="og:description" content="One AI agent for Solana, with Robinhood Chain too: a token scanner on the web and Telegram, trading with auto take profit and stop loss, and a trading agent in your terminal.">
 <meta property="og:image" content="https://zyro-ai.xyz/api/og">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ZyroxRH">
-<meta name="twitter:title" content="Zyro Agent: scan, trade and provide liquidity on Robinhood Chain">
-<meta name="twitter:description" content="One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.">
+<meta name="twitter:title" content="Zyro Agent: the AI agent for Solana">
+<meta name="twitter:description" content="One AI agent for Solana, with Robinhood Chain too: a token scanner on the web and Telegram, trading with auto take profit and stop loss, and a trading agent in your terminal.">
 <meta name="twitter:image" content="https://zyro-ai.xyz/api/og">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
@@ -47,7 +47,7 @@
       <li><a href="/trade" data-nav="trade">Trade</a></li>
       <li><a href="/#install">Install</a></li>
       <li><a href="/#roadmap">Roadmap</a></li>
-      <li><a href="/chart" data-nav="token">Chart</a></li>
+      <li><a href="/chart" data-nav="token">$ZYRO</a></li>
       <li><a href="/docs" data-nav="docs">Docs</a></li>
       <li class="menu-cta"><a class="btn btn-volt" data-link="telegram" href="#">Open the bot</a></li>
     </ul>
@@ -63,7 +63,7 @@
 <section class="page-hero">
   <div class="wrap">
     <a class="crumb" href="/">← Back to home</a>
-    <h1>One agent for Robinhood Chain</h1>
+    <h1>One agent for Solana</h1>
     <p class="lead">Zyro reads a token before you touch it. Then it trades it for you, on the web with an automatic take profit and stop loss, or from your terminal with your own rules.</p>
     <div class="cta">
       <a class="btn btn-volt" data-link="telegram" href="#">Open the bot on Telegram</a>
@@ -117,12 +117,11 @@ stop loss set at -15% <span class="g">✓</span>
   <div class="wrap pair">
     <div>
       <h2>Scan: the score before the buy</h2>
-      <p class="lede">Send a contract address and Zyro reads eight signals: liquidity, buys and sells, pair age, FDV, volume, holders, contract and socials. Every warning is listed with the score.</p>
+      <p class="lede">Paste a Solana token address and Zyro reads the pool, the trades, mint and freeze authority, the top holders and the liquidity lock. Every warning is listed with the score. Robinhood Chain tokens work too.</p>
       <div class="cmds">
-        <div><code>/scan</code><p>Safety score and full report for a Robinhood Chain token.</p></div>
-        <div><code>/trending</code><p>Tokens getting attention on Robinhood Chain right now.</p></div>
-        <div><code>/link</code><p>Link your wallet so holder access can switch on.</p></div>
-        <div><code>/me</code><p>Your tier, balance and scans left today.</p></div>
+        <div><code>/scan</code><p>Safety score and full report for a token. Solana support in the bot is coming.</p></div>
+        <div><code>/trending</code><p>Tokens getting attention right now.</p></div>
+        <div><code>/me</code><p>Your scans left today.</p></div>
       </div>
     </div>
     <div style="background:var(--ink);color:#fff;border-radius:30px;padding:6px"><div class="demo" aria-label="Sample scan report">
@@ -188,7 +187,7 @@ stop loss set at -15% <span class="g">✓</span>
   <div class="wrap pair">
     <div>
       <h2>Trade on the web, with exits that run themselves</h2>
-      <p class="lede">Buy $ZYRO, any Robinhood Chain token or a Stock Token like NVDA from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you around the clock.</p>
+      <p class="lede">Buy Robinhood Chain tokens or a Stock Token like NVDA from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you around the clock. Solana trading is coming next.</p>
       <ul class="rules">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><div><b>Your own wallet</b><span>Created and secured by Privy. Only you can export the key.</span></div></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><div><b>Auto take profit and stop loss</b><span>Checked every minute, 24/7, even when your phone is off.</span></div></li>
@@ -242,11 +241,11 @@ stop loss set at -15% <span class="g">✓</span>
 
 <footer>
   <div class="wrap">
-    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built on Robinhood Chain</span></div>
-    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="/#tiers">Holders</a><a href="/#roadmap">Roadmap</a><a href="/#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg>@ZyroxRH</a></nav>
+    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built for Solana</span></div>
+    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="/#roadmap">Roadmap</a><a href="/#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.4 3.9H4.4L17.7 20Z"/></svg>@ZyroxRH</a></nav>
   </div>
 </footer>
-<nav class="bnav" aria-label="Pages"><a href="/" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a href="/agent" data-nav="agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/></svg><span>Agent</span></a><a href="/trade" data-nav="trade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Trade</span></a><a href="/app" data-nav="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Scan</span></a><a href="/chart" data-nav="token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/></svg><span>Chart</span></a></nav>
+<nav class="bnav" aria-label="Pages"><a href="/" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a href="/agent" data-nav="agent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3M13 15h4"/></svg><span>Agent</span></a><a href="/trade" data-nav="trade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Trade</span></a><a href="/app" data-nav="app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Scan</span></a><a href="/chart" data-nav="token"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9h6l-6 6h6"/></svg><span>$ZYRO</span></a></nav>
 <script src="/app.js"></script>
 <script src="/nav.js"></script>
 </body>

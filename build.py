@@ -77,7 +77,7 @@ def header(home):
       <li><a href="/trade" data-nav="trade">Trade</a></li>
       <li><a href="{h}#install">Install</a></li>
       <li><a href="{h}#roadmap">Roadmap</a></li>
-      <li><a href="/chart" data-nav="token">Chart</a></li>
+      <li><a href="/chart" data-nav="token">$ZYRO</a></li>
       <li><a href="/docs" data-nav="docs">Docs</a></li>
       <li class="menu-cta"><a class="btn btn-volt" data-link="telegram" href="#">Open the bot</a></li>
     </ul>
@@ -91,12 +91,12 @@ def header(home):
 
 def footer(home):
     h = '' if home else '/'
-    items=[('home','/' if not home else '#top','Home'),('agent','/agent','Agent'),('trade','/trade','Trade'),('app','/app','Scan'),('token','/chart','Chart')]
+    items=[('home','/' if not home else '#top','Home'),('agent','/agent','Agent'),('trade','/trade','Trade'),('app','/app','Scan'),('token','/chart','$ZYRO')]
     bnav='<nav class="bnav" aria-label="Pages">'+''.join(f'<a href="{href}" data-nav="{k}">{I}{ICON[k]}</svg><span>{t}</span></a>' for k,href,t in items)+'</nav>'
     return f'''<footer>
   <div class="wrap">
-    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home">{LOGO}ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built on Robinhood Chain</span></div>
-    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="{h}#tiers">Holders</a><a href="{h}#roadmap">Roadmap</a><a href="{h}#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener">{XSVG}@ZyroxRH</a></nav>
+    <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home">{LOGO}ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built for Solana</span></div>
+    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="{h}#roadmap">Roadmap</a><a href="{h}#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener">{XSVG}@ZyroxRH</a></nav>
   </div>
 </footer>
 {bnav}
@@ -110,17 +110,17 @@ def footer(home):
 agent_home=agent.replace('</div>\n  </div>\n</section>','</div>\n    <div class="more"><a class="btn btn-line" href="/agent">Explore the agent</a></div>\n  </div>\n</section>',1)
 trade_home=trade.replace('<ul class="facts">','<ul class="facts">',1)
 trade_home=re.sub(r'(</ul>\n    </div>\n    <div class="tw">)', '</ul>\n      <div class="more"><a class="btn btn-ink" href="/trade">Open the trade page</a></div>\n    </div>\n    <div class="tw">', trade_home, count=1)
-home=head("Zyro: the AI agent for Robinhood Chain","Zyro is the AI agent for Robinhood Chain. Scan any token from 0 to 100 on Telegram or the web, trade with your own rules from the terminal, and follow the live $ZYRO chart.")+'\n<body data-page="home">\n\n'+header(True)+'\n\n<main id="top">\n'+'\n\n'.join([hero,checks,how,agent_home,trade_home,tiers,road,token,close])+'\n</main>\n\n'+footer(True)
+home=head("Zyro: the AI agent for Solana","Zyro is the AI agent for Solana. Scan any token from 0 to 100 with every reason shown.")+'\n<body data-page="home">\n\n'+header(True)+'\n\n<main id="top">\n'+'\n\n'.join([hero,checks,how,agent_home,trade_home,tiers,road,token,close])+'\n</main>\n\n'+footer(True)
 open("index.html","w").write(home)
 
 # ---------- agent ----------
-agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chain","One AI agent for Robinhood Chain: a token scanner on Telegram and the web, trading with auto take profit and stop loss on the web, and a trading agent in your terminal.","/agent")+'\n<body data-page="agent">\n\n'+header(False)+f'''
+agent_page=head("Zyro Agent: the AI agent for Solana","One AI agent for Solana, with Robinhood Chain too: a token scanner on the web and Telegram, trading with auto take profit and stop loss, and a trading agent in your terminal.","/agent")+'\n<body data-page="agent">\n\n'+header(False)+f'''
 
 <main id="top">
 <section class="page-hero">
   <div class="wrap">
     <a class="crumb" href="/">← Back to home</a>
-    <h1>One agent for Robinhood Chain</h1>
+    <h1>One agent for Solana</h1>
     <p class="lead">Zyro reads a token before you touch it. Then it trades it for you, on the web with an automatic take profit and stop loss, or from your terminal with your own rules.</p>
     <div class="cta">
       <a class="btn btn-volt" data-link="telegram" href="#">Open the bot on Telegram</a>
@@ -139,12 +139,11 @@ agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chai
   <div class="wrap pair">
     <div>
       <h2>Scan: the score before the buy</h2>
-      <p class="lede">Send a contract address and Zyro reads eight signals: liquidity, buys and sells, pair age, FDV, volume, holders, contract and socials. Every warning is listed with the score.</p>
+      <p class="lede">Paste a Solana token address and Zyro reads the pool, the trades, mint and freeze authority, the top holders and the liquidity lock. Every warning is listed with the score. Robinhood Chain tokens work too.</p>
       <div class="cmds">
-        <div><code>/scan</code><p>Safety score and full report for a Robinhood Chain token.</p></div>
-        <div><code>/trending</code><p>Tokens getting attention on Robinhood Chain right now.</p></div>
-        <div><code>/link</code><p>Link your wallet so holder access can switch on.</p></div>
-        <div><code>/me</code><p>Your tier, balance and scans left today.</p></div>
+        <div><code>/scan</code><p>Safety score and full report for a token. Solana support in the bot is coming.</p></div>
+        <div><code>/trending</code><p>Tokens getting attention right now.</p></div>
+        <div><code>/me</code><p>Your scans left today.</p></div>
       </div>
     </div>
     <div style="background:var(--ink);color:#fff;border-radius:30px;padding:6px">{demo}</div>
@@ -172,7 +171,7 @@ agent_page=head("Zyro Agent: scan, trade and provide liquidity on Robinhood Chai
   <div class="wrap pair">
     <div>
       <h2>Trade on the web, with exits that run themselves</h2>
-      <p class="lede">Buy $ZYRO, any Robinhood Chain token or a Stock Token like NVDA from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you around the clock.</p>
+      <p class="lede">Buy Robinhood Chain tokens or a Stock Token like NVDA from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you around the clock. Solana trading is coming next.</p>
       <ul class="rules">
         <li>{CHECK}<div><b>Your own wallet</b><span>Created and secured by Privy. Only you can export the key.</span></div></li>
         <li>{CHECK}<div><b>Auto take profit and stop loss</b><span>Checked every minute, 24/7, even when your phone is off.</span></div></li>

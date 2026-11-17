@@ -1,5 +1,5 @@
 // Share page for one scan: gives X and Telegram a preview card, then sends people to the web app.
-import { isAddr, scan } from './_zyro.js';
+import { chainOf, scan } from './_zyro.js';
 
 export const config = { runtime: 'edge' };
 
@@ -7,8 +7,8 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 
 export default async function handler(req) {
   const address = new URL(req.url).searchParams.get('address') || '';
-  if (!isAddr(address)) return Response.redirect('https://zyro-ai.xyz/app', 302);
-  let title = 'Token scan on Zyro', desc = 'Safety score from 0 to 100 with every reason shown, for any token on Robinhood Chain.';
+  if (!chainOf(address)) return Response.redirect('https://zyro-ai.xyz/app', 302);
+  let title = 'Token scan on Zyro', desc = 'Safety score from 0 to 100 with every reason shown, for any token on Solana or Robinhood Chain.';
   try {
     const d = await scan(address);
     if (d) {

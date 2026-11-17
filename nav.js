@@ -18,21 +18,13 @@ document.querySelectorAll('.hero a.btn-line[href="#checks"]').forEach(a => { a.h
 document.querySelectorAll('a[href^="https://dexscreener.com/robinhood/0x50e05d1ee5e545540190a1136667af06a496f6d2"]').forEach(a => { a.href = '/chart'; a.removeAttribute('target'); a.removeAttribute('rel'); });
 
 /* ---- Chart in the menu, footer links and disclaimer (older page builds) ---- */
-document.querySelectorAll('#menu a').forEach(a => { if (a.textContent.trim() === 'Token') { a.href = '/chart'; a.textContent = 'Chart'; a.dataset.nav = 'token'; if (document.body.dataset.page === 'token') a.setAttribute('aria-current', 'page'); } });
+document.querySelectorAll('#menu a').forEach(a => { if (a.textContent.trim() === 'Token') { a.href = '/chart'; a.textContent = '$ZYRO'; a.dataset.nav = 'token'; if (document.body.dataset.page === 'token') a.setAttribute('aria-current', 'page'); } });
 const tb = document.querySelector('.bnav a[data-nav="token"]');
-if (tb) { tb.href = '/chart'; tb.querySelector('span').textContent = 'Chart'; }
+if (tb) { tb.href = '/chart'; tb.querySelector('span').textContent = '$ZYRO'; }
 document.querySelectorAll('footer .foot2').forEach(n => n.remove());
 document.querySelectorAll('p.note-dark').forEach(p => { if (p.textContent.trim() === 'Planned for phase 4.') p.textContent = 'Building next: phase 4.'; });
 
-/* ---- Live $ZYRO price on the home page ---- */
-if ($('zLive')) fetch('/api/zyro-chart').then(r => r.json()).then(d => {
-  const s = d && d.stats; if (!s || !s.priceUsd) return;
-  const z = Math.max(0, -Math.floor(Math.log10(s.priceUsd)) - 1);
-  $('zlP').textContent = '$' + s.priceUsd.toFixed(Math.min(z + 4, 14));
-  if (s.change24h != null) { $('zlC').textContent = (s.change24h > 0 ? '+' : '') + s.change24h.toFixed(1) + '%'; $('zlC').className = s.change24h < 0 ? 'down' : ''; }
-  if (s.mcapUsd) $('zlM').textContent = 'MC $' + (s.mcapUsd >= 1e6 ? (s.mcapUsd / 1e6).toFixed(2) + 'M' : (s.mcapUsd / 1e3).toFixed(1) + 'K');
-  $('zLive').hidden = false;
-}).catch(() => {});
+
 
 /* ---- Chart library: second source if the first one fails ---- */
 if ($('zChart')) addEventListener('load', () => {

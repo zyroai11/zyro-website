@@ -49,7 +49,7 @@ async function me(did) {
     if (pr) { p.priceEth = pr.eth; p.priceUsd = pr.usd; p.pnlPct = p.entry ? (pr.eth / p.entry - 1) * 100 : null; }
   }
   return { ethUsd: usd, wallet: addr, delegated: !!acc.embedded.delegated, external: acc.external, eth, zyro,
-    holder: zyro >= T.HOLDER_MIN, holderMin: T.HOLDER_MIN, maxEth: T.MAX_ETH, positions };
+    holder: true, holderMin: 0, maxEth: T.MAX_ETH, positions };
 }
 
 async function stocks(req) {
@@ -74,8 +74,8 @@ async function buy(did, body, req) {
   needTrading(acc);
   const addr = acc.embedded.address, wid = acc.embedded.id;
   const isZyro = token.toLowerCase() === T.ZYRO;
-  const zyro = isZyro ? Infinity : await holderBalance([addr, ...acc.external]);
-  if (zyro < T.HOLDER_MIN) throw new T.HttpError(403, `Auto-trade is for holders of ${T.HOLDER_MIN.toLocaleString('en-US')}+ $ZYRO during the beta.`);
+  if (isZyro) throw new T.HttpError(410, 'The old Robinhood Chain $ZYRO is no longer supported. $ZYRO is launching soon on Stonk.fun on Solana.');
+  // Holder gate is off until $ZYRO launches on Solana: auto-trade is open to everyone, with the beta size cap.
 
   const bal = T.fromWei(await T.ethBalance(addr));
   if (bal < eth + T.GAS_RESERVE) throw new T.HttpError(400, `Not enough ETH. Your Zyro wallet has ${bal.toFixed(5)} ETH and needs ${(eth + T.GAS_RESERVE).toFixed(5)} (the trade plus gas).`);

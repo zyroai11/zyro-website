@@ -30,12 +30,12 @@ legal_body = '''
         <h2>Privacy</h2>
         <p>Zyro is built to need as little about you as possible.</p>
         <ul>
-          <li><strong>Website.</strong> There are no accounts. If you link a wallet in the web app, the public address is saved in your own browser and sent to our server only to read its $ZYRO balance.</li>
+          <li><strong>Website.</strong> Scanning needs no account. If you log in on the trade page, Privy creates your trading wallet and Zyro stores your open positions to run take profit and stop loss.</li>
           <li><strong>Telegram bot.</strong> The bot stores your Telegram user ID, the public wallet address you link and your daily scan count, so it can apply the free limit and holder access.</li>
           <li><strong>Agent messages.</strong> Questions you send to the web agent or AI analysis may be passed to an AI model provider to write the answer. Do not include personal information.</li>
           <li><strong>Analytics and logs.</strong> We count page views without cookies. Our host keeps standard server logs, such as IP address and browser type, for security.</li>
           <li><strong>Never collected.</strong> Seed phrases and private keys. Zyro will never ask for them.</li>
-          <li><strong>Other services.</strong> Market and chain data comes from DexScreener, Blockscout and the Robinhood Chain RPC. Links to Pons, Telegram and X follow their own policies.</li>
+          <li><strong>Other services.</strong> Market and chain data comes from DexScreener, RugCheck, Blockscout and the Robinhood Chain RPC. Links to Stonk.fun, Telegram and X follow their own policies.</li>
         </ul>
         <p style="margin-top:16px">To have your bot data removed, message <a href="https://x.com/zyroxrh" target="_blank" rel="noopener">@ZyroxRH</a> on X.</p>
       </section>
@@ -45,6 +45,6 @@ legal_body = '''
 </main>
 
 '''
-legal_page = head("Zyro terms and privacy", "Terms of use and privacy for Zyro, the AI agent for Robinhood Chain. Information only, not financial advice.", "/legal") \
+legal_page = head("Zyro terms and privacy", "Terms of use and privacy for Zyro, the AI agent for Solana. Information only, not financial advice.", "/legal") \
     + '\n<body data-page="docs">\n\n' + header(False) + '\n' + legal_body + footer(False)
 open("legal.html", "w").write(legal_page)

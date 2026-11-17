@@ -349,7 +349,7 @@ footer nav a:hover{color:#fff}
 
 <section class="band" id="checks">
   <div class="wrap">
-    <h2>Eight things Zyro reads on every scan</h2>
+    <h2>What Zyro reads on every Solana scan</h2>
     <p class="lede">Each check can lower the score. The report lists every one that did, so you see the reason and not only the number.</p>
     <div class="ledger">
       <div><h3>Liquidity</h3><p>How much money sits in the pool. Thin pools move violently and are easy to drain.</p></div>
@@ -357,8 +357,9 @@ footer nav a:hover{color:#fff}
       <div><h3>Pair age</h3><p>Pairs younger than 24 hours get a warning. Most rug pulls happen early.</p></div>
       <div><h3>FDV against liquidity</h3><p>A valuation far above the pool means the price is not backed by much.</p></div>
       <div><h3>Volume</h3><p>Volume many times larger than liquidity often points to wash trading.</p></div>
-      <div><h3>Holders</h3><p>The holder count from the chain explorer. A handful of wallets is a concentration risk.</p></div>
-      <div><h3>Contract</h3><p>Whether the source code is verified on Blockscout, so anyone can read what it does.</p></div>
+      <div><h3>Mint and freeze authority</h3><p>If the creator can still mint more tokens or freeze your wallet, the score drops hard.</p></div>
+      <div><h3>Top holders</h3><p>How much of the supply the top 10 wallets hold, and how many holders there are in total.</p></div>
+      <div><h3>Liquidity lock</h3><p>How much of the pool is locked or burned, so it cannot be pulled out from under you.</p></div>
       <div><h3>Website and socials</h3><p>Whether the project lists any public presence at all.</p></div>
     </div>
   </div>
@@ -484,7 +485,7 @@ stop loss set at -15% <span class="g">✓</span>
         </ul>
       </article>
     </div>
-    <p class="fine">$ZYRO is live on Pons. Hold 100,000 or more, send <span style="font-family:var(--mono)">/link</span> with your wallet address, and the full bot unlocks.</p>
+    <p class="fine">Holder perks for $ZYRO will be announced with the launch on Stonk.fun.</p>
   </div>
 </section>
 
@@ -493,11 +494,11 @@ stop loss set at -15% <span class="g">✓</span>
     <h2>What ships, in order</h2>
     <ol class="road">
       <li><div class="when">Phase 1<em>Live</em></div><div><h3>Scanner bot and web app</h3><p>Risk scans and the trending list on Telegram and at zyro-ai.xyz/app, free for everyone.</p></div></li>
-      <li><div class="when">Phase 2<em>Live</em></div><div><h3>Holder access</h3><p>$ZYRO goes live on Robinhood Chain. Wallet linking unlocks unlimited scans and AI analysis.</p></div></li>
-      <li><div class="when">Phase 3<em>Live</em></div><div><h3>Trading agent in your terminal</h3><p>An AI agent you run from the command line. It scans a token, checks it against your rules and places the trade on Robinhood Chain, with limits you set.</p></div></li>
-      <li><div class="when">Phase 4<em>Live</em></div><div><h3>Trading on the web, with auto take profit and stop loss</h3><p>Buy $ZYRO on the Pons curve, any Robinhood Chain token, and Robinhood Stock Tokens such as NVDA, TSLA and AAPL through Uniswap, from a wallet Zyro makes for you at zyro-ai.xyz/trade. Zyro sells for you 24/7 when your take profit or stop loss is hit.</p></div></li>
-      <li class="now"><div class="when">Phase 5<em>Building now</em></div><div><h3>Perps through Lighter</h3><p>Long or short with leverage on Lighter, Robinhood Chain's perps exchange, from the same Zyro wallet, with take profit and stop loss on every position.</p></div></li>
-      <li><div class="when">Phase 6<em>Planned</em></div><div><h3>LP trading on the web</h3><p>Add and manage liquidity positions from the Zyro website, with the same safety score shown before you commit.</p></div></li>
+      <li><div class="when">Phase 2<em>Live</em></div><div><h3>Trading agent in your terminal</h3><p>An AI agent you run from the command line. It scans a token, checks it against your rules and places the trade with limits you set.</p></div></li>
+      <li><div class="when">Phase 3<em>Live</em></div><div><h3>Web trading with auto take profit and stop loss</h3><p>Robinhood Chain tokens and Stock Tokens such as NVDA, TSLA and AAPL from a wallet Zyro makes for you at zyro-ai.xyz/trade. Zyro sells for you 24/7 when your take profit or stop loss is hit.</p></div></li>
+      <li><div class="when">Phase 4<em>Live</em></div><div><h3>Zyro moves to Solana</h3><p>Solana becomes the main chain. The scanner reads any Solana token, with mint authority, freeze authority, top holders and liquidity lock in the score.</p></div></li>
+      <li class="now"><div class="when">Phase 5<em>Next</em></div><div><h3>$ZYRO launches on Stonk.fun</h3><p>The $ZYRO token launches on Stonk.fun on Solana. The official address is posted on X @ZyroxRH and on this site first, nowhere else.</p></div></li>
+      <li><div class="when">Phase 6<em>Building</em></div><div><h3>Solana trading, then perps</h3><p>Buy and sell Solana tokens from your Zyro wallet with take profit and stop loss that run 24/7, then long or short with leverage.</p></div></li>
     </ol>
   </div>
 </section>
@@ -505,19 +506,19 @@ stop loss set at -15% <span class="g">✓</span>
 <section class="band token" id="token">
   <div class="wrap token-grid">
     <div>
-      <h2>The $ZYRO contract</h2>
+      <h2>$ZYRO launches on Stonk.fun</h2>
       <div class="ca">
-        <strong id="caTitle">Not launched yet</strong>
+        <strong id="caTitle">Launching soon on Stonk.fun, Solana</strong>
         <code id="caText" hidden></code>
         <div class="ca-actions"><button class="btn btn-ink" id="copyBtn" hidden>Copy address</button><span id="caLinks"></span></div>
         <a class="zlive" id="zLive" href="/chart" hidden><span class="zl-t">$ZYRO</span><b id="zlP"></b><em id="zlC"></em><span id="zlM"></span><span class="zl-go">View chart</span></a>
-        <p id="caNote">The official contract address will be published here and nowhere else first. Until then, any token calling itself ZYRO is not ours.</p>
+        <p id="caNote">There is no contract address yet. The official address will be posted on X <a href="https://x.com/ZyroxRH" target="_blank" rel="noopener">@ZyroxRH</a> and on this site first. Until then, any token calling itself ZYRO is not ours.</p>
       </div>
     </div>
     <div>
-      <details open><summary>Where does the data come from?</summary><p>Market data for scans comes from DexScreener. The <a href="/chart">$ZYRO chart</a> is read straight from the Pons curve contract on Robinhood Chain. Holder counts and contract verification come from Blockscout, the Robinhood Chain explorer. Balances are read from the chain itself.</p></details>
-      <details><summary>Does the bot ever ask for my keys?</summary><p>Never. Linking a wallet only needs your public address. Anyone asking for a seed phrase or private key in Zyro's name is a scammer.</p></details>
-      <details><summary>Which chains are supported?</summary><p>Robinhood Chain only, for now.</p></details>
+      <details open><summary>Where does the data come from?</summary><p>Market data for scans comes from DexScreener. On Solana, mint and freeze authority, top holders and the liquidity lock come from RugCheck. On Robinhood Chain, holder counts and contract verification come from Blockscout.</p></details>
+      <details><summary>Does the bot ever ask for my keys?</summary><p>Never. Anyone asking for a seed phrase or private key in Zyro's name is a scammer.</p></details>
+      <details><summary>Which chains are supported?</summary><p>Solana first, and Robinhood Chain too. Trading on the website runs on Robinhood Chain today, and Solana trading is coming next.</p></details>
     </div>
   </div>
 </section>

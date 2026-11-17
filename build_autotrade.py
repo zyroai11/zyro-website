@@ -7,9 +7,9 @@ at_body = '''
       <div>
         <p class="at-kicker">Beta</p>
         <h1>Trade on Robinhood Chain</h1>
-        <p class="lead">Tokens, $ZYRO and Stock Tokens from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you 24/7.</p>
+        <p class="lead">Stock Tokens and Robinhood Chain tokens from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you 24/7. Solana trading is coming next.</p>
       </div>
-      <div class="at-chips" aria-label="What is live"><span><i></i>Tokens live</span><span><i></i>Stocks live</span><span>Perps soon</span></div>
+      <div class="at-chips" aria-label="What is live"><span><i></i>Stocks live</span><span><i></i>Tokens live</span><span>Solana trading next</span></div>
     </div>
   </div>
 </section>

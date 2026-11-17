@@ -150,3 +150,12 @@
 .con-log .mcard .mc-h>div{min-width:0;display:block}
 .con-log .mcard .mc-h b,.con-log .mcard .mc-h span{display:block}
 .con-log .mcard .mc-a{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr))}
+/* chain badges and switch */
+.rep-id h2 .chainb{font:600 13px var(--body);font-style:normal;padding:4px 10px;border-radius:99px;vertical-align:middle;margin-left:6px;white-space:nowrap}
+.chainb.sol{background:rgba(153,69,255,.16);color:#B78BFF}
+.chainb.rh{background:rgba(205,255,80,.16);color:#9BBF2A}
+.chain-t{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:rgba(140,170,255,.08);margin:0 0 12px}
+.chain-t button{border:0;background:transparent;border-radius:9px;padding:8px 0;font:600 14px var(--body);color:inherit;opacity:.7;cursor:pointer}
+.chain-t button.on{background:#9945FF;color:#fff;opacity:1}
+.con-log .mc-note{margin:0;color:#8FA5D1;font:500 13px var(--body)}
+.holdc a{color:inherit;text-decoration:underline}

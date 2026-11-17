@@ -2,7 +2,9 @@
 (() => {
   const $ = s => document.querySelector(s);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const isAddr = a => /^0x[a-fA-F0-9]{40}$/.test(a || '');
+  const isEvm = a => /^0x[a-fA-F0-9]{40}$/.test(a || '');
+  const isSol = a => /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a || '');
+  const isAddr = a => isEvm(a) || isSol(a);
   const usd = n => {
     if (n == null || isNaN(n)) return '—';
     if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
@@ -45,7 +47,7 @@
 
   function render(d) {
     const c = COLOR[d.level] || '#2F7BFF', m = d.market, C = 2 * Math.PI * 52;
-    const cmd = `zyro buy ${d.token.address} 0.01`;
+    const cmd = `zyro buy ${d.token.address} 0.01`, sol = d.chain === 'solana';
     rep.className = 'rep';
     rep.innerHTML = `
       <div class="rep-top" style="--c:${c}">
@@ -54,12 +56,12 @@
           <b>${d.score}</b><small>of 100</small>
         </div>
         <div class="rep-id">
-          <h2>${esc(d.token.name)} <span>$${esc(d.token.symbol)}</span></h2>
+          <h2>${esc(d.token.name)} <span>$${esc(d.token.symbol)}</span> <em class="chainb ${sol ? 'sol' : 'rh'}">${sol ? 'Solana' : 'Robinhood Chain'}</em></h2>
           <span class="verdict">${esc(d.verdict)}</span>
           <div class="addr"><span>${esc(d.token.address)}</span><button type="button" data-copy="${esc(d.token.address)}">Copy</button></div>
         </div>
       </div>
-      ${d.capped ? '<p class="capnote">The explorer did not return every detail, so the score is capped at 90.</p>' : ''}
+      ${d.capped ? `<p class="capnote">${sol ? 'RugCheck' : 'The explorer'} did not return every detail, so the score is capped at 90.</p>` : ''}
       <div class="mgrid">
         <div><span>Price</span><b>${usd(m.price)}</b></div>
         <div><span>24h change</span><b class="${m.change24h > 0 ? 'up' : m.change24h < 0 ? 'down' : ''}">${pct(m.change24h)}</b></div>
@@ -74,14 +76,13 @@
         ${d.checks.map(k => `<li class="${k.status}"><i aria-hidden="true">${ICONS[k.status]}</i><div><b>${esc(k.name)}</b><p>${esc(k.detail)}</p></div><em>${k.points ? '−' + k.points : ''}</em></li>`).join('')}
       </ul></div>
       <div class="rep-links">
-        ${d.links.pons ? `<a class="buy" href="${esc(d.links.pons)}" target="_blank" rel="noopener">Buy on Pons</a>` : ''}
         <button type="button" class="ai" data-ai="${esc(d.token.address)}">AI analysis</button>
         <button type="button" data-copy="https://zyro-ai.xyz/scan/${esc(d.token.address)}">Copy share link</button>
         <a href="${esc(d.links.chart)}" target="_blank" rel="noopener">Chart</a>
-        <a href="${esc(d.links.explorer)}" target="_blank" rel="noopener">Explorer</a>
+        <a href="${esc(d.links.explorer)}" target="_blank" rel="noopener">${sol ? 'Solscan' : 'Explorer'}</a>${d.links.rugcheck ? `<a href="${esc(d.links.rugcheck)}" target="_blank" rel="noopener">RugCheck</a>` : ''}
       </div>
       <div class="aibox" id="aiBox" hidden></div>
-      <div class="rep-cmd"><code>${esc(cmd)}</code><button type="button" data-copy="${esc(cmd)}">Copy command</button></div>
+      ${sol ? '' : `<div class="rep-cmd"><code>${esc(cmd)}</code><button type="button" data-copy="${esc(cmd)}">Copy command</button></div>`}
       <p class="rep-foot">Scanned ${new Date(d.scannedAt).toISOString().slice(11, 16)} UTC. A high score is not a guarantee. Scan again before a large buy.</p>`;
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const fg = rep.querySelector('.fg'); if (fg) fg.style.strokeDashoffset = C * (1 - d.score / 100);
@@ -90,7 +91,7 @@
 
   async function scan(addr, { push = true, scroll = true } = {}) {
     addr = (addr || '').trim();
-    if (!isAddr(addr)) { error('That is not a contract address. It starts with 0x and has 42 characters.'); return null; }
+    if (!isAddr(addr)) { error('That is not a token address. Paste a Solana mint address, or a Robinhood Chain contract that starts with 0x.'); return null; }
     input.value = addr; btn.disabled = true; btn.textContent = 'Scanning…';
     loading(addr);
     if (scroll && innerWidth < 940) rep.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -114,47 +115,20 @@
     navigator.clipboard?.writeText(b.dataset.copy).then(() => { const t = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = t, 1400); });
   });
 
-  /* holder access: link a public wallet address, same as /link in the bot */
-  const store = { get() { try { return localStorage.getItem('zyro_wallet') || ''; } catch (_) { return ''; } },
-    set(v) { try { v ? localStorage.setItem('zyro_wallet', v) : localStorage.removeItem('zyro_wallet'); } catch (_) {} } };
-  let wallet = store.get(), holder = false;
+  /* AI analysis: free for everyone until $ZYRO launches on Stonk.fun */
   const cli = document.querySelector('.trend .cli');
   const hc = document.createElement('div');
   hc.className = 'holdc';
-  hc.innerHTML = `<h3>Holder access</h3><p>Hold 100,000 $ZYRO to unlock AI analysis on every report. Paste your public wallet address. Never a seed phrase or private key.</p>
-    <form id="holdForm" autocomplete="off"><label class="sr" for="holdIn">Public wallet address</label><input id="holdIn" placeholder="0x…" spellcheck="false"><button type="submit">Link</button></form>
-    <p class="hs" id="holdSt" hidden></p><button type="button" class="unlink" id="holdUn" hidden>Unlink wallet</button>`;
+  hc.innerHTML = `<h3>$ZYRO is launching soon</h3><p>$ZYRO launches on Stonk.fun on Solana. Until then, AI analysis on every report is free for everyone. There is no contract address yet: only trust the launch post on X <a href="https://x.com/ZyroxRH" target="_blank" rel="noopener">@ZyroxRH</a>.</p>`;
   if (cli) cli.before(hc);
-  const hst = $('#holdSt'), hun = $('#holdUn'), hin = $('#holdIn');
-  async function checkWallet(w) {
-    hst.hidden = false; hst.className = 'hs'; hst.textContent = 'Reading your balance…';
-    try {
-      const r = await fetch('/api/holder?wallet=' + encodeURIComponent(w));
-      const d = await r.json();
-      if (d.error) { hst.className = 'hs no'; hst.textContent = d.error; return; }
-      wallet = w; holder = d.holder; store.set(w); hin.value = w; hun.hidden = false;
-      const bal = Math.floor(d.balance).toLocaleString('en-US');
-      hst.className = 'hs ' + (holder ? 'ok' : 'no');
-      hst.textContent = holder ? `Holder access is on. Balance: ${bal} $ZYRO.` : `Balance: ${bal} $ZYRO. You need ${d.min.toLocaleString('en-US')} for holder access.`;
-    } catch (_) { hst.className = 'hs no'; hst.textContent = 'Your balance could not be read. Try again.'; }
-  }
-  $('#holdForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const w = hin.value.trim();
-    if (!isAddr(w)) { hst.hidden = false; hst.className = 'hs no'; hst.textContent = 'That is not a wallet address. It starts with 0x and has 42 characters.'; return; }
-    checkWallet(w);
-  });
-  hun.addEventListener('click', () => { wallet = ''; holder = false; store.set(''); hin.value = ''; hun.hidden = true; hst.hidden = true; });
-  if (isAddr(wallet)) checkWallet(wallet);
 
   document.addEventListener('click', async e => {
     const b = e.target.closest('[data-ai]');
     if (!b) return;
     const box = $('#aiBox'); box.hidden = false;
-    if (!isAddr(wallet)) { box.innerHTML = '<h3>AI analysis is for holders</h3><p>Link a wallet that holds 100,000 $ZYRO under Holder access to unlock it.</p>'; hc.scrollIntoView({ behavior: 'smooth', block: 'center' }); hin.focus({ preventScroll: true }); return; }
     b.disabled = true; box.innerHTML = '<p>Writing the analysis…</p>';
     try {
-      const r = await fetch('/api/holder', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ address: b.dataset.ai, wallet }) });
+      const r = await fetch('/api/holder', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ address: b.dataset.ai }) });
       const d = await r.json();
       box.innerHTML = d.error ? `<h3>AI analysis</h3><p>${esc(d.error)}</p>`
         : `<h3>AI analysis</h3><dl><div><dt>Overall read</dt><dd>${esc(d.read)}</dd></div><div><dt>Biggest risk</dt><dd>${esc(d.risk)}</dd></div><div><dt>What to watch</dt><dd>${esc(d.watch)}</dd></div></dl>`;
@@ -164,11 +138,17 @@
 
   /* trending */
   const list = $('#trendList');
-  let trendData = [];
+  let trendData = [], trendChain = 'solana';
+  document.querySelector('.chain-t')?.addEventListener('click', e => {
+    const b = e.target.closest('[data-chain]'); if (!b || b.dataset.chain === trendChain) return;
+    trendChain = b.dataset.chain;
+    document.querySelectorAll('.chain-t button').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
+    loadTrending();
+  });
   async function loadTrending() {
     list.innerHTML = '<li class="ph">Loading tokens…</li>';
     try {
-      const r = await fetch('/api/trending');
+      const r = await fetch('/api/trending?chain=' + trendChain);
       trendData = (await r.json()).tokens || [];
     } catch (_) { trendData = []; }
     list.innerHTML = trendData.length ? trendData.map(t => `<li><button type="button" data-scan="${esc(t.address)}">
@@ -198,23 +178,24 @@
   };
   async function resolveMarket(token, symbol) {
     const sym = (symbol || '').toUpperCase();
-    if ((token || '').toLowerCase() === ZYRO_CA || sym === 'ZYRO') {
-      const d = await fetch('/api/zyro-chart').then(r => r.json()).catch(() => null);
-      return { kind: 'zyro', address: ZYRO_CA, symbol: 'ZYRO', name: 'Zyro, on the Pons curve', logo: '/zyro-token.png', usd: d?.stats?.priceUsd, ch: d?.stats?.change24h };
-    }
+    if ((token || '').toLowerCase() === ZYRO_CA || sym === 'ZYRO') return { kind: 'soon' };
     const list = await stocks();
     const st = list.find(x => token ? x.address === token.toLowerCase() : x.symbol === sym || (sym === 'GOOG' && x.symbol === 'GOOGL'));
     if (st) return { kind: 'stock', address: st.address, symbol: st.symbol, name: st.name + ' Stock Token', logo: '/api/logo?s=' + encodeURIComponent(st.symbol), usd: st.usd, ch: st.ch };
     if (!token) return null;
-    const ps = await fetch('https://api.dexscreener.com/tokens/v1/robinhood/' + token).then(r => r.json()).catch(() => []);
-    const best = (Array.isArray(ps) ? ps : []).filter(p => (p.baseToken?.address || '').toLowerCase() === token.toLowerCase()).sort((x, y) => (y.liquidity?.usd || 0) - (x.liquidity?.usd || 0))[0];
-    return { kind: 'token', address: token.toLowerCase(), symbol: best?.baseToken?.symbol || token.slice(0, 6), name: best?.baseToken?.name || 'Robinhood Chain token', logo: best?.info?.imageUrl || '', usd: best ? Number(best.priceUsd) : null, ch: best?.priceChange?.h24 };
+    const sol = isSol(token), ch = sol ? 'solana' : 'robinhood';
+    const ps = await fetch(`https://api.dexscreener.com/tokens/v1/${ch}/${token}`).then(r => r.json()).catch(() => []);
+    const same = a => sol ? a === token : a.toLowerCase() === token.toLowerCase();
+    const best = (Array.isArray(ps) ? ps : []).filter(p => same(p.baseToken?.address || '')).sort((x, y) => (y.liquidity?.usd || 0) - (x.liquidity?.usd || 0))[0];
+    return { kind: sol ? 'sol' : 'token', address: sol ? token : token.toLowerCase(), url: best?.url, symbol: best?.baseToken?.symbol || token.slice(0, 6), name: best?.baseToken?.name || (sol ? 'Solana token' : 'Robinhood Chain token'), logo: best?.info?.imageUrl || '', usd: best ? Number(best.priceUsd) : null, ch: best?.priceChange?.h24 };
   }
   const marketCard = m => {
     const href = `/trade?${m.kind === 'stock' ? 'market=stocks&' : ''}token=${m.address}`;
     const logo = m.logo ? `<img src="${esc(m.logo)}" alt="" width="36" height="36" onerror="this.replaceWith(Object.assign(document.createElement('i'),{textContent:'${esc(m.symbol[0])}'}))">` : `<i>${esc(m.symbol[0])}</i>`;
     return `<div class="mcard"><div class="mc-h">${logo}<div><b>$${esc(m.symbol)}</b><span>${esc(m.name)}</span></div><div class="mc-p"><b>${fmtPx(m.usd)}</b>${m.ch != null ? `<span class="${m.ch >= 0 ? 'sc-low' : 'sc-very-high'}">${pct(m.ch)} 24h</span>` : ''}</div></div>`
-      + `<div class="mc-a"><a class="mc-buy" href="${href}">Buy</a><a class="mc-sell" href="${href}">Sell</a>${m.kind === 'token' ? `<button type="button" data-scan="${esc(m.address)}">Scan</button>` : m.kind === 'zyro' ? '<a href="/chart">Chart</a>' : ''}</div></div>`;
+      + (m.kind === 'sol'
+        ? `<div class="mc-a"><button type="button" data-scan="${esc(m.address)}">Scan</button>${m.url ? `<a href="${esc(m.url)}" target="_blank" rel="noopener">Chart</a>` : ''}</div><p class="mc-note">Solana trading on Zyro is coming next.</p></div>`
+        : `<div class="mc-a"><a class="mc-buy" href="${href}">Buy</a><a class="mc-sell" href="${href}">Sell</a>${m.kind === 'token' ? `<button type="button" data-scan="${esc(m.address)}">Scan</button>` : ''}</div></div>`);
   };
 
   async function ask(msg) {
@@ -225,7 +206,7 @@
       const r = await fetch('/api/agent', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ message: msg }) });
       a = await r.json();
     } catch (_) {
-      const addr = (msg.match(/0x[a-fA-F0-9]{40}/) || [])[0];
+      const addr = (msg.match(/0x[a-fA-F0-9]{40}|\b[1-9A-HJ-NP-Za-km-z]{32,44}\b/) || [])[0];
       a = addr ? { action: 'scan', token: addr, reply: 'Scanning that token now.' } : { action: 'none', reply: 'I could not reach the server. Paste a contract to scan it.' };
     }
     if (a.reply) say('bot', esc(a.reply));
@@ -233,7 +214,7 @@
       const d = await scan(a.token, { scroll: false });
       if (d && !d.error) {
         say('bot', `<b class="sc-${d.level}">${d.score}/100 ${esc(d.verdict)}</b> for $${esc(d.token.symbol)}. Liquidity ${usd(d.market.liquidity)}, ${d.checks.filter(k => k.points).length} warnings. Full report is above.`);
-        say('sys', `<a class="con-go" href="/trade?token=${esc(a.token)}">Trade $${esc(d.token.symbol)} with take profit and stop loss</a>`);
+        if (d.chain !== 'solana') say('sys', `<a class="con-go" href="/trade?token=${esc(a.token)}">Trade $${esc(d.token.symbol)} with take profit and stop loss</a>`);
       }
       else if (d && d.error) say('bot', esc(d.error));
     } else if (a.action === 'trending') {
@@ -247,10 +228,11 @@
       }
     } else if (a.action === 'trade' || a.action === 'price') {
       const m = await resolveMarket(a.token, a.symbol);
-      if (!m) say('bot', a.symbol ? `I could not find $${esc(a.symbol)} on Robinhood Chain. Paste its contract address and I will look it up.` : 'Paste the token contract address and I will look it up.');
+      if (m && m.kind === 'soon') say('bot', '$ZYRO is launching soon on Stonk.fun on Solana. No contract address yet: follow @ZyroxRH for the official launch post.');
+      else if (!m) say('bot', a.symbol ? `I could not find $${esc(a.symbol)} as a Stock Token. Paste its contract address and I will look it up.` : 'Paste the token contract address and I will look it up.');
       else say('rows', marketCard(m));
     } else if (a.action === 'help') {
-      say('sys', 'Try: <code>scan 0x…</code>, <code>trending</code>, <code>buy NVDA</code>, <code>price ZYRO</code>, or ask how the score works.');
+      say('sys', 'Try: paste a Solana token address, <code>trending</code>, <code>price NVDA</code>, or ask how the score works.');
     }
     busy(false);
   }

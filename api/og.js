@@ -1,5 +1,5 @@
 import { ImageResponse } from '@vercel/og';
-import { isAddr, scan } from './_zyro.js';
+import { chainOf, scan } from './_zyro.js';
 
 export const config = { runtime: 'edge' };
 
@@ -29,7 +29,7 @@ export default async function handler(req) {
 
   // Share card for one scanned token: /api/og?token=0x…
   const token = new URL(req.url).searchParams.get('token') || '';
-  if (isAddr(token)) {
+  if (chainOf(token)) {
     let d = null;
     try { d = await scan(token); } catch (_) {}
     if (d) {
@@ -53,7 +53,7 @@ export default async function handler(req) {
             h('div', { style: { display: 'flex', background: col, color: '#06102A', fontSize: 34, padding: '10px 36px', borderRadius: 40 } }, d.verdict)),
           h('div', { style: { display: 'flex', marginTop: 44 } },
             stat('Liquidity', usd(d.market.liquidity)), stat('Volume 24h', usd(d.market.volume24h)), stat('Warnings', String(warn))),
-          h('div', { style: { marginTop: 36, fontSize: 26, color: '#9FB2D9' } }, 'Scan any Robinhood Chain token at zyro-ai.xyz/app')),
+          h('div', { style: { marginTop: 36, fontSize: 26, color: '#9FB2D9' } }, 'Scan any Solana token at zyro-ai.xyz/app')),
         h('div', { style: { position: 'relative', width: 300, height: 300, marginTop: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
           h('div', { style: { position: 'absolute', left: 0, top: 0, display: 'flex' } }, sring),
           h('div', { style: { fontSize: 100 } }, String(d.score))));
@@ -73,7 +73,7 @@ export default async function handler(req) {
       h('div', { style: { display: 'flex', flexDirection: 'column', marginTop: 70, fontSize: 84, lineHeight: 1.08 } },
         h('div', {}, 'Scan the token'),
         h('div', { style: { color: '#BFD9FF' } }, 'before you buy it.')),
-      h('div', { style: { marginTop: 26, fontSize: 32, color: '#9FB2D9' } }, 'The AI agent for Robinhood Chain'),
+      h('div', { style: { marginTop: 26, fontSize: 32, color: '#9FB2D9' } }, 'The AI agent for Solana'),
       h('div', { style: { display: 'flex', alignItems: 'center', gap: 30, marginTop: 40 } },
         h('div', { style: { display: 'flex', background: '#FFD23F', color: '#06102A', fontSize: 30, padding: '12px 44px', borderRadius: 40 } }, 'zyro-ai.xyz'),
         h('div', { style: { fontSize: 30 } }, '@ZyroAiAgent_bot'))),

@@ -12,16 +12,16 @@ hero2 = f'''<section class="hx" id="hero">
   <div class="hx-bg" aria-hidden="true"></div>
   <div class="wrap hx-grid">
     <div class="hx-copy">
-      <a class="hx-new" href="/app"><b>New</b> Scan tokens in the web app and follow the live $ZYRO chart</a>
+      <a class="hx-new" href="/app"><b>New</b> Zyro is moving to Solana. $ZYRO launches soon on Stonk.fun</a>
       <h1>Scan the token <span>before you buy it.</span></h1>
-      <p class="lead">Zyro is the AI agent for Robinhood Chain. It scores any token from 0 to 100, shows every reason, and trades for you from the terminal with rules you set.</p>
+      <p class="lead">Zyro is the AI agent for Solana. It scores any token from 0 to 100, shows every reason, from mint authority to top holders, and trades for you with rules you set.</p>
       <div class="hx-inst">{cp("npm install -g zyro-agent", "the install command")}</div>
       <div class="cta">
         <a class="btn btn-volt" href="/app">Scan a token now</a>
         <a class="btn btn-line" data-link="telegram" href="#">Open the Telegram bot</a>
       </div>
       <ul class="hx-trust">
-        <li>Built for Robinhood Chain</li>
+        <li>Built for Solana</li>
         <li><a href="{GH}" target="_blank" rel="noopener">Open source on GitHub</a></li>
         <li>Never asks for your keys</li>
       </ul>
@@ -31,10 +31,10 @@ hero2 = f'''<section class="hx" id="hero">
     </div>
   </div>
   <div class="wrap">
-    <dl class="strip" id="strip" aria-label="$ZYRO right now">
-      <div><dt>$ZYRO price</dt><dd id="sPrice">—</dd></div>
-      <div><dt>Market cap</dt><dd id="sMcap">—</dd></div>
-      <div><dt>Trades on Pons</dt><dd id="sTrades">—</dd></div>
+    <dl class="strip" id="strip" aria-label="Zyro at a glance">
+      <div><dt>$ZYRO</dt><dd>Soon on Stonk.fun</dd></div>
+      <div><dt>Main chain</dt><dd>Solana</dd></div>
+      <div><dt>Also on</dt><dd>Robinhood Chain</dd></div>
       <div><dt>Roadmap</dt><dd>4 of 6 phases live</dd></div>
     </dl>
   </div>
@@ -49,20 +49,20 @@ bento = f'''<section class="band bento-band" id="products">
         <div class="t-head"><h3>Web app</h3><span class="tag live">Live</span></div>
         <p>Paste a contract and get the score, the market numbers and all eight checks. Ask the agent, see what is trending, share any report.</p>
         <div class="t-vis rep-mini" aria-hidden="true">
-          <div class="rm-top"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" class="rt"/><circle cx="32" cy="32" r="26" class="rv"/></svg><b>90</b><div><strong>$PONS</strong><span>Low risk</span></div></div>
+          <div class="rm-top"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" class="rt"/><circle cx="32" cy="32" r="26" class="rv"/></svg><b>90</b><div><strong>$BONK</strong><span>Low risk</span></div></div>
           <ul><li class="ok">Enough liquidity in the pool</li><li class="ok">Normal mix of buys and sells</li><li class="warn">FDV is far above liquidity <em>−10</em></li></ul>
         </div>
         <span class="t-go">Open the web app</span>
       </a>
       <a class="tile t-chart" href="/chart">
-        <div class="t-head"><h3>$ZYRO chart</h3><span class="tag live">Live</span></div>
-        <p>Our own chart, built from every buy and sell on the Pons curve.</p>
-        <div class="t-vis spark"><canvas id="spark" width="520" height="150" aria-label="$ZYRO price over time" role="img"></canvas><div class="sp-px"><b id="spPx">—</b><em id="spCh"></em></div></div>
-        <span class="t-go">View the chart</span>
+        <div class="t-head"><h3>$ZYRO</h3><span class="tag">Soon</span></div>
+        <p>$ZYRO launches on Stonk.fun on Solana. The official address is posted on X @ZyroxRH and here first.</p>
+        <div class="t-vis spark soon-vis" aria-hidden="true"><div class="sp-px"><b>Launching soon</b><em>Stonk.fun · Solana</em></div></div>
+        <span class="t-go">Launch details</span>
       </a>
       <a class="tile t-bot" data-link="telegram" href="#">
         <div class="t-head"><h3>Telegram bot</h3><span class="tag live">Live</span></div>
-        <p>Send <code>/scan</code> with a contract. Three free scans a day, unlimited for holders.</p>
+        <p>Send <code>/scan</code> with a contract. Three free scans a day.</p>
         <div class="t-vis chat" aria-hidden="true"><span class="b me">/scan 0x39db…4571</span><span class="b bot"><b>90/100</b> Low risk. 1 warning: FDV is far above liquidity.</span></div>
         <span class="t-go">Open the bot</span>
       </a>
@@ -127,8 +127,8 @@ stop loss 15%   take profit 50%
   </div>
 </section>'''
 
-home2 = head("Zyro: the AI agent for Robinhood Chain", "Zyro is the AI agent for Robinhood Chain. Scan any token from 0 to 100 on Telegram or the web, trade with your own rules from the terminal, and follow the live $ZYRO chart.") \
+home2 = head("Zyro: the AI agent for Solana", "Zyro is the AI agent for Solana. Scan any token from 0 to 100 with every reason shown, trade with take profit and stop loss, and follow the $ZYRO launch on Stonk.fun.") \
     + '\n<body data-page="home">\n\n' + header(True) + '\n\n<main id="top">\n' \
-    + '\n\n'.join([hero2, bento, install, checks, trade_home, tiers, road, token, close]) \
+    + '\n\n'.join([hero2, bento, install, checks, trade_home, road, token, close]) \
     + '\n</main>\n\n' + footer(True).replace('<script src="/nav.js"></script>', '<script src="/nav.js"></script>\n<script src="/home.js"></script>')
 open("index.html", "w").write(home2)
