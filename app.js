@@ -37,18 +37,18 @@ if (CONFIG.contract && $('caText')) {
   if ($('caLinks')) $('caLinks').innerHTML = links.map(([t, u]) => `<a class="btn ${t.startsWith("Buy") ? "btn-volt" : "btn-line-ink"}" href="${u}"${u.startsWith("/") ? "" : ' target="_blank" rel="noopener"'}>${t}</a>`).join('');
 }
 
-/* ---- Scan demo: live Robinhood Chain tokens from DexScreener, samples as fallback ---- */
+/* ---- Scan demo: live Solana tokens from DexScreener, samples as fallback ---- */
 if ($('arc')) {
   const SAMPLES = [
-    { cmd: '/scan 0x7a3f…c21e', name: 'HoodFrog ($HOODFROG)', score: 90, verdict: 'Low risk', color: '#1FA971',
+    { cmd: '/scan 7xKp…Qpump', name: 'SolFrog ($SOLFROG)', score: 90, verdict: 'Low risk', color: '#1FA971',
       rows: [['Liquidity', '$140K'], ['FDV', '$8.0M'], ['Volume 24h', '$310K'], ['Txns 24h', '412 buy / 371 sell'], ['Pair age', '12d'], ['Holders', '1,240']],
-      flags: [['#E0A100', 'FDV is far above liquidity'], ['#1FA971', 'Contract verified on the explorer']] },
-    { cmd: '/scan 0x19be…07d4', name: 'MoonCat ($MOONCAT)', score: 55, verdict: 'Medium risk', color: '#E0A100',
+      flags: [['#E0A100', 'FDV is far above liquidity'], ['#1FA971', 'Mint and freeze authority revoked']] },
+    { cmd: '/scan 4mCt…9pump', name: 'MoonCat ($MOONCAT)', score: 55, verdict: 'Medium risk', color: '#E0A100',
       rows: [['Liquidity', '$18K'], ['FDV', '$420K'], ['Volume 24h', '$96K'], ['Txns 24h', '188 buy / 143 sell'], ['Pair age', '9h'], ['Holders', '214']],
-      flags: [['#E0A100', 'Low liquidity, under $25K'], ['#E0A100', 'New pair, under 24 hours old'], ['#E0A100', 'Contract is not verified']] },
-    { cmd: '/scan 0xd02c…9f1a', name: 'RugPup ($RUGPUP)', score: 0, verdict: 'Very high risk', color: '#E5484D',
+      flags: [['#E0A100', 'Low liquidity, under $25K'], ['#E0A100', 'New pair, under 24 hours old'], ['#E0A100', 'Top 10 holders own over 30%']] },
+    { cmd: '/scan Hq2R…wpump', name: 'RugPup ($RUGPUP)', score: 0, verdict: 'Very high risk', color: '#E5484D',
       rows: [['Liquidity', '$3.1K'], ['FDV', '$260K'], ['Volume 24h', '$41K'], ['Txns 24h', '64 buy / 0 sell'], ['Pair age', '2h'], ['Holders', '31']],
-      flags: [['#E5484D', 'Buys but zero sells: possible honeypot'], ['#E5484D', 'Very low liquidity, under $5K'], ['#E0A100', 'New pair, unverified contract, no website or socials']] }
+      flags: [['#E5484D', 'Buys but zero sells: possible honeypot'], ['#E5484D', 'Very low liquidity, under $5K'], ['#E0A100', 'Mint authority still on, no website or socials']] }
   ];
   const WARN = '#E0A100', BAD = '#E5484D', OK = '#1FA971';
   const DS = 'https://api.dexscreener.com';
@@ -88,8 +88,8 @@ if ($('arc')) {
   };
   const bestPairs = list => {
     const best = {};
-    (list || []).filter(p => p.chainId === 'robinhood').forEach(p => {
-      const a = (p.baseToken?.address || '').toLowerCase();
+    (list || []).filter(p => p.chainId === 'solana').forEach(p => {
+      const a = p.baseToken?.address || '';
       if (a && (!best[a] || (+(p.liquidity?.usd || 0)) > (+(best[a].liquidity?.usd || 0)))) best[a] = p;
     });
     return best;
@@ -117,24 +117,24 @@ if ($('arc')) {
   requestAnimationFrame(() => setTimeout(() => show(0), 250));
 
   const note = $('demoNote');
-  const LIVE_NOTE = 'Live market data from DexScreener. The bot also checks holders and contract verification, so scores on the web stop at 90.';
+  const LIVE_NOTE = 'Live market data from DexScreener. The full scan adds mint and freeze authority, top holders and the liquidity lock.';
   (async () => {
     try {
       const boosts = await getJSON(DS + '/token-boosts/top/v1');
-      let addrs = (Array.isArray(boosts) ? boosts : []).filter(b => b.chainId === 'robinhood').map(b => b.tokenAddress);
+      let addrs = (Array.isArray(boosts) ? boosts : []).filter(b => b.chainId === 'solana').map(b => b.tokenAddress);
       if (addrs.length < 3) {
         const prof = await getJSON(DS + '/token-profiles/latest/v1').catch(() => []);
-        addrs = addrs.concat((Array.isArray(prof) ? prof : []).filter(b => b.chainId === 'robinhood').map(b => b.tokenAddress));
+        addrs = addrs.concat((Array.isArray(prof) ? prof : []).filter(b => b.chainId === 'solana').map(b => b.tokenAddress));
       }
       addrs = [...new Set(addrs.filter(Boolean))].slice(0, 8);
       if (!addrs.length) throw 0;
-      const best = bestPairs(await getJSON(`${DS}/tokens/v1/robinhood/${addrs.join(',')}`));
-      const live = addrs.map(a => best[a.toLowerCase()]).filter(Boolean).slice(0, 3).map(report);
+      const best = bestPairs(await getJSON(`${DS}/tokens/v1/solana/${addrs.join(',')}`));
+      const live = addrs.map(a => best[a]).filter(Boolean).slice(0, 3).map(report);
       if (!live.length) throw 0;
       set = chipSet = live;
       const chips = $('chips');
       chips.querySelectorAll('.chip').forEach(c => c.remove());
-      $('chipLabel').textContent = 'Live on Robinhood Chain:';
+      $('chipLabel').textContent = 'Live on Solana:';
       live.forEach((r, i) => {
         const b = document.createElement('button');
         b.className = 'chip'; b.dataset.i = i; b.textContent = '$' + r.sym.slice(0, 12);
@@ -149,15 +149,8 @@ if ($('arc')) {
     form.onsubmit = async e => {
       e.preventDefault();
       const a = $('scanIn').value.trim();
-      if (!/^0x[a-fA-F0-9]{40}$/.test(a)) { if (note) note.textContent = 'That is not a contract address. It should start with 0x and have 42 characters.'; return; }
-      if (note) note.textContent = 'Scanning…';
-      try {
-        const p = bestPairs(await getJSON(`${DS}/tokens/v1/robinhood/${a}`))[a.toLowerCase()];
-        if (!p) { if (note) note.textContent = 'No trading pair found for this address on Robinhood Chain. Check the address, or try again once the token has liquidity.'; return; }
-        set = [report(p)];
-        show(0, false);
-        if (note) note.textContent = LIVE_NOTE;
-      } catch (_) { if (note) note.textContent = 'Market data could not be loaded. Try again, or scan in the Telegram bot.'; }
+      if (!/^0x[a-fA-F0-9]{40}$/.test(a) && !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a)) { if (note) note.textContent = 'That is not a token address. Paste a Solana mint address, or a Robinhood Chain contract that starts with 0x.'; return; }
+      location.href = '/app?token=' + encodeURIComponent(a);
     };
   })();
 }
