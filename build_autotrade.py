@@ -23,7 +23,7 @@ at_body = '''
 </main>
 '''
 at_page = head("Zyro Trade: trade on Solana with auto take profit and stop loss",
-               "Trade $ZYRO, Robinhood Chain tokens and Stock Tokens from your own Zyro wallet, with take profit and stop loss that run around the clock.",
+               "Trade Stock Tokens now and Solana tokens soon from your own Zyro wallet, with take profit and stop loss that run around the clock.",
                "/trade").replace('<link rel="stylesheet" href="/pro.css">', '<link rel="stylesheet" href="/pro.css">\n<link rel="stylesheet" href="/app.css">\n<link rel="stylesheet" href="/autotrade.css">\n<link rel="stylesheet" href="/trade-dark.css">') \
     + '\n<body data-page="trade">\n\n' + header(False) + '\n' + at_body + footer(False).replace('<script src="/nav.js"></script>', '<script src="/nav.js"></script>\n<script type="module" src="/at/autotrade.js?v='+str(int(time.time()))+'"></script>')
 open("trade.html", "w").write(at_page)
