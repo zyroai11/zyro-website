@@ -31,10 +31,10 @@ hero2 = f'''<section class="hx" id="hero">
   </div>
   <div class="wrap">
     <dl class="strip" id="strip" aria-label="Zyro at a glance">
-      <div><dt>$ZYRO</dt><dd>Soon on Stonk.fun</dd></div>
+      <div><dt>$ZYRO</dt><dd>Soon on StonkFun</dd></div>
       <div><dt>Main chain</dt><dd>Solana</dd></div>
       <div><dt>Also on</dt><dd>Robinhood Chain</dd></div>
-      <div><dt>Roadmap</dt><dd>4 of 6 phases live</dd></div>
+      <div><dt>Roadmap</dt><dd>4 of 5 phases live</dd></div>
     </dl>
   </div>
 </section>'''
@@ -55,8 +55,8 @@ bento = f'''<section class="band bento-band" id="products">
       </a>
       <a class="tile t-chart" href="/chart">
         <div class="t-head"><h3>$ZYRO</h3><span class="tag">Soon</span></div>
-        <p>$ZYRO launches on Stonk.fun on Solana. The official address is posted on X @ZyroxRH and here first.</p>
-        <div class="t-vis spark soon-vis" aria-hidden="true"><div class="sp-px"><b>Launching soon</b><em>Stonk.fun · Solana</em></div></div>
+        <p>$ZYRO launches on StonkFun on Solana. The official address is posted on X @ZyroxRH and here first.</p>
+        <div class="t-vis spark soon-vis" aria-hidden="true"><div class="sp-px"><b>Launching soon</b><em>StonkFun · Solana</em></div></div>
         <span class="t-go">Launch details</span>
       </a>
       <a class="tile t-bot" data-link="telegram" href="#">
@@ -126,7 +126,7 @@ stop loss 15%   take profit 50%
   </div>
 </section>'''
 
-home2 = head("Zyro: the AI agent for Solana", "Zyro is the AI agent for Solana. Scan any token from 0 to 100 with every reason shown, trade with take profit and stop loss, and follow the $ZYRO launch on Stonk.fun.") \
+home2 = head("Zyro: the AI agent for Solana", "Zyro is the AI agent for Solana. Scan any token from 0 to 100 with every reason shown, trade with take profit and stop loss, and follow the $ZYRO launch on StonkFun.") \
     + '\n<body data-page="home">\n\n' + header(True) + '\n\n<main id="top">\n' \
     + '\n\n'.join([hero2, bento, install, checks, trade_home, road, token, close]) \
     + '\n</main>\n\n' + footer(True).replace('<script src="/nav.js"></script>', '<script src="/nav.js"></script>\n<script src="/home.js"></script>')

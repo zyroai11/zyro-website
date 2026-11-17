@@ -4,7 +4,7 @@ const ADDR = /0x[a-fA-F0-9]{40}|\b[1-9A-HJ-NP-Za-km-z]{32,44}\b/;
 
 export const config = { runtime: 'edge' };
 
-const FACTS = `Zyro is the AI agent for Solana, with Robinhood Chain support too. It scans any Solana token (mint address) or Robinhood Chain token (0x contract). $ZYRO is launching soon on Stonk.fun on Solana; there is no contract address yet, so anyone sharing one before the official launch post on X @ZyroxRH is not us.
+const FACTS = `Zyro is the AI agent for Solana, with Robinhood Chain support too. It scans any Solana token (mint address) or Robinhood Chain token (0x contract). $ZYRO is launching soon on StonkFun on Solana; there is no contract address yet, so anyone sharing one before the official launch post on X @ZyroxRH is not us.
 On Solana the score also checks: mint authority still enabled (-25), freeze authority still enabled (-25), top 10 wallets over 50% (-20) or over 30% (-10), less than half the pool locked or burned (-10).
 The safety score starts at 100 and loses points for: liquidity under $5K (-30) or under $25K (-15); more than 20 buys and zero sells (-30, possible honeypot);
 sells more than 3x buys (-10); pair younger than 24h (-15); contract not verified (-15); FDV over 50x liquidity (-10); 24h volume over 20x liquidity (-10);
@@ -33,15 +33,15 @@ function local(msg) {
   const addr = (msg.match(ADDR) || [])[0] || null;
   const sym = ticker(msg);
   const howTo = /\bhow (do|can|to)\b|\bwhere\b/.test(low);
-  if (/zyro/.test(low) && !addr) return { action: 'none', token: null, reply: '$ZYRO is launching soon on Stonk.fun on Solana. No contract address yet: follow @ZyroxRH for the official launch post and ignore anyone sharing a CA before it.' };
+  if (/zyro/.test(low) && !addr) return { action: 'none', token: null, reply: '$ZYRO is launching soon on StonkFun on Solana. No contract address yet: follow @ZyroxRH for the official launch post and ignore anyone sharing a CA before it.' };
   if (!howTo && /\b(buy|sell|trade|long|ape)\b/.test(low) && (addr || sym)) return { action: 'trade', token: addr, symbol: addr ? null : sym, reply: 'Here it is. Open it on the trade page to buy or sell, with a take profit and stop loss Zyro runs for you.' };
   if (/\bprice\b|how much is|worth/.test(low) && (addr || sym)) return { action: 'price', token: addr, symbol: addr ? null : sym, reply: 'Here is the live price.' };
   if (addr) return { action: 'scan', token: addr, reply: 'Scanning that token now.' };
   if (/trend|hot|popular/.test(low)) return { action: 'trending', token: null, reply: 'Here is what is getting attention on Solana.' };
   if (/score|calculat|rating/.test(low)) return { action: 'none', token: null, reply: 'Every token starts at 100. Points come off for low liquidity, zero sells, a pair under 24 hours old, an unverified contract, few holders, FDV or volume far above liquidity, and no socials. 75 and up is low risk, under 25 is very high risk.' };
   if (/trade|buy|sell|swap|stop.?loss|take.?profit|stock|nvda|tsla|aapl|perp/.test(low)) return { action: 'none', token: null, reply: 'Trade on the web at zyro-ai.xyz/trade: buy tokens or Stock Tokens and set a take profit and stop loss that Zyro runs for you 24/7. Prefer your own rules? npm install -g zyro-agent works from your terminal.' };
-  if (/holder|tier|unlimited|100k|100,000/.test(low)) return { action: 'none', token: null, reply: 'Holder perks return when $ZYRO launches on Stonk.fun. Until then AI analysis on the website is free for everyone.' };
-  if (/token|contract|\bca\b|stonk/.test(low)) return { action: 'none', token: null, reply: '$ZYRO is launching soon on Stonk.fun on Solana. Paste any Solana or Robinhood Chain token address here and I will scan it.' };
+  if (/holder|tier|unlimited|100k|100,000/.test(low)) return { action: 'none', token: null, reply: 'Holder perks return when $ZYRO launches on StonkFun. Until then AI analysis on the website is free for everyone.' };
+  if (/token|contract|\bca\b|stonk/.test(low)) return { action: 'none', token: null, reply: '$ZYRO is launching soon on StonkFun on Solana. Paste any Solana or Robinhood Chain token address here and I will scan it.' };
   if (/help|what can|how/.test(low) || low === '?') return { action: 'help', token: null, reply: 'Paste a Solana token address to scan it, or type "trending".' };
   return null;
 }

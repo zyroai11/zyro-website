@@ -5,7 +5,7 @@ export const config = { runtime: 'edge' };
 
 export default async function handler(req) {
   try {
-    if (req.method === 'GET') return json({ error: 'Holder access returns when $ZYRO launches on Stonk.fun. AI analysis is free for everyone until then.' }, 200, 'no-store');
+    if (req.method === 'GET') return json({ error: 'Holder access returns when $ZYRO launches on StonkFun. AI analysis is free for everyone until then.' }, 200, 'no-store');
     if (req.method !== 'POST') return json({ error: 'Use POST' }, 405, 'no-store');
     let b = {};
     try { b = await req.json(); } catch (_) {}

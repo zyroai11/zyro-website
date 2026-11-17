@@ -2,7 +2,7 @@
 const CONFIG = {
   telegram: "https://t.me/ZyroAiAgent_bot",
   x: "https://x.com/zyroxrh",
-  contract: "",   // $ZYRO launches soon on Stonk.fun (Solana): add the mint here at launch
+  contract: "",   // $ZYRO launches soon on StonkFun (Solana): add the mint here at launch
   pons: ""
 };
 

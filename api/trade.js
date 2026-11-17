@@ -74,7 +74,7 @@ async function buy(did, body, req) {
   needTrading(acc);
   const addr = acc.embedded.address, wid = acc.embedded.id;
   const isZyro = token.toLowerCase() === T.ZYRO;
-  if (isZyro) throw new T.HttpError(410, 'The old Robinhood Chain $ZYRO is no longer supported. $ZYRO is launching soon on Stonk.fun on Solana.');
+  if (isZyro) throw new T.HttpError(410, 'The old Robinhood Chain $ZYRO is no longer supported. $ZYRO is launching soon on StonkFun on Solana.');
   // Holder gate is off until $ZYRO launches on Solana: auto-trade is open to everyone, with the beta size cap.
 
   const bal = T.fromWei(await T.ethBalance(addr));

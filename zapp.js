@@ -115,11 +115,11 @@
     navigator.clipboard?.writeText(b.dataset.copy).then(() => { const t = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = t, 1400); });
   });
 
-  /* AI analysis: free for everyone until $ZYRO launches on Stonk.fun */
+  /* AI analysis: free for everyone until $ZYRO launches on StonkFun */
   const cli = document.querySelector('.trend .cli');
   const hc = document.createElement('div');
   hc.className = 'holdc';
-  hc.innerHTML = `<h3>$ZYRO is launching soon</h3><p>$ZYRO launches on Stonk.fun on Solana. Until then, AI analysis on every report is free for everyone. There is no contract address yet: only trust the launch post on X <a href="https://x.com/ZyroxRH" target="_blank" rel="noopener">@ZyroxRH</a>.</p>`;
+  hc.innerHTML = `<h3>$ZYRO is launching soon</h3><p>$ZYRO launches on StonkFun on Solana. Until then, AI analysis on every report is free for everyone. There is no contract address yet: only trust the launch post on X <a href="https://x.com/ZyroxRH" target="_blank" rel="noopener">@ZyroxRH</a>.</p>`;
   if (cli) cli.before(hc);
 
   document.addEventListener('click', async e => {
@@ -228,7 +228,7 @@
       }
     } else if (a.action === 'trade' || a.action === 'price') {
       const m = await resolveMarket(a.token, a.symbol);
-      if (m && m.kind === 'soon') say('bot', '$ZYRO is launching soon on Stonk.fun on Solana. No contract address yet: follow @ZyroxRH for the official launch post.');
+      if (m && m.kind === 'soon') say('bot', '$ZYRO is launching soon on StonkFun on Solana. No contract address yet: follow @ZyroxRH for the official launch post.');
       else if (!m) say('bot', a.symbol ? `I could not find $${esc(a.symbol)} as a Stock Token. Paste its contract address and I will look it up.` : 'Paste the token contract address and I will look it up.');
       else say('rows', marketCard(m));
     } else if (a.action === 'help') {
