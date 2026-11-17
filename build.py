@@ -45,7 +45,7 @@ def head(title,desc,path="/"):
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@ZyroxRH">
+<meta name="twitter:site" content="@zyroxstonk">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
 <meta name="twitter:image" content="https://zyro-ai.xyz/api/og">
@@ -82,7 +82,7 @@ def header(home):
       <li class="menu-cta"><a class="btn btn-volt" data-link="telegram" href="#">Open the bot</a></li>
     </ul>
     <div class="nav-r">
-      <a class="xbtn" href="https://x.com/zyroxrh" target="_blank" rel="noopener" aria-label="Zyro on X">{XSVG}</a>
+      <a class="xbtn" href="https://x.com/zyroxstonk" target="_blank" rel="noopener" aria-label="Zyro on X">{XSVG}</a>
       <a class="btn btn-volt top-cta" data-link="telegram" href="#">Open the bot</a>
       <button class="xbtn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg></button>
     </div>
@@ -96,7 +96,7 @@ def footer(home):
     return f'''<footer>
   <div class="wrap">
     <div class="foot-brand"><a class="brand" href="/" aria-label="Zyro home">{LOGO}ZYRO</a><span class="dot" aria-hidden="true">•</span><span>Built for Solana</span></div>
-    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="{h}#roadmap">Roadmap</a><a href="{h}#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxrh" target="_blank" rel="noopener">{XSVG}@ZyroxRH</a></nav>
+    <nav aria-label="Footer"><a href="/app">Web app</a><a href="/agent">Agent</a><a href="/trade">Trade</a><a href="{h}#roadmap">Roadmap</a><a href="{h}#token">Token</a><a href="/docs">Docs</a><a href="https://github.com/zyroai11/Zyro-Agent" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/zyro-agent" target="_blank" rel="noopener">npm</a><a href="/legal">Legal</a><a class="foot-x" href="https://x.com/zyroxstonk" target="_blank" rel="noopener">{XSVG}@zyroxstonk</a></nav>
   </div>
 </footer>
 {bnav}

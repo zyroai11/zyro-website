@@ -24,7 +24,7 @@ legal_body = '''
           <li><strong>Availability.</strong> Some features, including Stock Tokens and perps, are not offered in every country. Follow the laws where you live.</li>
           <li><strong>No warranty.</strong> The service is provided as is. It may change, pause or stop at any time.</li>
         </ul>
-        <p style="margin-top:16px">Questions: message <a href="https://x.com/zyroxrh" target="_blank" rel="noopener">@ZyroxRH</a> on X.</p>
+        <p style="margin-top:16px">Questions: message <a href="https://x.com/zyroxstonk" target="_blank" rel="noopener">@zyroxstonk</a> on X.</p>
       </section>
       <section id="privacy">
         <h2>Privacy</h2>
@@ -37,7 +37,7 @@ legal_body = '''
           <li><strong>Never collected.</strong> Seed phrases and private keys. Zyro will never ask for them.</li>
           <li><strong>Other services.</strong> Market and chain data comes from DexScreener, RugCheck, Blockscout and the Robinhood Chain RPC. Links to StonkFun, Telegram and X follow their own policies.</li>
         </ul>
-        <p style="margin-top:16px">To have your bot data removed, message <a href="https://x.com/zyroxrh" target="_blank" rel="noopener">@ZyroxRH</a> on X.</p>
+        <p style="margin-top:16px">To have your bot data removed, message <a href="https://x.com/zyroxstonk" target="_blank" rel="noopener">@zyroxstonk</a> on X.</p>
       </section>
     </div>
   </div>

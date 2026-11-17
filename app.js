@@ -1,7 +1,7 @@
 /* ---- Fill these in when they exist ---- */
 const CONFIG = {
   telegram: "https://t.me/ZyroAiAgent_bot",
-  x: "https://x.com/zyroxrh",
+  x: "https://x.com/zyroxstonk",
   contract: "",   // $ZYRO launches soon on StonkFun (Solana): add the mint here at launch
   pons: ""
 };

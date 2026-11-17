@@ -76,7 +76,7 @@ body = f'''
 
       <section id="chart">
         <h2>$ZYRO launch</h2>
-        <p>$ZYRO launches soon on StonkFun on Solana. There is no contract address yet: the official address is posted on X @ZyroxRH and on <a href="/chart">zyro-ai.xyz/chart</a> first. The earlier Robinhood Chain $ZYRO is no longer supported.</p>
+        <p>$ZYRO launches soon on StonkFun on Solana. There is no contract address yet: the official address is posted on X @zyroxstonk and on <a href="/chart">zyro-ai.xyz/chart</a> first. The earlier Robinhood Chain $ZYRO is no longer supported.</p>
       </section>
 
       <section id="terminal">
@@ -131,7 +131,7 @@ body = f'''
         <ul>
           <li>Zyro will <strong>never</strong> ask for your seed phrase or private key. Linking a wallet only needs the public address.</li>
           <li>Zyro never messages you first. Anyone who does in Zyro's name is a scammer.</li>
-          <li>Only trust the links on this page. $ZYRO has no contract address yet: the official address is posted on X @ZyroxRH and on <a href="/chart">zyro-ai.xyz/chart</a> first.</li>
+          <li>Only trust the links on this page. $ZYRO has no contract address yet: the official address is posted on X @zyroxstonk and on <a href="/chart">zyro-ai.xyz/chart</a> first.</li>
           <li>Treat the score as one input. Read the warnings, check the chart, and decide for yourself.</li>
         </ul>
       </section>
@@ -150,7 +150,7 @@ body = f'''
         <h2>Official links</h2>
         <div class="links">
           <a href="https://t.me/ZyroAiAgent_bot" target="_blank" rel="noopener">Telegram bot <span>@ZyroAiAgent_bot</span></a>
-          <a href="https://x.com/zyroxrh" target="_blank" rel="noopener">X <span>@ZyroxRH</span></a>
+          <a href="https://x.com/zyroxstonk" target="_blank" rel="noopener">X <span>@zyroxstonk</span></a>
           <a href="/">Website <span>zyro-ai.xyz</span></a>
           <a href="/app">Web app <span>zyro-ai.xyz/app</span></a>
           <a href="/chart">$ZYRO launch <span>zyro-ai.xyz/chart</span></a>

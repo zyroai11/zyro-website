@@ -55,7 +55,7 @@ bento = f'''<section class="band bento-band" id="products">
       </a>
       <a class="tile t-chart" href="/chart">
         <div class="t-head"><h3>$ZYRO</h3><span class="tag">Soon</span></div>
-        <p>$ZYRO launches on StonkFun on Solana. The official address is posted on X @ZyroxRH and here first.</p>
+        <p>$ZYRO launches on StonkFun on Solana. The official address is posted on X @zyroxstonk and here first.</p>
         <div class="t-vis soon-vis" aria-hidden="true"><div class="sv-row"><span class="sv-dot"></span><b>Launching soon</b></div><div class="sv-grid"><div><small>Launchpad</small><strong>StonkFun</strong></div><div><small>Chain</small><strong>Solana</strong></div><div><small>Contract</small><strong>Posted on X first</strong></div></div></div>
         <span class="t-go">Launch details</span>
       </a>

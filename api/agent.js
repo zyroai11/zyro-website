@@ -4,13 +4,13 @@ const ADDR = /0x[a-fA-F0-9]{40}|\b[1-9A-HJ-NP-Za-km-z]{32,44}\b/;
 
 export const config = { runtime: 'edge' };
 
-const FACTS = `Zyro is the AI agent for Solana, with Robinhood Chain support too. It scans any Solana token (mint address) or Robinhood Chain token (0x contract). $ZYRO is launching soon on StonkFun on Solana; there is no contract address yet, so anyone sharing one before the official launch post on X @ZyroxRH is not us.
+const FACTS = `Zyro is the AI agent for Solana, with Robinhood Chain support too. It scans any Solana token (mint address) or Robinhood Chain token (0x contract). $ZYRO is launching soon on StonkFun on Solana; there is no contract address yet, so anyone sharing one before the official launch post on X @zyroxstonk is not us.
 On Solana the score also checks: mint authority still enabled (-25), freeze authority still enabled (-25), top 10 wallets over 50% (-20) or over 30% (-10), less than half the pool locked or burned (-10).
 The safety score starts at 100 and loses points for: liquidity under $5K (-30) or under $25K (-15); more than 20 buys and zero sells (-30, possible honeypot);
 sells more than 3x buys (-10); pair younger than 24h (-15); contract not verified (-15); FDV over 50x liquidity (-10); 24h volume over 20x liquidity (-10);
 fewer than 50 holders (-10); no website or socials (-10). If holder or contract data is missing the score is capped at 90.
 75-100 low risk, 50-74 medium, 25-49 high, 0-24 very high. AI analysis on the website is free for everyone until $ZYRO launches. Telegram bot: @ZyroAiAgent_bot.
-Trade on the web at zyro-ai.xyz/trade (Robinhood Chain for now, Solana trading is coming next): buy any Robinhood Chain token or Robinhood Stock Tokens (NVDA, TSLA, AAPL and 200+ more, not offered in the US, UK, Canada and some other regions) from a wallet Zyro makes with Privy, with automatic take profit and stop loss checked every minute, and sell 25/50/75% or max. Perps through Lighter are being built next. Terminal agent for trading with your own rules: npm install -g zyro-agent. Website zyro-ai.xyz, X @ZyroxRH. Zyro never asks for seed phrases or private keys.`;
+Trade on the web at zyro-ai.xyz/trade (Robinhood Chain for now, Solana trading is coming next): buy any Robinhood Chain token or Robinhood Stock Tokens (NVDA, TSLA, AAPL and 200+ more, not offered in the US, UK, Canada and some other regions) from a wallet Zyro makes with Privy, with automatic take profit and stop loss checked every minute, and sell 25/50/75% or max. Perps through Lighter are being built next. Terminal agent for trading with your own rules: npm install -g zyro-agent. Website zyro-ai.xyz, X @zyroxstonk. Zyro never asks for seed phrases or private keys.`;
 
 const SYSTEM = `You are Zyro, the agent on the Zyro website. Reply in English only, in one or two short sentences.
 Turn the user's message into JSON with keys: action ("scan", "trending", "trade", "price", "help" or "none"), token (a Solana mint address or 0x address from the message, else null), symbol (a ticker the user named such as NVDA or TSLA, uppercase, without $, else null), reply (your short answer).
@@ -33,7 +33,7 @@ function local(msg) {
   const addr = (msg.match(ADDR) || [])[0] || null;
   const sym = ticker(msg);
   const howTo = /\bhow (do|can|to)\b|\bwhere\b/.test(low);
-  if (/zyro/.test(low) && !addr) return { action: 'none', token: null, reply: '$ZYRO is launching soon on StonkFun on Solana. No contract address yet: follow @ZyroxRH for the official launch post and ignore anyone sharing a CA before it.' };
+  if (/zyro/.test(low) && !addr) return { action: 'none', token: null, reply: '$ZYRO is launching soon on StonkFun on Solana. No contract address yet: follow @zyroxstonk for the official launch post and ignore anyone sharing a CA before it.' };
   if (!howTo && /\b(buy|sell|trade|long|ape)\b/.test(low) && (addr || sym)) return { action: 'trade', token: addr, symbol: addr ? null : sym, reply: 'Here it is. Open it on the trade page to buy or sell, with a take profit and stop loss Zyro runs for you.' };
   if (/\bprice\b|how much is|worth/.test(low) && (addr || sym)) return { action: 'price', token: addr, symbol: addr ? null : sym, reply: 'Here is the live price.' };
   if (addr) return { action: 'scan', token: addr, reply: 'Scanning that token now.' };
