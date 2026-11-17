@@ -50,8 +50,10 @@ export async function solFacts(mint) {
   f.mintAuthority = d.token ? !!d.token.mintAuthority : (d.mintAuthority !== undefined ? !!d.mintAuthority : null);
   f.freezeAuthority = d.token ? !!d.token.freezeAuthority : (d.freezeAuthority !== undefined ? !!d.freezeAuthority : null);
   if (Array.isArray(d.topHolders)) f.top10 = d.topHolders.filter(h => !h.insider || true).slice(0, 10).reduce((a, h) => a + (+h.pct || 0), 0);
-  const m = (d.markets || []).sort((a, b) => (+b.lp?.lpLockedUSD || 0) + (+b.lp?.lpUnlocked || 0) - ((+a.lp?.lpLockedUSD || 0) + (+a.lp?.lpUnlocked || 0)))[0];
-  if (m?.lp && m.lp.lpLockedPct != null) f.lpLocked = +m.lp.lpLockedPct;
+  // Only classic AMM pools have LP tokens that can be locked or burned. Concentrated pools (Orca, CLMM, DLMM) do not, so skip them.
+  const amm = (d.markets || []).filter(m => m?.lp && m.lp.lpLockedPct != null && !/clmm|whirlpool|dlmm|concentrated/i.test(m.marketType || ''));
+  const m = amm.sort((a, b) => (+b.lp.lpLockedUSD || 0) + (+b.lp.lpUnlocked || 0) - ((+a.lp.lpLockedUSD || 0) + (+a.lp.lpUnlocked || 0)))[0];
+  if (m && ((+m.lp.lpLockedUSD || 0) + (+m.lp.lpUnlocked || 0)) > 0) f.lpLocked = +m.lp.lpLockedPct;
   f.rugged = !!d.rugged;
   return f;
 }
