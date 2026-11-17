@@ -159,6 +159,9 @@ async function scanSol(mint) {
   const [pairs, sol] = await Promise.all([pairsFor([mint], 'solana'), solFacts(mint)]);
   const p = pairs[mint];
   if (!p) return null;
+  // LP lock only means something when the main pool is a classic AMM with LP tokens.
+  const amm = ['raydium', 'pumpswap'].includes(p.dexId) && !(p.labels || []).some(l => /clmm/i.test(l));
+  if (!amm) sol.lpLocked = null;
   return report(p, { sol, holders: sol.holders, verified: null }, 'solana', mint, {
     chart: p.url || `https://dexscreener.com/solana/${mint}`,
     explorer: `https://solscan.io/token/${mint}`,
