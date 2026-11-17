@@ -1,3 +1,4 @@
+import time
 # ---------- auto-trade page (run from build.py; uses head, header, footer)
 at_body = '''
 <main id="top" class="zapp">
@@ -6,10 +7,10 @@ at_body = '''
     <div class="at-hero-row">
       <div>
         <p class="at-kicker">Beta</p>
-        <h1>Trade on Robinhood Chain</h1>
-        <p class="lead">Stock Tokens and Robinhood Chain tokens from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you 24/7. Solana trading is coming next.</p>
+        <h1>Trade on Solana</h1>
+        <p class="lead">Buy and sell from a wallet Zyro makes for you. Set a take profit and a stop loss once, and Zyro sells for you 24/7. Solana tokens open here soon. Stock Tokens are live now.</p>
       </div>
-      <div class="at-chips" aria-label="What is live"><span><i></i>Stocks live</span><span><i></i>Tokens live</span><span>Solana trading next</span></div>
+      <div class="at-chips" aria-label="What is live"><span><i></i>Stocks live</span><span>Solana tokens soon</span><span>Perps soon</span></div>
     </div>
   </div>
 </section>
@@ -21,8 +22,8 @@ at_body = '''
 </section>
 </main>
 '''
-at_page = head("Zyro Trade: tokens and stocks on Robinhood Chain",
+at_page = head("Zyro Trade: trade on Solana with auto take profit and stop loss",
                "Trade $ZYRO, Robinhood Chain tokens and Stock Tokens from your own Zyro wallet, with take profit and stop loss that run around the clock.",
                "/trade").replace('<link rel="stylesheet" href="/pro.css">', '<link rel="stylesheet" href="/pro.css">\n<link rel="stylesheet" href="/app.css">\n<link rel="stylesheet" href="/autotrade.css">\n<link rel="stylesheet" href="/trade-dark.css">') \
-    + '\n<body data-page="trade">\n\n' + header(False) + '\n' + at_body + footer(False).replace('<script src="/nav.js"></script>', '<script src="/nav.js"></script>\n<script type="module" src="/at/autotrade.js"></script>')
+    + '\n<body data-page="trade">\n\n' + header(False) + '\n' + at_body + footer(False).replace('<script src="/nav.js"></script>', '<script src="/nav.js"></script>\n<script type="module" src="/at/autotrade.js?v='+str(int(time.time()))+'"></script>')
 open("trade.html", "w").write(at_page)

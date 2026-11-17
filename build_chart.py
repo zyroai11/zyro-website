@@ -7,7 +7,7 @@ chart_body = f'''
     <span class="zc-logo zl-logo">{LOGO}</span>
     <p class="zl-kick">Launching soon</p>
     <h1>$ZYRO launches on Stonk.fun</h1>
-    <p class="zl-lead">Zyro is moving to Solana. The $ZYRO token launches on Stonk.fun, the Solana launchpad where coins can be paired with tokenized stocks.</p>
+    <p class="zl-lead">The $ZYRO token launches on Stonk.fun, the Solana launchpad where coins can be paired with tokenized stocks.</p>
     <dl class="zl-facts">
       <div><dt>Chain</dt><dd>Solana</dd></div>
       <div><dt>Launchpad</dt><dd>Stonk.fun</dd></div>

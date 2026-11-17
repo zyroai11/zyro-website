@@ -12,7 +12,6 @@ hero2 = f'''<section class="hx" id="hero">
   <div class="hx-bg" aria-hidden="true"></div>
   <div class="wrap hx-grid">
     <div class="hx-copy">
-      <a class="hx-new" href="/app"><b>New</b> Zyro is moving to Solana. $ZYRO launches soon on Stonk.fun</a>
       <h1>Scan the token <span>before you buy it.</span></h1>
       <p class="lead">Zyro is the AI agent for Solana. It scores any token from 0 to 100, shows every reason, from mint authority to top holders, and trades for you with rules you set.</p>
       <div class="hx-inst">{cp("npm install -g zyro-agent", "the install command")}</div>

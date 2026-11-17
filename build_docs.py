@@ -76,7 +76,7 @@ body = f'''
 
       <section id="chart">
         <h2>$ZYRO launch</h2>
-        <p>Zyro is moving to Solana. $ZYRO launches soon on Stonk.fun. There is no contract address yet: the official address is posted on X @ZyroxRH and on <a href="/chart">zyro-ai.xyz/chart</a> first. The earlier Robinhood Chain $ZYRO is no longer supported.</p>
+        <p>$ZYRO launches soon on Stonk.fun on Solana. There is no contract address yet: the official address is posted on X @ZyroxRH and on <a href="/chart">zyro-ai.xyz/chart</a> first. The earlier Robinhood Chain $ZYRO is no longer supported.</p>
       </section>
 
       <section id="terminal">
