@@ -74,7 +74,7 @@
 .con-st{margin-left:auto;color:var(--ok);font-size:13px}
 .con-st::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:7px;vertical-align:1px}
 .con-st.busy{color:var(--volt)}
-.con-log{height:300px;overflow-y:auto;padding:18px;font:400 14.5px/1.6 var(--mono);display:flex;flex-direction:column;gap:12px}
+.con-log{height:auto;min-height:150px;max-height:320px;overflow-y:auto;padding:18px;font:400 14.5px/1.6 var(--mono);display:flex;flex-direction:column;gap:12px}
 .con-log p{overflow-wrap:anywhere}
 .con-log .sys{color:#8FA5D1}
 .con-log .you{color:#fff}

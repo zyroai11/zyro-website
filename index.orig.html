@@ -321,15 +321,15 @@ footer nav a:hover{color:#fff}
       </div>
       <div class="chips" role="group" aria-label="Tokens to scan" id="chips">
         <span id="chipLabel">Try a sample:</span>
-        <button class="chip" data-i="0" aria-pressed="true">$HOODFROG</button>
+        <button class="chip" data-i="0" aria-pressed="true">$SOLFROG</button>
         <button class="chip" data-i="1" aria-pressed="false">$MOONCAT</button>
         <button class="chip" data-i="2" aria-pressed="false">$RUGPUP</button>
       </div>
       <form class="scanf" id="scanForm" hidden>
-        <input id="scanIn" placeholder="Paste a contract (0x…)" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Token contract address on Robinhood Chain">
+        <input id="scanIn" placeholder="Paste a Solana token address" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Solana token address">
         <button type="submit">Scan</button>
       </form>
-      <div class="msg me" id="cmd">/scan 0x7a3f…c21e</div>
+      <div class="msg me" id="cmd">/scan 7xKp…Qpump</div>
       <div class="msg bot" aria-live="polite">
         <div class="score">
           <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
@@ -337,7 +337,7 @@ footer nav a:hover{color:#fff}
             <circle class="val" id="arc" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"/>
             <text x="50" y="59" id="num">0</text>
           </svg>
-          <div><h3 id="verdict">Low risk</h3><p id="tname">HoodFrog ($HOODFROG)</p></div>
+          <div><h3 id="verdict">Low risk</h3><p id="tname">SolFrog ($SOLFROG)</p></div>
         </div>
         <dl class="rows" id="rows"></dl>
         <ul class="flags" id="flags"></ul>
@@ -383,9 +383,9 @@ footer nav a:hover{color:#fff}
     <div class="tools">
       <article class="tool">
         <div class="tool-top"><h3>Scan</h3><span class="tag live">Live</span></div>
-        <p>Paste a contract on Telegram or in the <a href="/app" style="color:var(--sky)">web app</a> and get a safety score with every warning spelled out.</p>
+        <p>Paste a Solana token address on Telegram or in the <a href="/app" style="color:var(--sky)">web app</a> and get a safety score with every warning spelled out.</p>
         <div class="vis mini" aria-hidden="true">
-          <div><span>$HOODFROG</span><b style="background:#1FA971">90</b></div>
+          <div><span>$SOLFROG</span><b style="background:#1FA971">90</b></div>
           <div><span>$MOONCAT</span><b style="background:#E0A100">55</b></div>
           <div><span>$RUGPUP</span><b style="background:#E5484D;color:#fff">0</b></div>
         </div>
@@ -405,14 +405,13 @@ stop loss set at -15% <span class="g">✓</span>
         </div>
       </article>
       <article class="tool">
-        <div class="tool-top"><h3>Provide liquidity</h3><span class="tag">Planned</span></div>
-        <p>Add and manage LP positions on the Zyro website, with the pool's safety score shown before you commit.</p>
+        <div class="tool-top"><h3>Solana trading</h3><span class="tag">Building</span></div>
+        <p>Buy and sell Solana tokens from your Zyro wallet, with take profit and stop loss that run 24/7. Perps come after.</p>
         <div class="vis pool" aria-hidden="true">
-          <div class="pool-head"><strong>WETH / HOODFROG</strong><b>90</b></div>
-          <div class="range"><i></i><em></em></div>
-          <div class="pool-row"><span>Your range</span><span>In range</span></div>
-          <div class="pool-row"><span>Fee tier</span><span>0.3%</span></div>
-          <div class="fake">Add liquidity</div>
+          <div class="pool-head"><strong>SOL / BONK</strong><b>90</b></div>
+          <div class="pool-row"><span>Take profit</span><span>+50%</span></div>
+          <div class="pool-row"><span>Stop loss</span><span>−15%</span></div>
+          <div class="fake">Buy BONK</div>
         </div>
       </article>
     </div>
@@ -574,15 +573,15 @@ if (CONFIG.contract) {
 
 /* ---- Sample scan demo ---- */
 const SAMPLES = [
-  { cmd: '/scan 0x7a3f…c21e', name: 'HoodFrog ($HOODFROG)', score: 90, verdict: 'Low risk', color: '#1FA971',
+  { cmd: '/scan 7xKp…Qpump', name: 'SolFrog ($SOLFROG)', score: 90, verdict: 'Low risk', color: '#1FA971',
     rows: [['Liquidity', '$140K'], ['FDV', '$8.0M'], ['Volume 24h', '$310K'], ['Txns 24h', '412 buy / 371 sell'], ['Pair age', '12d'], ['Holders', '1,240']],
-    flags: [['#E0A100', 'FDV is far above liquidity'], ['#1FA971', 'Contract verified on the explorer']] },
-  { cmd: '/scan 0x19be…07d4', name: 'MoonCat ($MOONCAT)', score: 55, verdict: 'Medium risk', color: '#E0A100',
+    flags: [['#E0A100', 'FDV is far above liquidity'], ['#1FA971', 'Mint and freeze authority revoked']] },
+  { cmd: '/scan 4mCt…9pump', name: 'MoonCat ($MOONCAT)', score: 55, verdict: 'Medium risk', color: '#E0A100',
     rows: [['Liquidity', '$18K'], ['FDV', '$420K'], ['Volume 24h', '$96K'], ['Txns 24h', '188 buy / 143 sell'], ['Pair age', '9h'], ['Holders', '214']],
-    flags: [['#E0A100', 'Low liquidity, under $25K'], ['#E0A100', 'New pair, under 24 hours old'], ['#E0A100', 'Contract is not verified']] },
-  { cmd: '/scan 0xd02c…9f1a', name: 'RugPup ($RUGPUP)', score: 0, verdict: 'Very high risk', color: '#E5484D',
+    flags: [['#E0A100', 'Low liquidity, under $25K'], ['#E0A100', 'New pair, under 24 hours old'], ['#E0A100', 'Top 10 holders own over 30%']] },
+  { cmd: '/scan Hq2R…wpump', name: 'RugPup ($RUGPUP)', score: 0, verdict: 'Very high risk', color: '#E5484D',
     rows: [['Liquidity', '$3.1K'], ['FDV', '$260K'], ['Volume 24h', '$41K'], ['Txns 24h', '64 buy / 0 sell'], ['Pair age', '2h'], ['Holders', '31']],
-    flags: [['#E5484D', 'Buys but zero sells: possible honeypot'], ['#E5484D', 'Very low liquidity, under $5K'], ['#E0A100', 'New pair, unverified contract, no website or socials']] }
+    flags: [['#E5484D', 'Buys but zero sells: possible honeypot'], ['#E5484D', 'Very low liquidity, under $5K'], ['#E0A100', 'Mint authority still on, no website or socials']] }
 ];
 const $ = id => document.getElementById(id);
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;

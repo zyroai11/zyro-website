@@ -76,9 +76,9 @@
         <h2>Getting started</h2>
         <ol>
           <li>Open <a href="https://t.me/ZyroAiAgent_bot" target="_blank" rel="noopener"><strong>@ZyroAiAgent_bot</strong></a> on Telegram and press <strong>Start</strong>.</li>
-          <li>Copy the contract address of a token on Robinhood Chain. It starts with <code>0x</code> and has 42 characters. Solana support in the bot is coming; for Solana tokens use the <a href="/app">web app</a>.</li>
-          <li>Send <code>/scan</code> followed by the address, for example <code>/scan 0x7a3f…c21e</code>.</li>
-          <li>Read the report: the safety score, the market numbers and every warning that lowered the score.</li>
+          <li>Copy the address of a Solana token (the mint, 32 to 44 letters and numbers). Robinhood Chain contracts that start with <code>0x</code> work too.</li>
+          <li>Send <code>/scan</code> followed by the address, for example <code>/scan DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263</code> for $BONK.</li>
+          <li>Read the report: the safety score, the market numbers, every warning that lowered the score and a short AI analysis.</li>
         </ol>
         <p style="margin-top:16px">There is nothing to install, and you do not need a wallet for a free scan. Prefer a browser? The <a href="/app">web app</a> runs the same scan.</p>
       </section>
@@ -86,9 +86,9 @@
       <section id="commands">
         <h2>Bot commands</h2>
         <div class="cmds">
-          <div><code>/scan</code><p>Safety score and full report for a token. Add the contract address after the command.</p></div>
-          <div><code>/trending</code><p>Tokens getting attention on Robinhood Chain right now.</p></div>
-          <div><code>/me</code><p>Your scans left today.</p></div>
+          <div><code>/scan</code><p>Safety score, full report and AI analysis for a token. Add the token address after the command.</p></div>
+          <div><code>/trending</code><p>Solana tokens getting attention right now. Send <code>/trending robinhood</code> for Robinhood Chain.</p></div>
+          <div><code>/me</code><p>Your free scans left today (three a day).</p></div>
           <div><code>/start</code><p>The welcome message and the list of commands.</p></div>
         </div>
       </section>

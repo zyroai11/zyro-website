@@ -46,7 +46,7 @@ bento = f'''<section class="band bento-band" id="products">
     <div class="bento">
       <a class="tile t-web" href="/app">
         <div class="t-head"><h3>Web app</h3><span class="tag live">Live</span></div>
-        <p>Paste a contract and get the score, the market numbers and all eight checks. Ask the agent, see what is trending, share any report.</p>
+        <p>Paste a token address and get the score, the market numbers and all eight checks. Ask the agent, see what is trending, share any report.</p>
         <div class="t-vis rep-mini" aria-hidden="true">
           <div class="rm-top"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" class="rt"/><circle cx="32" cy="32" r="26" class="rv"/></svg><b>90</b><div><strong>$BONK</strong><span>Low risk</span></div></div>
           <ul><li class="ok">Enough liquidity in the pool</li><li class="ok">Normal mix of buys and sells</li><li class="warn">FDV is far above liquidity <em>−10</em></li></ul>
@@ -56,13 +56,13 @@ bento = f'''<section class="band bento-band" id="products">
       <a class="tile t-chart" href="/chart">
         <div class="t-head"><h3>$ZYRO</h3><span class="tag">Soon</span></div>
         <p>$ZYRO launches on StonkFun on Solana. The official address is posted on X @ZyroxRH and here first.</p>
-        <div class="t-vis spark soon-vis" aria-hidden="true"><div class="sp-px"><b>Launching soon</b><em>StonkFun · Solana</em></div></div>
+        <div class="t-vis soon-vis" aria-hidden="true"><div class="sv-row"><span class="sv-dot"></span><b>Launching soon</b></div><div class="sv-grid"><div><small>Launchpad</small><strong>StonkFun</strong></div><div><small>Chain</small><strong>Solana</strong></div><div><small>Contract</small><strong>Posted on X first</strong></div></div></div>
         <span class="t-go">Launch details</span>
       </a>
       <a class="tile t-bot" data-link="telegram" href="#">
         <div class="t-head"><h3>Telegram bot</h3><span class="tag live">Live</span></div>
-        <p>Send <code>/scan</code> with a contract. Three free scans a day.</p>
-        <div class="t-vis chat" aria-hidden="true"><span class="b me">/scan 0x39db…4571</span><span class="b bot"><b>90/100</b> Low risk. 1 warning: FDV is far above liquidity.</span></div>
+        <p>Send <code>/scan</code> with a Solana token. Three free scans a day, AI analysis included.</p>
+        <div class="t-vis chat" aria-hidden="true"><span class="b me">/scan DezX…B263</span><span class="b bot"><b>$BONK 90/100</b> Low risk. Mint and freeze revoked. AI analysis below.</span></div>
         <span class="t-go">Open the bot</span>
       </a>
       <a class="tile t-term" href="#install">

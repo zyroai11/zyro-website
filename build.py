@@ -16,7 +16,7 @@ token=grab(r'(<section class="band token" id="token">.*?</section>)')
 close=grab(r'(<section class="band close">.*?</section>)')
 demo=grab(r'(<div class="demo" aria-label="Sample scan report">.*?</p>\n    </div>)')
 term=grab(r'(<div class="vis term".*?</pre>\n        </div>)')
-pool=grab(r'(<div class="vis pool".*?<div class="fake">Add liquidity</div>\n        </div>)')
+pool=grab(r'(<div class="vis pool".*?<div class="fake">Buy BONK</div>\n        </div>)')
 tools=grab(r'(<div class="tools">.*?</article>\n    </div>)')
 
 LOGO='<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#2F7BFF"/><polyline points="30,30 70,30 44,52 58,52 30,72 70,72" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/></svg>'
@@ -141,8 +141,8 @@ agent_page=head("Zyro Agent: the AI agent for Solana","One AI agent for Solana, 
       <h2>Scan: the score before the buy</h2>
       <p class="lede">Paste a Solana token address and Zyro reads the pool, the trades, mint and freeze authority, the top holders and the liquidity lock. Every warning is listed with the score. Robinhood Chain tokens work too.</p>
       <div class="cmds">
-        <div><code>/scan</code><p>Safety score and full report for a token. Solana support in the bot is coming.</p></div>
-        <div><code>/trending</code><p>Tokens getting attention right now.</p></div>
+        <div><code>/scan</code><p>Safety score, full report and AI analysis for a Solana token. Robinhood Chain 0x addresses work too.</p></div>
+        <div><code>/trending</code><p>Solana tokens getting attention right now. Add <code style="font:inherit;color:inherit">robinhood</code> for Robinhood Chain.</p></div>
         <div><code>/me</code><p>Your scans left today.</p></div>
       </div>
     </div>
@@ -187,22 +187,6 @@ agent_page=head("Zyro Agent: the AI agent for Solana","One AI agent for Solana, 
       <div class="wt-2"><div class="wt-f"><span>Take profit</span><b class="up">+50%</b></div><div class="wt-f"><span>Stop loss</span><b class="dn">-20%</b></div></div>
       <div class="wt-go">Buy now</div>
     </div></div>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap pair">
-    <div>
-      <h2>Provide liquidity with the risk in view</h2>
-      <p class="lede">Add and manage LP positions from the Zyro website. Each pool shows its safety score before you deposit.</p>
-      <ul class="rules">
-        <li>{CHECK}<div><b>Score before deposit</b><span>Both tokens in the pool are scanned first.</span></div></li>
-        <li>{CHECK}<div><b>Range alerts</b><span>A message when your position moves out of range.</span></div></li>
-        <li>{CHECK}<div><b>Fees at a glance</b><span>What each position has earned so far.</span></div></li>
-      </ul>
-      <p class="note note-dark" style="margin-top:22px">Planned: phase 6 on the roadmap.</p>
-    </div>
-    <div class="dark-card">{pool.replace('class="vis pool"','class="pool"')}</div>
   </div>
 </section>
 
